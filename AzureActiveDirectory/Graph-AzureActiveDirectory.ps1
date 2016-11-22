@@ -54,7 +54,7 @@ Function New-GraphADUser {
         $UserJSON = $UserHashTable | ConvertTo-Json
 
         $uri = "https://graph.windows.net/$($Global:GraphTenant)/users?api-version=$($Global:GraphAPIVersion)"
-        Invoke-RestMethod -Uri $uri -Headers $Global:GraphAPIAuthenticationHeader -Method Post -Body $UserJSON -ContentType 'application/json'
+        Invoke-RestMethod -Uri $uri -Headers $Global:GraphAPIAuthenticationHeader -Method Post -Body $UserJSON -ContentType 'application/json' 
     }
     catch {
         Write-Error -Message $_.Exception.Message
