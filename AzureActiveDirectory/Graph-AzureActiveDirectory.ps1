@@ -60,3 +60,4 @@ Function New-GraphADUser {
         Write-Error -Message $_.Exception.Message
     }
 }
+
