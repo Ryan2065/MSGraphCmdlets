@@ -48,6 +48,6 @@ Function Get-GraphMetadata {
 
 Import-GraphDLLs
 
-Import-Module "$PSScriptRoot\AzureActiveDirectory\Graph-AzureActiveDirectory.ps1"
+Import-Module "$PSScriptRoot\User.ps1"
 
 $Global:GraphAPIVersion = '1.6'
