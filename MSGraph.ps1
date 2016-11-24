@@ -35,9 +35,15 @@ Function Set-GraphAuthenticationToken {
     else {
         $PayLoad = "resource=https://graph.windows.net/&client_id=$($clientId)&grant_type=password&username=$($Username)&scope=openid&password=$($Password)"
         $Response = Invoke-WebRequest -Uri "https://login.microsoftonline.com/Common/oauth2/token" -Method POST -Body $PayLoad
+        $Script:ResponseJSON = $Response | ConvertFrom-Json
+        $Global:GraphAPIAuthenticationHeader = $null
         $Global:GraphAPIAuthenticationHeader = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
-        $Global:GraphAPIAuthenticationHeader.Add("Authorization", "Bearer "+$ResponseJSON.access_token)
+        $Global:GraphAPIAuthenticationHeader.Add("Authorization", "Bearer " + $ResponseJSON.access_token)
     }
+}
+
+Function Get-GraphMetadata {
+    (Invoke-RestMethod -Method Get -Uri 'https://graph.microsoft.com/v1.0/$metadata').Edmx.DataServices.Schema
 }
 
 Import-GraphDLLs
