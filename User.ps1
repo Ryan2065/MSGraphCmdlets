@@ -1,13 +1,20 @@
-Function Get-GraphADUsers {
+Function Get-GraphUsers {
     Param(
-        [string]$Filter
+        [string]$Filter,
+        [string]$UserId
     )
 
     try {
         Test-GraphAuthenticationToken
-        $uri = "https://graph.windows.net/$($Global:GraphTenant)/users?api-version=$($Global:GraphAPIVersion)"
-        if(-not [string]::IsNullOrEmpty($Filter)) {
-            $uri = $uri + "&`$filter=$($Filter)"
+        if(-not [string]::IsNullOrEmpty()) {
+            $UserId = $UserId.Replace('@','%40')
+            $uri = "https://graph.windows.net/$($Global:GraphTenant)/users/$($UserId)?api-version=$($Global:GraphAPIVersion)"
+        }
+        else {
+            $uri = "https://graph.windows.net/$($Global:GraphTenant)/users?api-version=$($Global:GraphAPIVersion)"
+            if(-not [string]::IsNullOrEmpty($Filter)) {
+                $uri = $uri + "&`$filter=$($Filter)"
+            }
         }
         (Invoke-RestMethod -Method Get -Uri $uri -Headers $Global:GraphAPIAuthenticationHeader).value
     }
@@ -16,7 +23,7 @@ Function Get-GraphADUsers {
     }
 }
 
-Function New-GraphADUser {
+Function New-GraphUser {
     Param (
         [Parameter(Mandatory=$false)]
         [bool]$accountEnabled = $true,
@@ -29,9 +36,10 @@ Function New-GraphADUser {
         [Parameter(Mandatory=$false)]
         [bool]$forceChangePasswordNextLogin = $true,
         [Parameter(Mandatory=$false)]
-        [hashtable]$additionalProperties = $null
+        [hashtable]$additionalProperties = $null,
+        [Parameter(Mandatory=$true)]
+        $MailNickName
     )
-    
     try {
         Test-GraphAuthenticationToken
         [hashtable]$UserHashTable = @{
@@ -42,6 +50,7 @@ Function New-GraphADUser {
                                 'password'=$password
                                 'forceChangePasswordNextLogin'=$forceChangePasswordNextLogin
                              }
+            'mailNickname'=$MailNickName
         }
         if($additionalProperties -ne $null) {
             foreach($key in $additionalProperties.Keys) {
@@ -51,12 +60,22 @@ Function New-GraphADUser {
             }
             $UserHashTable = $UserHashTable + $additionalProperties
         }
-        $UserJSON = $UserHashTable | ConvertTo-Json
+        $UserJSON = $UserHashTable | ConvertTo-Json -Depth 10
 
         $uri = "https://graph.windows.net/$($Global:GraphTenant)/users?api-version=$($Global:GraphAPIVersion)"
-        Invoke-RestMethod -Uri $uri -Headers $Global:GraphAPIAuthenticationHeader -Method Post -Body $UserJSON -ContentType 'application/json'
+        Invoke-RestMethod -Uri $uri -Headers $Global:GraphAPIAuthenticationHeader -Method Post -Body $UserJSON -ContentType 'application/json' 
     }
     catch {
         Write-Error -Message $_.Exception.Message
     }
+}
+
+Function Set-GraphUserProperties {
+    Param (
+        [Parameter(Mandatory=$true)]
+        [hashtable]$Properties = $null,
+        [Parameter(Mandatory=$true)]
+        [string]$UserId
+    )
+
 }
