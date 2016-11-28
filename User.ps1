@@ -6,12 +6,12 @@ Function Get-GraphUsers {
 
     try {
         Test-GraphAuthenticationToken
-        if(-not [string]::IsNullOrEmpty()) {
+        if(-not [string]::IsNullOrEmpty($UserId)) {
             $UserId = $UserId.Replace('@','%40')
-            $uri = "https://graph.windows.net/$($Global:GraphTenant)/users/$($UserId)?api-version=$($Global:GraphAPIVersion)"
+            $uri = "https://graph.windows.net/$($Global:GraphTenant)/users/$($UserId)?api-version=1.6"
         }
         else {
-            $uri = "https://graph.windows.net/$($Global:GraphTenant)/users?api-version=$($Global:GraphAPIVersion)"
+            $uri = "https://graph.windows.net/$($Global:GraphTenant)/users?api-version=1.6"
             if(-not [string]::IsNullOrEmpty($Filter)) {
                 $uri = $uri + "&`$filter=$($Filter)"
             }
@@ -62,7 +62,7 @@ Function New-GraphUser {
         }
         $UserJSON = $UserHashTable | ConvertTo-Json -Depth 10
 
-        $uri = "https://graph.windows.net/$($Global:GraphTenant)/users?api-version=$($Global:GraphAPIVersion)"
+        $uri = "https://graph.windows.net/$($Global:GraphTenant)/users?api-version=1.6"
         Invoke-RestMethod -Uri $uri -Headers $Global:GraphAPIAuthenticationHeader -Method Post -Body $UserJSON -ContentType 'application/json' 
     }
     catch {

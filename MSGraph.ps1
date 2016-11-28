@@ -43,7 +43,10 @@ Function Set-GraphAuthenticationToken {
 }
 
 Function Get-GraphMetadata {
-    (Invoke-RestMethod -Method Get -Uri 'https://graph.microsoft.com/v1.0/$metadata').Edmx.DataServices.Schema
+    param(
+        $Version = 'v1.0'
+    )
+    (Invoke-RestMethod -Method Get -Uri "https://graph.microsoft.com/$($Version)/`$metadata").Edmx.DataServices.Schema
 }
 
 Import-GraphDLLs
