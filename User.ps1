@@ -1,3 +1,5 @@
+
+
 Function Get-GraphUsers {
     Param(
         [string]$Filter,
@@ -5,18 +7,13 @@ Function Get-GraphUsers {
     )
 
     try {
-        Test-GraphAuthenticationToken
         if(-not [string]::IsNullOrEmpty($UserId)) {
             $UserId = $UserId.Replace('@','%40')
-            $uri = "https://graph.windows.net/$($Global:GraphTenant)/users/$($UserId)?api-version=1.6"
+            Invoke-GraphMethod -query "users/$($UserId)" -filter $Filter -Scope 'User.ReadWrite.All'
         }
         else {
-            $uri = "https://graph.windows.net/$($Global:GraphTenant)/users?api-version=1.6"
-            if(-not [string]::IsNullOrEmpty($Filter)) {
-                $uri = $uri + "&`$filter=$($Filter)"
-            }
+            Invoke-GraphMethod -query "users" -filter $Filter -Class 'Graphuser_v1' -Scope 'User.ReadWrite.All'
         }
-        (Invoke-RestMethod -Method Get -Uri $uri -Headers $Global:GraphAPIAuthenticationHeader).value
     }
     catch {
         Write-Error -Message $_.Exception.Message
@@ -68,14 +65,4 @@ Function New-GraphUser {
     catch {
         Write-Error -Message $_.Exception.Message
     }
-}
-
-Function Set-GraphUserProperties {
-    Param (
-        [Parameter(Mandatory=$true)]
-        [hashtable]$Properties = $null,
-        [Parameter(Mandatory=$true)]
-        [string]$UserId
-    )
-
 }
