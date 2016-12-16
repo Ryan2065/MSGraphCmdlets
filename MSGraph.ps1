@@ -65,11 +65,11 @@ Function Get-GraphAuthenticationToken {
         [Parameter(Position=2, Mandatory=$false)][string]$clientsecret = 'QU2KWsEQHoOOmuoVQvS3NMQ',
         [Parameter(Position=3, Mandatory=$false)][string]$redirectUri = 'https://github.com/Ryan2065/MSGraphCmdlets',
         [Parameter(ParameterSetName='Silent', Mandatory=$false)][switch]$Silent,
-        [Parameter(ParameterSetName='Silent', Mandatory=$false)][string]$Username,
-        [Parameter(ParameterSetName='Silent', Mandatory=$false)][securestring]$Password,
+        [Parameter(ParameterSetName='Silent', Mandatory=$false)][pscredential]$Credential,
         [Parameter(ParameterSetName='Silent', Mandatory=$false)][string]$scope = 'openid'
     )
-
+    $username = $Credential.UserName
+    $password = $Credential.Password
     $Marshal = [System.Runtime.InteropServices.Marshal]
     $Bstr = $Marshal::SecureStringToBSTR($Password)
     $Password = $Marshal::PtrToStringAuto($Bstr)
@@ -105,8 +105,7 @@ Function Get-GraphAuthenticationToken {
         $Global:GraphAuthenticationHash = @{
                 'Parameters' = @{
                 'TenantName' = $TenantName
-                'Username' = $Username
-                'Password' = $Password
+                'Credential' = $Credential
                 'clientid' = $clientid
                 'clientsecret' = $clientsecret
                 'redirecturi' = $redirectUri
@@ -124,7 +123,10 @@ Function Invoke-GraphMethod {
         $query,
         $filter,
         $Class,
-        $scope
+        $scope,
+        $method = 'Get',
+        $body,
+        $ContentType
     )
     
     if ($null -ne $Global:GraphAuthenticationHash.Parameters['TenantName']) {
@@ -136,7 +138,17 @@ Function Invoke-GraphMethod {
     if(-not [string]::IsNullOrEmpty($Filter)) {
         $uri = $uri + "&`$filter=$($Filter)"
     }
-    $returned = Invoke-RestMethod -Method Get -Uri $uri -Headers $Global:GraphAuthenticationHash['Header']
+    $RestParams = @{
+        'Method' = $method
+    }
+
+    if($null -ne $body) {
+        $RestParams['Body'] = $body
+    }
+    if($null -ne $ContentType) {
+        $RestParams['ContentType'] = $ContentType
+    }
+    $returned = Invoke-RestMethod -Uri $uri -Headers $Global:GraphAuthenticationHash['Header'] @RestParams
     $returnedvalue = $returned.value
     foreach($instance in $returnedvalue) {
         if(-not [string]::IsNullOrEmpty($Class)) {

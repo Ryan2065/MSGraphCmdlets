@@ -3,7 +3,6 @@ Function Get-GraphGroups {
         [string]$Filter
     )
     try {
-        Test-GraphAuthenticationToken
         #$uri = "https://graph.windows.net/$($Global:GraphTenant)/groups?api-version=1.6"
         $uri = "https://graph.microsoft.com/v1.0/users"
         if(-not [string]::IsNullOrEmpty($Filter)) {
