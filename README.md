@@ -5,9 +5,11 @@ These cmdlets are meant to give administrators an easy way to interact with
   MS Graph here as cmdlets.
 
 ### Current Functions
-1. Get-GraphUsers
-2. Get-GraphGroups
-3. New-GraphUser
+1. Get-GraphAuthenticationToken
+2. Get-GraphUsers
+3. Get-GraphGroups
+4. New-GraphUser
+
 
 ## To Do
 This is project is still new so there is a lot to do! 
