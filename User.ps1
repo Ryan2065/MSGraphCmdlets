@@ -51,6 +51,6 @@ Function New-GraphUser {
         Invoke-GraphMethod -Method 'Post' -query 'users' -Class 'Graphuser_v1' -Scope 'User.ReadWrite.All' -body $UserJSON -ContentType 'application/json'
     }
     catch {
-        $_
+        Write-GraphLog -Exception $_
     }
 }
