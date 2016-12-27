@@ -4,6 +4,9 @@ These cmdlets are meant to give administrators an easy way to interact with
  the Microsoft Graph API. The hope is to have the most popular features of
   MS Graph here as cmdlets.
 
+Install the module from the PowerShell gallery with the command:
+`Install-Module MSGraphAPI`
+
 ### Current Functions
 1. Get-GraphAuthenticationToken
 2. Get-GraphUsers
