@@ -29,7 +29,7 @@ Function New-GraphUser {
         [Parameter(Mandatory=$true)]
         [string]$displayName,
         [Parameter(Mandatory=$true)]
-        [string]$Password,
+        [string]$Pass,
         [Parameter(Mandatory=$false)]
         [bool]$forceChangePasswordNextLogin = $true,
         [Parameter(Mandatory=$true)]
