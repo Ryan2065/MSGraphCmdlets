@@ -29,40 +29,28 @@ Function New-GraphUser {
         [Parameter(Mandatory=$true)]
         [string]$displayName,
         [Parameter(Mandatory=$true)]
-        [string]$password,
+        [string]$Password,
         [Parameter(Mandatory=$false)]
         [bool]$forceChangePasswordNextLogin = $true,
-        [Parameter(Mandatory=$false)]
-        [hashtable]$additionalProperties = $null,
         [Parameter(Mandatory=$true)]
         $MailNickName
     )
     try {
-        Test-GraphAuthenticationToken
         [hashtable]$UserHashTable = @{
             'accountEnabled'=$accountEnabled
-            'userPrincipalName'=$userPrincipalName
             'displayName'=$displayName
-            'passwordProfile'=@{
-                                'password'=$password
-                                'forceChangePasswordNextLogin'=$forceChangePasswordNextLogin
-                             }
             'mailNickname'=$MailNickName
-        }
-        if($additionalProperties -ne $null) {
-            foreach($key in $additionalProperties.Keys) {
-                if($UserHashTable.ContainsKey($key)) {
-                    $UserHashTable.Remove($key)
-                }
-            }
-            $UserHashTable = $UserHashTable + $additionalProperties
+            'userPrincipalName'=$userPrincipalName
+            'passwordProfile'=@{
+                                'password'=$Password
+                                'forceChangePasswordNextSignIn'=$forceChangePasswordNextLogin
+                             }
+            
         }
         $UserJSON = $UserHashTable | ConvertTo-Json -Depth 10
-
-        $uri = "https://graph.windows.net/$($Global:GraphTenant)/users?api-version=1.6"
-        Invoke-RestMethod -Uri $uri -Headers $Global:GraphAPIAuthenticationHeader -Method Post -Body $UserJSON -ContentType 'application/json' 
+        Invoke-GraphMethod -Method 'Post' -query 'users' -Class 'Graphuser_v1' -Scope 'User.ReadWrite.All' -body $UserJSON -ContentType 'application/json'
     }
     catch {
-        Write-Error -Message $_.Exception.Message
+        Write-GraphLog -Exception $_
     }
 }
