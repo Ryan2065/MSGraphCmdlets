@@ -1,17 +1,15 @@
 Function Get-GraphGroups {
     Param(
-        [string]$Filter
+        [string]$Filter,
+        [string]$GroupId
     )
     try {
-        #$uri = "https://graph.windows.net/$($Global:GraphTenant)/groups?api-version=1.6"
-        $uri = "https://graph.microsoft.com/v1.0/users"
-        if(-not [string]::IsNullOrEmpty($Filter)) {
-            $uri = $uri + "&`$filter=$($Filter)"
+        if(-not [string]::IsNullOrEmpty($GroupId)) {
+            $UserId = $UserId.Replace('@','%40')
+            Invoke-GraphMethod -query "groups/$($GroupId)" -filter $Filter -Scope 'Group.Read.All'
         }
-        $returned = (Invoke-RestMethod -Method Get -Uri $uri -Headers $Global:GraphAPIAuthenticationHeader).value
-        foreach($instance in $returned) {
-            #Create-GraphClass -Metadata $instance -version 'v1'
-            $instance
+        else {
+            Invoke-GraphMethod -query "groups" -filter $Filter -Scope 'Group.Read.All'
         }
     }
     catch {

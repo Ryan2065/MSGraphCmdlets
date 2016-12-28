@@ -1,5 +1,3 @@
-
-
 Function Get-GraphUsers {
     Param(
         [string]$Filter,
@@ -9,10 +7,10 @@ Function Get-GraphUsers {
     try {
         if(-not [string]::IsNullOrEmpty($UserId)) {
             $UserId = $UserId.Replace('@','%40')
-            Invoke-GraphMethod -query "users/$($UserId)" -filter $Filter -Scope 'User.ReadWrite.All'
+            Invoke-GraphMethod -query "users/$($UserId)" -filter $Filter -Scope 'User.Read.All'
         }
         else {
-            Invoke-GraphMethod -query "users" -filter $Filter -Class 'Graphuser_v1' -Scope 'User.ReadWrite.All'
+            Invoke-GraphMethod -query "users" -filter $Filter -Class 'Graphuser_v1' -Scope 'User.Read.All'
         }
     }
     catch {
