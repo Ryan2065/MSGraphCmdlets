@@ -9,7 +9,9 @@ Function Write-GraphLog {
     if($Exception -ne $null) {
         $ErrorJSON = ''
         try {
-            $ErrorJSON = $Exception.ErrorDetails.Message | ConvertFrom-Json -ErrorAction Continue
+            if($null -ne $Exception.ErrorDetails.Message) {
+                $ErrorJSON = $Exception.ErrorDetails.Message | ConvertFrom-Json -ErrorAction Continue
+            }
         }
         catch { }
         $ErrorMessage = ''
@@ -48,96 +50,39 @@ Error Message:      $($Exception.Exception)$($ErrorJSON)
 }
 
 Function Get-GraphAuthenticationToken {
-<#
-    .SYNOPSIS
-        Used to get the authentication token to Microsoft Graph
- 
-    .DESCRIPTION
-        Creates an OAuth 2.0 token through https://login.microsoftonline.com. If silent is not used, it will prompt
-        you for credentials. 
-   
-    .EXAMPLE
-        $secpasswd = ConvertTo-SecureString 'PASSWORD' -AsPlainText -Force
-        $mycreds = New-Object System.Management.Automation.PSCredential ('USER@TENANT', $secpasswd)
-        $GraphParams = @{
-            'TenantName' = 'TENANT'
-            'Credential' = $mycreds
-            'clientid' = 'CLIENTGUID'
-        }
-        Get-GraphAuthenticationToken @GraphParams
- 
-    .PARAMETER TenantName
-        The name of your tenant
-
-    .PARAMETER Credential
-        Only used with the Silent switch. Your credential object. Can be created with the code:
-        $secpasswd = ConvertTo-SecureString "PASSWORD" -AsPlainText -Force
-        $mycreds = New-Object System.Management.Automation.PSCredential ('user@tenant', $secpasswd)
-
-    .PARAMETER clientid
-        Client ID of your Azure Application
-
-    .PARAMETER redirectUri
-        Redirect URI of your Azure Application
-
-    .NOTES
-        AUTHOR: Ryan Ephgrave
-        LASTEDIT: 12/14/2016 19:09:06
- 
-   .LINK
-        https://github.com/Ryan2065/MSGraphCmdlets/wiki/Getting-Started
-#>
     Param (
         [Parameter(Position=0, Mandatory=$true)][string]$TenantName,
-        [Parameter(Position=1, Mandatory=$true)][pscredential]$Credential,
-        [Parameter(Position=2, Mandatory=$true)][guid]$clientid,
-        [Parameter(Position=3, Mandatory=$true)][string]$redirectUri,
-        [Parameter(Position=4, Mandatory=$false)][string]$scope = 'openid'
+        [Parameter(Position=1, Mandatory=$true)][pscredential]$Credential
     )
     try {
-
         $username = $Credential.UserName
-        $password = $Credential.Password
-        $Marshal = [System.Runtime.InteropServices.Marshal]
-        $Bstr = $Marshal::SecureStringToBSTR($Password)
-        $Password = $Marshal::PtrToStringAuto($Bstr)
-        $Marshal::ZeroFreeBSTR($Bstr)
+        $password = $Credential.Password 
+        $Marshal = [System.Runtime.InteropServices.Marshal] 
+        $Bstr = $Marshal::SecureStringToBSTR($Password) 
+        $Password = $Marshal::PtrToStringAuto($Bstr) 
+        $Marshal::ZeroFreeBSTR($Bstr) 
     }
-    catch {
-        Write-GraphLog 'Error retrieving password from credential object!' $_
-        break
-    }
-
-    $resourceAppIdURI = "https://graph.microsoft.com"
-    #$PayLoad = "resource=https://graph.microsoft.com/&client_id=$($clientId)&client_secret=$($clientsecret)&grant_type=password&username=$($Username)&scope=$($scope)&password=$($Password)"
-    $PayLoad = "resource=https://graph.microsoft.com/&client_id=$($clientId)&grant_type=password&username=$($Username)&scope=$($scope)&password=$($Password)"
-    $response = ''
-    try {
+    catch { 
+        Write-GraphLog 'Error retrieving password from credential object!' $_ 
+        break 
+    } 
+    $PayLoad = "resource=https://graph.microsoft.com/&client_id=1950a258-227b-4e31-a9cf-717495945fc2&grant_type=password&username=$($UserName)&scope=user_impersonation&password=$($Password)" 
+    $response = '' 
+    try { 
         Write-GraphLog 'Trying to get token...' -Verbose
         $Response = Invoke-WebRequest -Uri "https://login.microsoftonline.com/Common/oauth2/token" -Method POST -Body $PayLoad
-        Write-GraphLog 'Successfully received token!' -Verbose
-    }
+    } 
     catch {
-        $ExceptionMessage = $_.ErrorDetails.Message | ConvertFrom-Json
-        if($ExceptionMessage.Error -eq 'invalid_grant') {
-            $ErrorMessage = "Invalid grant errors are generally caused by the application not having permissions in your environment. " + `
-            "Please go to the link below and sign in as an Azure AD Domain Admin. You will need to give this application permissions in your environment. " + `
-            "Visit the wiki on GitHub for more information.  Wiki Page: https://github.com/Ryan2065/MSGraphCmdlets/wiki/Getting-Started`n" +  `
-            "URL for permissions:`n https://login.microsoftonline.com/$($TenantName)/oauth2/authorize?resource=https://graph.microsoft.com&client_id=$($clientid)&response_type=code&haschrome=1&redirect_uri=$($redirectUri)"
-            Write-GraphLog -Message $ErrorMessage -Exception $_
-            break
-        }
+        Write-GraphLog -Exception $_
     }
     $ResponseJSON = $Response | ConvertFrom-Json
     $GraphAPIAuthenticationHeader = $null
     $GraphAPIAuthenticationHeader = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
-    $GraphAPIAuthenticationHeader.Add("Authorization", "Bearer " + $ResponseJSON.access_token)
+    $GraphAPIAuthenticationHeader.Add("Authorization", "Bearer $($ResponseJSON.access_token)")
     $Global:GraphAuthenticationHash = @{
             'Parameters' = @{
             'TenantName' = $TenantName
             'Credential' = $Credential
-            'clientid' = $clientid
-            'redirecturi' = $redirectUri
         }
         'Token' = $ResponseJSON.access_token
         'Header' = $GraphAPIAuthenticationHeader
@@ -150,7 +95,6 @@ Function Invoke-GraphMethod {
         $query,
         $filter,
         $Class,
-        $scope,
         $method = 'Get',
         $body,
         $ContentType
@@ -159,7 +103,7 @@ Function Invoke-GraphMethod {
     try {
         if ($null -ne $Global:GraphAuthenticationHash.Parameters['TenantName']) {
             $Parameters = $Global:GraphAuthenticationHash['Parameters']
-            Get-GraphAuthenticationToken @Parameters -scope $scope
+            Get-GraphAuthenticationToken @Parameters
         }
     }
     catch {
@@ -252,6 +196,8 @@ Function Get-GraphClass {
     }
 }
 
+Import-Module "$PSScriptRoot\Classes_v1.ps1"
+
 Import-Module "$PSScriptRoot\User.ps1"
 
-Import-Module "$PSScriptRoot\Classes_v1.ps1"
+Import-Module "$PSScriptRoot\Group.ps1"
