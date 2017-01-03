@@ -1,4 +1,39 @@
 Function Write-GraphLog {
+<#
+    .SYNOPSIS
+        Function to help log in the MSGraphAPI cmdlets
+
+    .DESCRIPTION
+        Easily create a log message with date stamp
+
+    .EXAMPLE
+        Write-GraphLog -Exception $Exception
+        This will output error information including the script name with the error, error lime number, error line, and message.
+
+    .EXAMPLE
+        Write-GraphLog -Message 'My Message' -Verbose
+        This will write my message to the verbose stream with date/time information in front of the message
+
+    .EXAMPLE
+        Write-GraphLog -Message 'My Message'
+        This will write My Message to the output stream
+
+    .PARAMETER Message
+        The message you want displayed. This will have the date/time information added to the beginning
+
+    .PARAMETER Exception
+        This will parse the exception object for information like error message, error line number, script name, etc. 
+        Good way to quickly get additional information.
+
+    .PARAMETER Verbose
+        Switch to write to the Verbose stream. Can view verbose output with $VerbosePreference = 'Continue'
+
+    .NOTES
+        Used in the MSGraphAPI cmdlets
+
+    .LINK
+        https://github.com/Ryan2065/MSGraphCmdlets
+#>
     Param (
         $Message,
         $Exception,
@@ -50,6 +85,30 @@ Error Message:      $($Exception.Exception)$($ErrorJSON)
 }
 
 Function Get-GraphAuthenticationToken {
+<#
+    .SYNOPSIS
+        Will get an authentication token for https://graph.microsoft.com
+
+    .DESCRIPTION
+        Will request the token from https://login.microsoftonline.com/Common/oauth2/token
+
+    .EXAMPLE
+        Get-GraphAuthenticationToken -TenantName 'MyTenant.onmicrosoft.com' -Credential (Get-Credential)
+        This will get a token for the specified tenant using the credentials. Credentials can also be created using this code:
+        $secpasswd = ConvertTo-SecureString "PASSWORD" -AsPlainText -Force
+        $mycreds = New-Object System.Management.Automation.PSCredential ('USER@TENANT', $secpasswd)
+
+    .PARAMETER TenantName
+        Name of the tenant. Usually in the form of xxxxx.onmicrosoft.com
+
+    .PARAMETER Credential
+        Credential object. Can be generated with the code:
+        $secpasswd = ConvertTo-SecureString "PASSWORD" -AsPlainText -Force
+        $mycreds = New-Object System.Management.Automation.PSCredential ('USER@TENANT', $secpasswd)
+
+    .LINK
+        https://github.com/Ryan2065/MSGraphCmdlets
+#>
     Param (
         [Parameter(Position=0, Mandatory=$true)][string]$TenantName,
         [Parameter(Position=1, Mandatory=$true)][pscredential]$Credential
@@ -70,7 +129,7 @@ Function Get-GraphAuthenticationToken {
     $response = '' 
     try { 
         Write-GraphLog 'Trying to get token...' -Verbose
-        $Response = Invoke-WebRequest -Uri "https://login.microsoftonline.com/Common/oauth2/token" -Method POST -Body $PayLoad
+        $Response = Invoke-WebRequest -Uri "https://login.microsoftonline.com/$($TenantName)/oauth2/token" -Method POST -Body $PayLoad
     } 
     catch {
         Write-GraphLog -Exception $_
@@ -196,8 +255,4 @@ Function Get-GraphClass {
     }
 }
 
-Import-Module "$PSScriptRoot\Classes_v1.ps1"
-
-Import-Module "$PSScriptRoot\User.ps1"
-
-Import-Module "$PSScriptRoot\Group.ps1"
+Get-ChildItem $PSScriptRoot -Filter "*.ps1" | ForEach-Object { Import-Module $_.FullName }
