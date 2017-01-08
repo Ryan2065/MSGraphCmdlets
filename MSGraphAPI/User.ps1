@@ -34,13 +34,13 @@ Function New-GraphUser {
         $MailNickName
     )
     try {
-        [hashtable]$UserHashTable = @{
+        [hashtable]$script:UserHashTable = @{
             'accountEnabled'=$accountEnabled
             'displayName'=$displayName
             'mailNickname'=$MailNickName
             'userPrincipalName'=$userPrincipalName
             'passwordProfile'=@{
-                                'password'=$Password
+                                'password'=$Pass
                                 'forceChangePasswordNextSignIn'=$forceChangePasswordNextLogin
                              }
             
