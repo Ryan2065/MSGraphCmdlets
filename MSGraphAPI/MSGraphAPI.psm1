@@ -248,6 +248,10 @@ Function Get-GraphClass {
                $tempObject."$property" = $object."$property"
            }
        }
+       try{
+           $tempObject.RawJSON = $object
+       }
+       catch { }
        return $tempObject
     }
     catch {
