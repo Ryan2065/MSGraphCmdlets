@@ -231,7 +231,7 @@ Function Get-GraphMetadata {
     param(
         $Version = 'v1.0'
     )
-    (Invoke-RestMethod -Method Get -Uri "https://graph.microsoft.com/$($Version)/`$metadata").Edmx.DataServices.Schema
+    (Invoke-RestMethod -Method Get -Uri "https://graph.microsoft.com/$($Version)/`$metadata" -Headers $Global:GraphAuthenticationHash['Header'] ).Edmx.DataServices.Schema
 }
 
 Function Get-GraphClass {
