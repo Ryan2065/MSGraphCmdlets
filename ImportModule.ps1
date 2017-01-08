@@ -1,1 +1,2 @@
-﻿Import-Module "$($PSScriptRoot)\MSGraphAPI\MSGraphAPI.psm1"
+﻿Import-Module "$($PSScriptRoot)\MSGraphAPI\msgraphapi.psm1"
+
