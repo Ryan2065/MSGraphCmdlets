@@ -34,7 +34,7 @@ Function New-GraphUser {
         $MailNickName
     )
     try {
-        [hashtable]$script:UserHashTable = @{
+        [hashtable]$UserHashTable = @{
             'accountEnabled'=$accountEnabled
             'displayName'=$displayName
             'mailNickname'=$MailNickName
@@ -46,7 +46,7 @@ Function New-GraphUser {
             
         }
         $UserJSON = $UserHashTable | ConvertTo-Json -Depth 10
-        Invoke-GraphMethod -Method 'Post' -query 'users' -Class 'Graphuser_v1' -Scope 'User.ReadWrite.All' -body $UserJSON -ContentType 'application/json'
+        Invoke-GraphMethod -Method 'Post' -query 'users' -body $UserJSON -ContentType 'application/json'
     }
     catch {
         Write-GraphLog -Exception $_
