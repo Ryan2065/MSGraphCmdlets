@@ -63,8 +63,17 @@
         [ValidateNotNullOrEmpty()]
         [string]$WebAppURL,
         [Parameter(ParameterSetName='WebApp', Mandatory=$false)]
+        [bool]$UseManagedBrowser,
         [ValidateNotNullOrEmpty()]
-        [bool]$UseManagedBrowser
+        [string]$InformationURL,
+        [ValidateNotNullOrEmpty()]
+        [string]$PrivacyURL,
+        [ValidateNotNullOrEmpty()]
+        [string]$Developer,
+        [ValidateNotNullOrEmpty()]
+        [string]$Owner,
+        [ValidateNotNullOrEmpty()]
+        [string]$Notes
     )
     try {
         [hashtable]$AppHashTable = @{}
@@ -114,9 +123,18 @@
                     }
                 }
             }
-            'Web App'{
+            'Web App' {
                 $AppHashTable['@odata.type'] = '#microsoft.graph.webApp'
-                $AppHashTable['useManagedBrowser'] = $appStoreUrl
+                $AppHashTable['useManagedBrowser'] = $UseManagedBrowser
+                $AppHashTable['appUrl'] = $WebAppURL
+            }
+            'Windows Phone 8.1 Store App' {
+                $AppHashTable['@odata.type'] = '#microsoft.graph.windowsPhone81StoreApp'
+                $AppHashTable['appStoreUrl'] = $appStoreUrl
+            }
+            'Windows Store App' {
+                $AppHashTable['@odata.type'] = '#microsoft.graph.windowsStoreApp'
+                $AppHashTable['appStoreUrl'] = $appStoreUrl
             }
         }
         if(-not [string]::IsNullOrEmpty($iconType)){
@@ -125,6 +143,21 @@
                 'type' = $iconType
                 'value' = $iconBase64
             }
+        }
+        if($InformationURL) {
+            $AppHashTable['informationUrl'] = $InformationURL
+        }
+        if($PrivacyURL) {
+            $AppHashTable['privacyInformationUrl'] = $PrivacyURL
+        }
+        if($Developer) {
+            $AppHashTable['developer'] = $Developer
+        }
+        if($Owner) {
+            $AppHashTable['owner'] = $Owner
+        }
+        if($Notes) {
+            $AppHashTable['notes'] = $Notes
         }
         $AppJSON = $AppHashTable | ConvertTo-Json -Depth 10
         Invoke-GraphMethod -Method 'Post' -Version 'beta' -query 'deviceAppManagement/mobileApps' -body $AppJSON -ContentType 'application/json'
