@@ -169,30 +169,39 @@
 
 Function Remove-GraphIntuneApp {
     Param(
-        [Parameter(Mandatory=$true)]
+        [Parameter(
+            Mandatory=$true,
+            Position=0,
+            ValueFromPipeline=$true,
+            ValueFromPipelineByPropertyName=$true
+        )]
         [ValidateNotNullOrEmpty()]
-        [string]$AppId,
+        [string]$id,
         [Parameter(Mandatory=$false)]
-        [bool]$force = $false
+        [switch]$force
     )
-    if($force) {
-        try {
-            Invoke-GraphMethod -Version 'beta' -method 'Delete' -query "deviceAppManagement/mobileApps/$($AppId)"
-        }
-        catch {
-            Write-GraphLog -Exception $_
-        }
-    }
-    else {
-        $AppInfo = Get-GraphIntuneApps -AppId $AppId
-        if(-not [string]::IsNullOrEmpty($AppInfo)) {
-            $Result = Read-Host "Do you want to delete the app $($AppInfo.DisplayName)? (Y/N)"
-            if($Result -eq 'y') {
+    process {
+        foreach($AppId in $id){
+            if($force) {
                 try {
                     Invoke-GraphMethod -Version 'beta' -method 'Delete' -query "deviceAppManagement/mobileApps/$($AppId)"
                 }
                 catch {
                     Write-GraphLog -Exception $_
+                }
+            }
+            else {
+                $AppInfo = Get-GraphIntuneApps -AppId $AppId
+                if(-not [string]::IsNullOrEmpty($AppInfo)) {
+                    $Result = Read-Host "Do you want to delete the app $($AppInfo.DisplayName)? (Y/N)"
+                    if($Result -eq 'y') {
+                        try {
+                            Invoke-GraphMethod -Version 'beta' -method 'Delete' -query "deviceAppManagement/mobileApps/$($AppId)"
+                        }
+                        catch {
+                            Write-GraphLog -Exception $_
+                        }
+                    }
                 }
             }
         }
@@ -201,11 +210,11 @@ Function Remove-GraphIntuneApp {
 
 Function Get-GraphIntuneApps {
     Param(
-        [string]$AppId
+        [string]$Id
     )
     $results = ''
-    if(-not [string]::IsNullOrEmpty($AppId)) {
-        $results = Invoke-GraphMethod -Version 'beta' -query "deviceAppManagement/mobileApps/$($AppId)" -method 'Get'
+    if(-not [string]::IsNullOrEmpty($Id)) {
+        $results = Invoke-GraphMethod -Version 'beta' -query "deviceAppManagement/mobileApps/$($Id)" -method 'Get'
     }
     else {
         $results = Invoke-GraphMethod -Version 'beta' -query "deviceAppManagement/mobileApps" -method 'Get'
