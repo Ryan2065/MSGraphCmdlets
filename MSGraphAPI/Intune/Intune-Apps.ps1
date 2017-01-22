@@ -83,8 +83,11 @@
         $AppHashTable['isFeatured'] = $isFeatured
         switch($ApplicationType) {
             'Android LOB App' {
-                #$AppHashTable['@odata.type'] = '#microsoft.graph.androidLobApp'
+                $AppHashTable['@odata.type'] = '#microsoft.graph.androidLobApp'
                 Write-Host 'This is not supported yet...'
+            }
+            'iOS LOB App'{
+
             }
             'Android Store App' {
                 $AppHashTable['@odata.type'] = '#microsoft.graph.androidStoreApp'
@@ -227,3 +230,64 @@ Function Get-GraphIntuneApps {
     }
 }
 
+Function Set-GraphIntuneApp {
+    [CmdletBinding()]
+    Param(
+        [Parameter(
+            Mandatory=$true,
+            Position=0,
+            ValueFromPipeline=$true,
+            ValueFromPipelineByPropertyName=$true
+        )]
+        [ValidateNotNullOrEmpty()]
+        [string]$Id,
+        [ValidateNotNullOrEmpty()] 
+        [string]$DisplayName,
+        [ValidateNotNullOrEmpty()]
+        [string]$Description,
+        [ValidateNotNullOrEmpty()] 
+        [string]$publisher,
+        [ValidateNotNullOrEmpty()]
+        [string]$appUrl,
+        [ValidateSet(
+            'v4_0',
+            'v4_0_3',
+            'v4_1',
+            'v4_2',
+            'v4_3',
+            'v4_4',
+            'v5_0',
+            'v5_1'
+        )]
+        [string]$minimumSupportedAndroidOS,
+        [ValidateSet(
+            'v8_0',
+            'v9_0',
+            'v10_0'
+        )]
+        [string]$minimumSupportediOS,
+        [ValidateSet(
+            'iPad',
+            'iPhone',
+            'Both'
+        )]
+        [string]$iosDeviceType,
+        [string]$iconType,
+        [string]$iconBase64,
+        [Nullable[bool]]$isFeatured,
+        [bool]$UseManagedBrowser,
+        [ValidateNotNullOrEmpty()]
+        [string]$InformationURL,
+        [ValidateNotNullOrEmpty()]
+        [string]$PrivacyURL,
+        [ValidateNotNullOrEmpty()]
+        [string]$Developer,
+        [ValidateNotNullOrEmpty()]
+        [string]$Owner,
+        [ValidateNotNullOrEmpty()]
+        [string]$Notes
+    )
+    Process{
+        
+    }
+}
