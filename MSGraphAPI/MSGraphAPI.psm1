@@ -453,6 +453,27 @@ Function Set-GraphHash {
     return $Hash
 }
 
+Function New-GraphDynamicParameter {
+      param(
+        [string]$Name,
+        [Parameter(Mandatory=$true)]
+        [ValidateSet(
+            'string',
+            'int',
+            'bool'
+        )]
+        [string]$Type,
+        [string]$ParameterSetName = '__AllParameterSets',
+        [bool]$Mandatory,
+        [Nullable[int]]$Position,
+        [bool]$ValueFromPipelineByPropertyName,
+        [string]$HelpMessage = ' ',
+        [string[]]$ValidateSet,
+        [bool]$IgnoreCase = $true
+      )
+      
+}
+
 Get-ChildItem $PSScriptRoot -Recurse -Filter "*.ps1" | ForEach-Object { Import-Module $_.FullName }
 
 $null = [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Microsoft.Identity.Client\Microsoft.Identity.Client.Platform.dll")
