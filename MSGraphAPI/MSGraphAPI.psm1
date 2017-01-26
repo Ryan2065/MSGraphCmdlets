@@ -454,7 +454,8 @@ Function Set-GraphHash {
 }
 
 Function New-GraphDynamicParameter {
-      param(
+    [CmdletBinding()]
+    param(
         [string]$Name,
         [Parameter(Mandatory=$true)]
         [ValidateSet(
@@ -468,10 +469,25 @@ Function New-GraphDynamicParameter {
         [Nullable[int]]$Position,
         [bool]$ValueFromPipelineByPropertyName,
         [string]$HelpMessage = ' ',
+        [Parameter(ParameterSetName='ValidateSet')]
         [string[]]$ValidateSet,
+        [Parameter(ParameterSetName='ValidateSet')]
         [bool]$IgnoreCase = $true
-      )
-      
+    )
+    $ParameterAttribute = New-Object System.Management.Automation.ParameterAttribute
+    $ParameterAttribute.ParameterSetName = $ParameterSetName
+    $ParameterAttribute.Mandatory = $Mandatory
+    $ParameterAttribute.Position = $Position
+    $ParameterAttribute.ValueFromPipelineByPropertyName = $ValueFromPipelineByPropertyName
+    $ParameterAttribute.HelpMessage = $HelpMessage
+    $AttributeCollection = New-Object 'Collections.ObjectModel.Collection[System.Attribute]'
+    $AttributeCollection.Add($ParameterAttribute)
+    if ($PSCmdlet.ParameterSetName -eq 'ValidateSet') {
+        $ParameterValidateSet = New-Object System.Management.Automation.ValidateSetAttribute -ArgumentList $ValidateSet -Strict (!$IgnoreCase)
+        $AttributeCollection.Add($ParameterValidateSet)
+    }
+    $Parameter = New-Object System.Management.Automation.RuntimeDefinedParameter -ArgumentList @($Name, [type]$Type, $AttributeCollection)
+    return $Parameter
 }
 
 Get-ChildItem $PSScriptRoot -Recurse -Filter "*.ps1" | ForEach-Object { Import-Module $_.FullName }
