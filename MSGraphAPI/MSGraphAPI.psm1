@@ -124,9 +124,9 @@ Function Get-GraphAuthenticationToken {
         $Marshal = [System.Runtime.InteropServices.Marshal] 
         $Bstr = $Marshal::SecureStringToBSTR($Password) 
         $Password = $Marshal::PtrToStringAuto($Bstr) 
-        $Marshal::ZeroFreeBSTR($Bstr) 
+        $Marshal::ZeroFreeBSTR($Bstr)
     }
-    catch { 
+    catch {
         Write-GraphLog 'Error retrieving password from credential object!' $_ 
         break 
     }
@@ -299,15 +299,18 @@ Function Invoke-GraphMethod {
         [ValidateNotNullOrEmpty()]
         [Nullable[bool]]$count
     )
-
+    
     try {
         if ($null -ne $Global:GraphAuthenticationHash.Parameters['TenantName']) {
             $Parameters = $Global:GraphAuthenticationHash['Parameters']
             Get-GraphAuthenticationToken @Parameters
         }
+        else {
+            throw 'You must call Get-GraphAuthenticationToken first!'
+        }
     }
     catch {
-        Write-Error -Exception $_
+        throw 'You must call Get-GraphAuthenticationToken first!'
     }
 
     $uri = "https://graph.microsoft.com/$($version)/$($query)?"
@@ -490,7 +493,12 @@ Function New-GraphDynamicParameter {
     return $Parameter
 }
 
-Get-ChildItem $PSScriptRoot -Recurse -Filter "*.ps1" | ForEach-Object { Import-Module $_.FullName }
+$PowerShellFiles = Get-ChildItem $PSScriptRoot -Recurse -Filter "*.ps1"
+Foreach($File in $PowerShellFiles) {
+    If(-not $File.DirectoryName.EndsWith('Tests')){
+        Import-Module $File.FullName
+    }
+}
 
 $null = [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Microsoft.Identity.Client\Microsoft.Identity.Client.Platform.dll")
 $null = [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Microsoft.Identity.Client\Microsoft.Identity.Client.dll")
