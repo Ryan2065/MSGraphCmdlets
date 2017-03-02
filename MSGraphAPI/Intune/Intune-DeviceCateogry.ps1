@@ -16,7 +16,7 @@ Function New-GraphIntuneDeviceCateogry {
         $CategoryJSON = $CategoryHash | ConvertTo-Json -Depth 10
         $GraphHash = @{
             'Method' = 'Post'
-            'Version' = 'beta'
+            'Version' = Get-GraphIntuneVersion
             'Query' = 'deviceManagement/deviceCategories'
             'body' = $CategoryJSON
             'ContentType' = 'application/json'
@@ -39,7 +39,7 @@ Function Get-GraphIntuneDeviceCateogry {
     )
     $InvokeHash = @{
         query = "deviceManagement/deviceCategories"
-        Version = 'beta'
+        Version = Get-GraphIntuneVersion
         Method = 'Get'
     }
     if($DisplayName) {
@@ -85,7 +85,7 @@ Function Set-GraphIntuneDeviceCategory{
                     $UpdateJSON = $UpdateHash | ConvertTo-Json -Depth 10
                     $InvokeHash = @{
                         'query' = "deviceManagement/deviceCategories/$($CategoryId)"
-                        'Version' = 'beta'
+                        'Version' = Get-GraphIntuneVersion
                         'Method' = 'Patch'
                         'body' = $UpdateJSON
                         'ContentType' = 'application/json'
@@ -122,7 +122,7 @@ Function Remove-GraphIntuneDeviceCategory {
             if($Response -eq 'y') {
                 $InvokeHash = @{
                     'query' = "deviceManagement/deviceCategories/$($CategoryId)"
-                    'Version' = 'beta'
+                    'Version' = Get-GraphIntuneVersion
                     'Method' = 'Delete'
                 }
                 Invoke-GraphMethod @InvokeHash

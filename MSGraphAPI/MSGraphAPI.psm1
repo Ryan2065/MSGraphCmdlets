@@ -124,9 +124,9 @@ Function Get-GraphAuthenticationToken {
         $Marshal = [System.Runtime.InteropServices.Marshal] 
         $Bstr = $Marshal::SecureStringToBSTR($Password) 
         $Password = $Marshal::PtrToStringAuto($Bstr) 
-        $Marshal::ZeroFreeBSTR($Bstr) 
+        $Marshal::ZeroFreeBSTR($Bstr)
     }
-    catch { 
+    catch {
         Write-GraphLog 'Error retrieving password from credential object!' $_ 
         break 
     }
@@ -272,7 +272,6 @@ Function Invoke-GraphMethod {
         [ValidateNotNullOrEmpty()]
         $ContentType,
         [Parameter(Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
         $filter,
         [Parameter(Mandatory=$false)]
         [ValidateNotNullOrEmpty()]
@@ -299,15 +298,19 @@ Function Invoke-GraphMethod {
         [ValidateNotNullOrEmpty()]
         [Nullable[bool]]$count
     )
-
+    
     try {
-        if ($null -ne $Global:GraphAuthenticationHash.Parameters['TenantName']) {
+        if ($null -ne $Global:GraphAuthenticationHash) {
             $Parameters = $Global:GraphAuthenticationHash['Parameters']
             Get-GraphAuthenticationToken @Parameters
         }
+        else {
+            throw 'You must call Get-GraphAuthenticationToken first!'
+        }
     }
     catch {
-        Write-Error -Exception $_
+        Write-GraphLog -Exception $_
+        break
     }
 
     $uri = "https://graph.microsoft.com/$($version)/$($query)?"
@@ -453,7 +456,49 @@ Function Set-GraphHash {
     return $Hash
 }
 
-Get-ChildItem $PSScriptRoot -Recurse -Filter "*.ps1" | ForEach-Object { Import-Module $_.FullName }
+Function New-GraphDynamicParameter {
+    [CmdletBinding()]
+    param(
+        [string]$Name,
+        [Parameter(Mandatory=$true)]
+        [ValidateSet(
+            'string',
+            'int',
+            'bool'
+        )]
+        [string]$Type,
+        [string]$ParameterSetName = '__AllParameterSets',
+        [bool]$Mandatory,
+        [Nullable[int]]$Position,
+        [bool]$ValueFromPipelineByPropertyName,
+        [string]$HelpMessage = ' ',
+        [Parameter(ParameterSetName='ValidateSet')]
+        [string[]]$ValidateSet,
+        [Parameter(ParameterSetName='ValidateSet')]
+        [bool]$IgnoreCase = $true
+    )
+    $ParameterAttribute = New-Object System.Management.Automation.ParameterAttribute
+    $ParameterAttribute.ParameterSetName = $ParameterSetName
+    $ParameterAttribute.Mandatory = $Mandatory
+    $ParameterAttribute.Position = $Position
+    $ParameterAttribute.ValueFromPipelineByPropertyName = $ValueFromPipelineByPropertyName
+    $ParameterAttribute.HelpMessage = $HelpMessage
+    $AttributeCollection = New-Object 'Collections.ObjectModel.Collection[System.Attribute]'
+    $AttributeCollection.Add($ParameterAttribute)
+    if ($PSCmdlet.ParameterSetName -eq 'ValidateSet') {
+        $ParameterValidateSet = New-Object System.Management.Automation.ValidateSetAttribute -ArgumentList $ValidateSet -Strict (!$IgnoreCase)
+        $AttributeCollection.Add($ParameterValidateSet)
+    }
+    $Parameter = New-Object System.Management.Automation.RuntimeDefinedParameter -ArgumentList @($Name, [type]$Type, $AttributeCollection)
+    return $Parameter
+}
+
+$PowerShellFiles = Get-ChildItem $PSScriptRoot -Recurse -Filter "*.ps1"
+Foreach($File in $PowerShellFiles) {
+    If(-not $File.DirectoryName.EndsWith('Tests')){
+        Import-Module $File.FullName
+    }
+}
 
 $null = [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Microsoft.Identity.Client\Microsoft.Identity.Client.Platform.dll")
 $null = [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Microsoft.Identity.Client\Microsoft.Identity.Client.dll")
