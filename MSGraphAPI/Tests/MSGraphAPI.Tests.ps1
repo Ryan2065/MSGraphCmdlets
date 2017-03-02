@@ -54,18 +54,25 @@ Describe 'Invoke-GraphMethod' {
          catch { $threw = $_.Exception.Message }
          $threw | Should Be 'You must call Get-GraphAuthenticationToken first!'
     }
-    Context 'Invoke-GraphMethod -query "users"'
+    It 'Has correct parameters on Invoke-RestMethod when -query "users"' {
         $Global:GraphAuthenticationHash = @{
             'Parameters' = @{
                 'TenantName' = 'MyTenantName'
-                'Credentials' = 'MyCreds'
+                'Credential' = 'MyCreds'
             }
+            'Header' = 'Header'
         }
         Mock Get-GraphAuthenticationToken {} -ModuleName MSGraphAPI
         Mock Write-GraphLog {} -ModuleName MSGraphAPI
         Mock Invoke-RestMethod {
             Param($Uri, $Method, $Body, $Headers, $ContentType)
-            #'{"access_token":"myaccesstoken"}'
-            "{`"access_token`":`"$($Uri)$($Method)$($Body)`"}"
+            return "$($Uri)$($Method)$($Body)$($Headers)$($ContentType)"
         } -ModuleName MSGraphAPI
+        $version = 'v1.0'
+        $query = 'users'
+        $uri = "https://graph.microsoft.com/$($version)/$($query)?"
+        $Method = 'Get'
+        $shouldbe = "$($Uri)$($Method)Header"
+        Invoke-GraphMethod -query 'users' | should be $shouldbe
+    }
 }

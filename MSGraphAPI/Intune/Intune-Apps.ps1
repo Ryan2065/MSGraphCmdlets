@@ -163,7 +163,7 @@
             $AppHashTable['notes'] = $Notes
         }
         $AppJSON = $AppHashTable | ConvertTo-Json -Depth 10
-        Invoke-GraphMethod -Method 'Post' -Version 'beta' -query 'deviceAppManagement/mobileApps' -body $AppJSON -ContentType 'application/json'
+        Invoke-GraphMethod -Method 'Post' -Version (Get-GraphIntuneVersion) -query 'deviceAppManagement/mobileApps' -body $AppJSON -ContentType 'application/json'
     }
     catch {
         Write-GraphLog -Exception $_
@@ -187,7 +187,7 @@ Function Remove-GraphIntuneApp {
         foreach($AppId in $id){
             if($force) {
                 try {
-                    Invoke-GraphMethod -Version 'beta' -method 'Delete' -query "deviceAppManagement/mobileApps/$($AppId)"
+                    Invoke-GraphMethod -Version (Get-GraphIntuneVersion) -method 'Delete' -query "deviceAppManagement/mobileApps/$($AppId)"
                 }
                 catch {
                     Write-GraphLog -Exception $_
@@ -199,7 +199,7 @@ Function Remove-GraphIntuneApp {
                     $Result = Read-Host "Do you want to delete the app $($AppInfo.DisplayName)? (Y/N)"
                     if($Result -eq 'y') {
                         try {
-                            Invoke-GraphMethod -Version 'beta' -method 'Delete' -query "deviceAppManagement/mobileApps/$($AppId)"
+                            Invoke-GraphMethod -Version (Get-GraphIntuneVersion) -method 'Delete' -query "deviceAppManagement/mobileApps/$($AppId)"
                         }
                         catch {
                             Write-GraphLog -Exception $_
@@ -217,10 +217,10 @@ Function Get-GraphIntuneApps {
     )
     $results = ''
     if(-not [string]::IsNullOrEmpty($Id)) {
-        $results = Invoke-GraphMethod -Version 'beta' -query "deviceAppManagement/mobileApps/$($Id)" -method 'Get'
+        $results = Invoke-GraphMethod -Version (Get-GraphIntuneVersion) -query "deviceAppManagement/mobileApps/$($Id)" -method 'Get'
     }
     else {
-        $results = Invoke-GraphMethod -Version 'beta' -query "deviceAppManagement/mobileApps" -method 'Get'
+        $results = Invoke-GraphMethod -Version (Get-GraphIntuneVersion) -query "deviceAppManagement/mobileApps" -method 'Get'
     }
     foreach($result in $results) {
         $Type = $result."@odata.type"

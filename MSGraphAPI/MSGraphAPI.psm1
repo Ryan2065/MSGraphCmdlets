@@ -272,7 +272,6 @@ Function Invoke-GraphMethod {
         [ValidateNotNullOrEmpty()]
         $ContentType,
         [Parameter(Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
         $filter,
         [Parameter(Mandatory=$false)]
         [ValidateNotNullOrEmpty()]
@@ -301,7 +300,7 @@ Function Invoke-GraphMethod {
     )
     
     try {
-        if ($null -ne $Global:GraphAuthenticationHash.Parameters['TenantName']) {
+        if ($null -ne $Global:GraphAuthenticationHash) {
             $Parameters = $Global:GraphAuthenticationHash['Parameters']
             Get-GraphAuthenticationToken @Parameters
         }
@@ -310,7 +309,8 @@ Function Invoke-GraphMethod {
         }
     }
     catch {
-        throw 'You must call Get-GraphAuthenticationToken first!'
+        Write-GraphLog -Exception $_
+        break
     }
 
     $uri = "https://graph.microsoft.com/$($version)/$($query)?"
