@@ -493,9 +493,15 @@ Function New-GraphDynamicParameter {
     return $Parameter
 }
 
+Function Show-GraphMetadataExplorer {
+    ."$PSScriptRoot\MetadataExplorer\MetadataExplorer.ps1"
+}
+
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process
+
 $PowerShellFiles = Get-ChildItem $PSScriptRoot -Recurse -Filter "*.ps1"
 Foreach($File in $PowerShellFiles) {
-    If(-not $File.DirectoryName.EndsWith('Tests')){
+    If(-not $File.DirectoryName.EndsWith('MetadataExplorer')){
         Import-Module $File.FullName
     }
 }
