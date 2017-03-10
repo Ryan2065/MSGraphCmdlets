@@ -1,4 +1,4 @@
-Import-Module "$((Get-Item $PSScriptRoot).Parent.Parent.FullName)\MSGraphAPI"
+Import-Module "$((Get-Item $PSScriptRoot).Parent.FullName)\MSGraphAPI"
 
 Describe 'Get-GraphAuthenticationToken'{
     Context 'Get standard token'{
