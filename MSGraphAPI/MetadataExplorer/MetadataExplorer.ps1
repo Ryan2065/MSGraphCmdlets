@@ -92,16 +92,35 @@ Function Add-GraphMetadataTree {
         $datahash
     )
     
+    $ParentGuid = (New-Guid).Guid
     $tempparenttype = New-Object System.Windows.Controls.TreeViewItem
     $tempparenttype.Header = $type
-    
-    $SortArray = New-Object System.Collections.ArrayList
+    $tempparenttype.Tag = $ParentGuid
+    $datahash[$ParentGuid] = $metadata."$type"
 
-    foreach($instance in $metadata."$type") {
+    $SortArray = New-Object System.Collections.ArrayList
+    
+    if($type -eq 'EntityContainer') {
+        $LoopObjects = $metadata.EntityContainer.EntitySet
+    }
+    else {
+        $LoopObjects = $metadata."$type"
+    }
+    foreach($instance in $LoopObjects) {
         $tempobject = New-Object SortProperties
         if($type -eq 'Annotations') {
             $tempobject.Name = $instance.Target
             $tempobject.Value = $instance
+            $null = $SortArray.Add($tempobject)
+        }
+        elseif(($type -eq 'Action') -or ($type -eq 'Function')) {
+            $tempobject.Name = $instance.Name
+            $tempobject.Value = $instance
+            foreach($Param in $instance.Parameter){
+                if(($Param.Name -eq 'bindingParameter') -or ($Param.Name -eq 'bindParameter')) {
+                    $tempobject.bindingparameter = $Param.Type
+                }
+            }
             $null = $SortArray.Add($tempobject)
         }
         else {
@@ -115,7 +134,33 @@ Function Add-GraphMetadataTree {
 
     foreach($instance in $SortArray) {
         $tempguid = (New-Guid).Guid
-        $null = Add-GraphTreeItem -Name $instance.Name -Parent $tempparenttype -Tag $tempguid
+        $NodeName = $instance.Name
+        if(($type -eq 'Action')  -or ($type -eq 'Function')) {
+            $NodeName = "$($instance.Name) - $($instance.BindingParameter)"
+        }
+        elseif($type -eq 'EntityContainer'){
+            $ExampleCodeHash[$tempguid] = @"
+# Sample code automatically generated!
+# This will hopefully give you workable examples for the MSGraphAPI cmdlets
+
+#Should return a type of $($instance.Value.EntityType) - You can view the properties of this in EntityType
+`$Objects = Invoke-GraphMethod -Query "$($instance.Name)"
+
+
+"@
+            $NavCode = ''
+            foreach($navprop in $instance.Value.NavigationPropertyBinding) {
+                if([string]::IsNullOrEmpty($NavCode)) {
+                    $NavCode = 'foreach($Object in $Objects) {'
+                }
+                $NavCode = $NavCode + "`n    Invoke-GraphMethod -Query `"$($instance.Name)/`$(`$Object.Id)/$($navprop.Path)`""
+            }
+            if(-not [string]::IsNullOrEmpty($NavCode)) {
+                $NavCode = $NavCode + "`n}"
+                $ExampleCodeHash[$tempguid] = $ExampleCodeHash[$tempguid] + $NavCode
+            }
+        }
+        $null = Add-GraphTreeItem -Name $NodeName -Parent $tempparenttype -Tag $tempguid
         $DataHash[$tempguid] = $instance.Value
     }
     $null = $parent.Items.Add($tempparenttype)
@@ -167,6 +212,9 @@ Function Add-GraphMetadataTree {
             <TabItem Header="Raw Data">
                 <TextBox IsReadOnly="True" Text="{Binding RawData}" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto"/>
             </TabItem>
+            <TabItem Header="Example Code" Name="Tab_ExampleCode">
+                <TextBox IsReadOnly="True" Text="{Binding ExampleCode}" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto"/>
+            </TabItem>
         </TabControl>
         <TreeView Name="MDTree" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding MetaDataTree}"/>
         <Expander Grid.Row="3" Header="Log" Grid.Column="0" Grid.ColumnSpan="10">
@@ -189,6 +237,7 @@ $WindowClassHash = @{
     'ParameterGrid' = 'object'
     'AnnotationGrid' = 'object'
     'RawData' = 'string'
+    'ExampleCode' = 'string'
     'MetaDataTree' = 'object'
     'Log' = 'string'
 }
@@ -229,6 +278,7 @@ New-GraphXAMLClass -ClassName 'ParameterGridClass' -ClassHash $ParameterGridClas
 
 Class SortProperties {
     [string]$Name
+    [string]$BindingParameter
     [object]$Value
 }
 
@@ -248,16 +298,19 @@ $Window_MDTree.Add_SelectedItemChanged({
     $SelItem = $Window_MDTree.SelectedItem
     if(-not [string]::IsNullOrEmpty($SelItem.Tag)) {
         $metadata = $DataHash[$SelItem.Tag]
-        [xml]$OuterXML = $metadata.outerxml
-        $StringWriter = New-Object System.IO.StringWriter
-        $XMLWriter = New-Object System.Xml.XmlTextWriter $StringWriter
-        $XMLWriter.Formatting = 'indented'
-        $XMLWriter.Indentation = 2
-        $OuterXML.WriteContentTo($XMLWriter)
-        $XMLWriter.Flush()
-        $StringWriter.Flush()
-        $WindowDataContext.RawData = $StringWriter.ToString()
-        if($metadata.Annotation) {
+        $WindowDataContext.RawData = ''
+        foreach($instance in $metadata){
+            [xml]$OuterXML = $instance.outerxml
+            $StringWriter = New-Object System.IO.StringWriter
+            $XMLWriter = New-Object System.Xml.XmlTextWriter $StringWriter
+            $XMLWriter.Formatting = 'indented'
+            $XMLWriter.Indentation = 2
+            $OuterXML.WriteContentTo($XMLWriter)
+            $XMLWriter.Flush()
+            $StringWriter.Flush()
+            $WindowDataContext.RawData =  "$($WindowDataContext.RawData)" + "$($StringWriter.ToString())`n"
+        }
+        if($metadata.Annotation -and (($metadata.GetType()).Name -ne 'Object[]')) {
             $Window_Tab_Annotations.Visibility = [System.Windows.Visibility]::Visible
             $AnnotationsGrid = New-Object System.Collections.ArrayList
             foreach($Annotation in $metadata.Annotation) {
@@ -272,7 +325,7 @@ $Window_MDTree.Add_SelectedItemChanged({
             $Window_Tab_Annotations.Visibility = [System.Windows.Visibility]::Collapsed
             $WindowDataContext.AnnotationGrid = $null
         }
-        if($metadata.Member) {
+        if($metadata.Member -and (($metadata.GetType()).Name -ne 'Object[]')) {
             $Window_Tab_Members.Visibility = [System.Windows.Visibility]::Visible
             $MembersGrid = New-Object System.Collections.ArrayList
             foreach($Member in $metadata.Member) {
@@ -287,7 +340,7 @@ $Window_MDTree.Add_SelectedItemChanged({
             $Window_Tab_Members.Visibility = [System.Windows.Visibility]::Collapsed
             $WindowDataContext.MemberGrid = $null
         } 
-        if($metadata.Property) {
+        if($metadata.Property -and (($metadata.GetType()).Name -ne 'Object[]')) {
             $Window_Tab_Properties.Visibility = [System.Windows.Visibility]::Visible
             $PropertiesGrid = New-Object System.Collections.ArrayList
             foreach($Property in $metadata.Property) {
@@ -304,7 +357,7 @@ $Window_MDTree.Add_SelectedItemChanged({
             $Window_Tab_Properties.Visibility = [System.Windows.Visibility]::Collapsed
             $WindowDataContext.PropertiesGrid = $null
         }
-        if($metadata.NavigationProperty) {
+        if($metadata.NavigationProperty -and (($metadata.GetType()).Name -ne 'Object[]')) {
             $Window_Tab_NavigationProperties.Visibility = [System.Windows.Visibility]::Visible
             $NavigationPropertiesGrid = New-Object System.Collections.ArrayList
             foreach($Property in $metadata.NavigationProperty) {
@@ -319,7 +372,7 @@ $Window_MDTree.Add_SelectedItemChanged({
             $Window_Tab_NavigationProperties.Visibility = [System.Windows.Visibility]::Collapsed
             $WindowDataContext.NavigationPropertiesGrid = $null
         }
-        if($metadata.Parameter) {
+        if($metadata.Parameter -and (($metadata.GetType()).Name -ne 'Object[]')) {
             $Window_Tab_Parameters.Visibility = [System.Windows.Visibility]::Visible
             $ParametersGrid = New-Object System.Collections.ArrayList
             foreach($Parameter in $metadata.Parameter) {
@@ -335,6 +388,13 @@ $Window_MDTree.Add_SelectedItemChanged({
             $Window_Tab_Parameters.Visibility = [System.Windows.Visibility]::Collapsed
             $WindowDataContext.ParameterGrid = $null
         }
+        if($ExampleCodeHash[$SelItem.Tag]) {
+            $WindowDataContext.ExampleCode = $ExampleCodeHash[$SelItem.Tag]
+        }
+        else {
+            $Window_Tab_ExampleCode.Visibility = [System.Windows.Visibility]::Collapsed
+            $WindowDataContext.ExampleCode = ''
+        }
     }
 })
 
@@ -343,12 +403,19 @@ $Window_Txt_Filter.Add_TextChanged({
 })
 
 $DataHash = @{}
+$ExampleCodeHash = @{}
 
 $v1TreeRoot = New-Object System.Windows.Controls.TreeViewItem
 $v1TreeRoot.Header = 'v1'
+$v1Guid = (New-Guid).Guid
+$v1TreeRoot.Tag = $v1Guid
+$DataHash[$v1Guid] = $v1Metadata
 
 $betaTreeRoot = New-Object System.Windows.Controls.TreeViewItem
 $betaTreeRoot.Header = 'beta'
+$betaGuid = (New-Guid).Guid
+$betaTreeRoot.Tag = $betaGuid
+$DataHash[$betaGuid] = $BetaMetadata
 
 $DataHash = Add-GraphMetadataTree -type 'EnumType' -metadata $v1Metadata -parent $v1TreeRoot -datahash $DataHash
 $DataHash = Add-GraphMetadataTree -type 'EntityType' -metadata $v1Metadata -parent $v1TreeRoot -datahash $DataHash
