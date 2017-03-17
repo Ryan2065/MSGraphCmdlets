@@ -106,8 +106,22 @@ Function Get-GraphAuthenticationToken {
         $secpasswd = ConvertTo-SecureString "PASSWORD" -AsPlainText -Force
         $mycreds = New-Object System.Management.Automation.PSCredential ('USER@TENANT', $secpasswd)
 
+    .PARAMETER Scopes
+        Array of scopes. To be used when Office 365 support is rolled out. 
+
+    .PARAMETER clientid
+        Client Id of the application used to contact Graph. To be used when Office 365 support is rolled out.
+
+    .PARAMETER redirecturi
+        Redirect URI of the application used to contact Graph. To be used when Office 365 support is rolled out
+
+    .PARAMETER clientsecret
+        Client secret of application used to contact Graph. To be used when Office 365 support is rolled out.
+
     .LINK
         https://github.com/Ryan2065/MSGraphCmdlets
+    .NOTES
+        Ryan Ephgrave
 #>
     Param (
         [Parameter(Position=0, Mandatory=$true)][string]$TenantName,
@@ -242,6 +256,9 @@ Function Invoke-GraphMethod {
 
     .LINK
         https://github.com/Ryan2065/MSGraphCmdlets
+    
+    .Notes
+        Author: Ryan Ephgrave
 #>
     [CmdletBinding()]
     Param(
@@ -375,41 +392,6 @@ Function Invoke-GraphMethod {
     catch {
         Write-GraphLog -Exception $_
     }
-    <#
-    if($null -ne $returned) {
-        if(($null -ne $returned."@odata.type") -and ($null -eq $returned.Value)) {
-            try {
-                $type = ($returned."@odata.type").split('.')
-                $type = $type[$type.count - 1]
-                $type = "Graph$($type)_$(($Version.split('.'))[0])"
-                Get-GraphClass -Class $type -object $returned
-            }
-            catch {
-                $returned
-            }
-        }
-        $returnedvalue = $returned.value
-        foreach($instance in $returnedvalue) {
-            if(-not [string]::IsNullOrEmpty($Class)) {
-                Get-GraphClass -Class $Class -object $instance
-            }
-            elseif($instance."@odata.type" -ne $null) {
-                try {
-                    $type = ($instance."@odata.type").split('.')
-                    $type = $type[$type.count - 1]
-                    $type = "Graph$($type)_$(($Version.split('.'))[0])"
-                    Get-GraphClass -Class $type -object $instance
-                }
-                catch {
-                    $instance
-                }
-            }
-            else {
-                
-                $instance
-            }
-        }
-    }#>
 }
 
 Function Get-GraphMetadata {
@@ -417,80 +399,6 @@ Function Get-GraphMetadata {
         $Version = 'v1.0'
     )
     (Invoke-RestMethod -Method Get -Uri "https://graph.microsoft.com/$($Version)/`$metadata" -Headers $Global:GraphAuthenticationHash['Header'] ).Edmx.DataServices.Schema
-}
-
-Function Get-GraphClass {
-    param(
-        $object,
-        $Class
-    )
-    try {
-       $tempObject = New-Object "$Class"
-       $tempObjectProperties = ($tempObject | Get-Member -MemberType Property).Name
-       $psObjectProperties = ($Object | Get-Member -MemberType NoteProperty).Name
-       foreach($property in $tempObjectProperties) {
-           if($psObjectProperties -contains $property) {
-               $tempObject."$property" = $object."$property"
-           }
-       }
-       try{
-           $tempObject.RawJSON = $object
-       }
-       catch { }
-       return $tempObject
-    }
-    catch {
-        throw $_
-    }
-}
-
-Function Set-GraphHash {
-    Param(
-        $Hash,
-        $Value,
-        $Key
-    )
-    if(-not [string]::IsNullOrEmpty($Value)) {
-        $Hash[$Key] = $Value
-    }
-    return $Hash
-}
-
-Function New-GraphDynamicParameter {
-    [CmdletBinding()]
-    param(
-        [string]$Name,
-        [Parameter(Mandatory=$true)]
-        [ValidateSet(
-            'string',
-            'int',
-            'bool'
-        )]
-        [string]$Type,
-        [string]$ParameterSetName = '__AllParameterSets',
-        [bool]$Mandatory,
-        [Nullable[int]]$Position,
-        [bool]$ValueFromPipelineByPropertyName,
-        [string]$HelpMessage = ' ',
-        [Parameter(ParameterSetName='ValidateSet')]
-        [string[]]$ValidateSet,
-        [Parameter(ParameterSetName='ValidateSet')]
-        [bool]$IgnoreCase = $true
-    )
-    $ParameterAttribute = New-Object System.Management.Automation.ParameterAttribute
-    $ParameterAttribute.ParameterSetName = $ParameterSetName
-    $ParameterAttribute.Mandatory = $Mandatory
-    $ParameterAttribute.Position = $Position
-    $ParameterAttribute.ValueFromPipelineByPropertyName = $ValueFromPipelineByPropertyName
-    $ParameterAttribute.HelpMessage = $HelpMessage
-    $AttributeCollection = New-Object 'Collections.ObjectModel.Collection[System.Attribute]'
-    $AttributeCollection.Add($ParameterAttribute)
-    if ($PSCmdlet.ParameterSetName -eq 'ValidateSet') {
-        $ParameterValidateSet = New-Object System.Management.Automation.ValidateSetAttribute -ArgumentList $ValidateSet -Strict (!$IgnoreCase)
-        $AttributeCollection.Add($ParameterValidateSet)
-    }
-    $Parameter = New-Object System.Management.Automation.RuntimeDefinedParameter -ArgumentList @($Name, [type]$Type, $AttributeCollection)
-    return $Parameter
 }
 
 Function Show-GraphMetadataExplorer {

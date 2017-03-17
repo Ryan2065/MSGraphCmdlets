@@ -46,6 +46,7 @@ Describe 'Get-GraphAuthenticationToken'{
 
 Describe 'Invoke-GraphMethod' {
     It 'throws when Get-GraphAuthenticationToken is not called first' {
+        Mock Write-GraphLog {} -ModuleName MSGraphAPI
         $Global:GraphAuthenticationHash = $null
         $threw = ''
         try {
@@ -55,24 +56,33 @@ Describe 'Invoke-GraphMethod' {
          $threw | Should Be 'You must call Get-GraphAuthenticationToken first!'
     }
     It 'Has correct parameters on Invoke-RestMethod when -query "users"' {
+        
+        $PlainTextPassword = 'test'
+        $UserName = 'user@test.com'
+        $secpasswd = ConvertTo-SecureString $PlainTextPassword -AsPlainText -Force
+        $mycreds = New-Object System.Management.Automation.PSCredential ($UserName, $secpasswd)
+        $FakeHeader = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
+        $null = $FakeHeader.Add("Authorization", "Bearer BlahBlah")
         $Global:GraphAuthenticationHash = @{
             'Parameters' = @{
                 'TenantName' = 'MyTenantName'
-                'Credential' = 'MyCreds'
+                'Credential' = $mycreds
             }
-            'Header' = 'Header'
+            'Header' = $FakeHeader
         }
         Mock Get-GraphAuthenticationToken {} -ModuleName MSGraphAPI
-        Mock Write-GraphLog {} -ModuleName MSGraphAPI
+        #Mock Write-GraphLog {} -ModuleName MSGraphAPI
         Mock Invoke-RestMethod {
             Param($Uri, $Method, $Body, $Headers, $ContentType)
-            return "$($Uri)$($Method)$($Body)$($Headers)$($ContentType)"
+            
+            "$($Uri)$($Method)$($Body)$($Headers)$($ContentType)"
         } -ModuleName MSGraphAPI
         $version = 'v1.0'
         $query = 'users'
         $uri = "https://graph.microsoft.com/$($version)/$($query)?"
         $Method = 'Get'
-        $shouldbe = "$($Uri)$($Method)Header"
-        Invoke-GraphMethod -query 'users' | should be $shouldbe
+        $shouldbe = 'https://graph.microsoft.com/v1.0/usersGetSystem.Collections.Generic.Dictionary`2[System.String,System.String]'
+        $Returned = Invoke-GraphMethod -query 'users'
+        $Returned | should be $shouldbe
     }
 }
