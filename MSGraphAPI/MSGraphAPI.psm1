@@ -29,7 +29,7 @@ Function Write-GraphLog {
         Switch to write to the Verbose stream. Can view verbose output with $VerbosePreference = 'Continue'
 
     .NOTES
-        Used in the MSGraphAPI cmdlets
+        Author: Ryan Ephgrave
 
     .LINK
         https://github.com/Ryan2065/MSGraphCmdlets
@@ -120,8 +120,9 @@ Function Get-GraphAuthenticationToken {
 
     .LINK
         https://github.com/Ryan2065/MSGraphCmdlets
+
     .NOTES
-        Ryan Ephgrave
+        Author: Ryan Ephgrave
 #>
     Param (
         [Parameter(Position=0, Mandatory=$true)][string]$TenantName,
@@ -395,6 +396,26 @@ Function Invoke-GraphMethod {
 }
 
 Function Get-GraphMetadata {
+<#
+    .SYNOPSIS
+        Gets the graph metadata
+
+    .DESCRIPTION
+        Used to see what entities and properties are available in the graph tenant
+
+    .EXAMPLE
+        Get-GraphMetadata -Version 'beta'
+        Will get all the graph metadata for beta
+
+    .PARAMETER Version
+        Graph version to query. Acceptible values are v1.0 or beta
+
+    .LINK
+        https://github.com/Ryan2065/MSGraphCmdlets
+    
+    .Notes
+        Author: Ryan Ephgrave
+#>
     param(
         $Version = 'v1.0'
     )
@@ -402,6 +423,22 @@ Function Get-GraphMetadata {
 }
 
 Function Show-GraphMetadataExplorer {
+<#
+    .SYNOPSIS
+        Shows a UI to easily browse Graph Metadata
+
+    .DESCRIPTION
+        Shows a WPF UI that will allow a user to see exactly what is in their environment.
+
+    .EXAMPLE
+        Show-GraphMetadata
+
+    .LINK
+        https://github.com/Ryan2065/MSGraphCmdlets/wiki/Show-GraphMetadataExplorer
+    
+    .Notes
+        Author: Ryan Ephgrave
+#>
     ."$PSScriptRoot\MetadataExplorer\MetadataExplorer.ps1"
 }
 

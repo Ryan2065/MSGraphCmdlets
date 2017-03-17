@@ -7,7 +7,7 @@ Function Get-GraphGroups {
         Queries groups in Azure AD
 
     .EXAMPLE
-        Get-GraphGroups -Filter "startswith(displayName,'Sec')""
+        Get-GraphGroups -Filter "startswith(displayName,'Sec')"
 
     .PARAMETER Filter
         Use OData filter query. Additional documentation found here: https://developer.microsoft.com/en-us/graph/docs/overview/query_parameters

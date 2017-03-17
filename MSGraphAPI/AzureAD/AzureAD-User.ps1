@@ -1,16 +1,42 @@
 Function Get-GraphUsers {
+<#
+    .SYNOPSIS
+        Used to get a list of users in Azure AD
+
+    .DESCRIPTION
+        Queries Graph /users to get information on users in Azure AD
+
+    .EXAMPLE
+        Get-GraphUsers -Filter "startswith(displayName,'Sec')"
+
+    .PARAMETER Filter
+        Use OData filter query. Additional documentation found here: https://developer.microsoft.com/en-us/graph/docs/overview/query_parameters
+
+    .PARAMETER UserId
+        Query a specific user by Id
+
+    .PARAMETER GraphVersion
+        Graph version to query. Acceptible values are v1.0 or beta
+
+    .LINK
+        https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user
+    
+    .Notes
+        Author: Ryan Ephgrave
+#>
     Param(
         [string]$Filter,
-        [string]$UserId
+        [string]$UserId,
+        [string]$GraphVersion = 'v1.0'
     )
 
     try {
         if(-not [string]::IsNullOrEmpty($UserId)) {
             $UserId = $UserId.Replace('@','%40')
-            Invoke-GraphMethod -query "users/$($UserId)" -filter $Filter
+            Invoke-GraphMethod -query "users/$($UserId)" -filter $Filter -Version $GraphVersion
         }
         else {
-            Invoke-GraphMethod -query "users" -filter $Filter
+            Invoke-GraphMethod -query "users" -filter $Filter -Version $GraphVersion
         }
     }
     catch {
@@ -19,6 +45,40 @@ Function Get-GraphUsers {
 }
 
 Function New-GraphUser {
+<#
+    .SYNOPSIS
+        Will create a new user through Graph in Azure AD
+
+    .DESCRIPTION
+        Can create a user with properties
+
+    .EXAMPLE
+        New-GraphUser -userPrincipalName 'Ryan@Tenant.onmicrosoft.com' -displayName 'Ryan Ephgrave' -Pass 'MyTestPass' -MailNickName 'Ryan.Mailbox'
+
+    .PARAMETER accountEnabled
+        Create the account as enabled.
+
+    .PARAMETER userPrincipalName
+        The user principal name (someuser@contoso.com).
+
+    .PARAMETER displayName
+        The name to display in the address book for the user.
+
+    .PARAMETER Pass
+        The password for the user. This property is required when a user is created. It can be updated, but the user will be required to change the password on the next login. The password must satisfy minimum requirements as specified by the user’s passwordPolicies property. By default, a strong password is required.
+
+    .PARAMETER forceChangePasswordNextLogin
+        true if the user must change her password on the next login; otherwise false.
+
+    .PARAMETER MailNickName
+        The mail alias for the user.
+
+    .LINK
+        https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/user_post_users
+    
+    .Notes
+        Author: Ryan Ephgrave
+#>
     Param (
         [Parameter(Mandatory=$false)]
         [bool]$accountEnabled = $true,

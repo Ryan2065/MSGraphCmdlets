@@ -1,4 +1,74 @@
 ﻿Function New-GraphIntuneApp {
+<#
+    .SYNOPSIS
+        Creates a Intune App through Graph
+
+    .DESCRIPTION
+        Creates an Intune app. Currently in Beta through Graph
+
+    .EXAMPLE
+        New-GraphIntuneApp -ApplicationType 'Android Store App' -DisplayName 'Candy Crush' -Description 'A game that shouldn't be installed many places' -publisher 'Candy Crush Publisher' -minimumSupportedAndroidOS 'v4_1' -appStoreUrl 'https://play.google.com/store/apps/details?id=com.king.candycrushsaga'
+
+    .PARAMETER ApplicationType
+        What type of application to create.
+
+    .PARAMETER DisplayName
+        The admin provided or imported title of the app. 
+
+    .PARAMETER Description
+        The description of the app. 
+
+    .PARAMETER publisher
+        The publisher of the app
+
+    .PARAMETER appStoreUrl
+        The app store URL for the type of app being created
+
+    .PARAMETER minimumSupportedAndroidOS
+        Minimum supported OS for the Android app
+
+    .PARAMETER minimumSupportediOS
+        Minimum supported OS for iOS app
+
+    .PARAMETER iosDeviceType
+        iOS type required for app.
+
+    .PARAMETER iconType
+        file type of icon being uploaded.
+    
+    .PARAMETER iconBase64
+        Icon content in base64
+    
+    .PARAMETER isFeatured
+        Is the icon featured.
+    
+    .PARAMETER WebAppURL
+        App url for web app. 
+    
+    .PARAMETER UseManagedBrowser
+        Is managed browser required for web app
+
+    .PARAMETER InformationURL
+        Information URL
+    
+    .PARAMETER PrivacyURL
+        Privacy URL
+    
+    .PARAMETER Developer
+        Developer of application
+    
+    .PARAMETER Owner
+        Owner of the application
+    
+    .PARAMETER Notes
+        App notes
+
+    .LINK
+        https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/intune_apps_app_conceptual
+    
+    .Notes
+        Author: Ryan Ephgrave
+#>
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)]

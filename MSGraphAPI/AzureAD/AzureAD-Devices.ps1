@@ -23,7 +23,7 @@ Function Get-GraphDevices {
         https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/device_list
     
     .Notes
-        Ryan Ephgrave
+        Author: Ryan Ephgrave
         
 #>
     Param(
