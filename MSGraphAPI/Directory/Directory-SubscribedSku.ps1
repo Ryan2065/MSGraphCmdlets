@@ -25,7 +25,7 @@ Function Get-GraphSubscribedSkus {
     .Notes
         Author: Ryan Ephgrave
 #>
-    Param(
+    Param (
         [string]$Filter,
         [string]$Id,
         [string]$GraphVersion = 'v1.0'
