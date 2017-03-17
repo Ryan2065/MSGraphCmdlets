@@ -10,12 +10,40 @@ Function Get-GraphSubscribedSkus {
     .EXAMPLE
         Get-GraphSubscribedSkus
 
+    .PARAMETER Filter
+        Filters results
+    
+    .PARAMETER Id
+        Searches for specific SubscribedSku
+
+    .PARAMETER GraphVersion
+        Specifies the Graph version
+
     .LINK
         https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/subscribedsku
     
     .Notes
         Author: Ryan Ephgrave
 #>
-    Invoke-GraphMethod -query 'subscribedskus'
-
+    Param(
+        [string]$Filter,
+        [string]$Id,
+        [string]$GraphVersion = 'v1.0'
+    )
+    try {
+        if(-not [string]::IsNullOrEmpty($Id)) {
+            Invoke-GraphMethod -query "subscribedskus/$($Id)" -filter $Filter -Version $GraphVersion
+        }
+        else {
+            $Params = @{
+                'query'='subscribedskus'
+                'version'=$GraphVersion
+            }
+            if(-not [string]::IsNullOrEmpty($Filter)) {$Params['filter'] = $Filter}
+            Invoke-GraphMethod @Params
+        }
+    }
+    catch {
+        Write-Error -Message $_.Exception.Message
+    }
 }
