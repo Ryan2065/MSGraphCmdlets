@@ -241,6 +241,26 @@
 }
 
 Function Remove-GraphIntuneApp {
+<#
+    .SYNOPSIS
+        Removes specified application
+
+    .DESCRIPTION
+        Will delete an Intune application
+
+    .EXAMPLE
+        Get-GraphIntuneApp | Remove-GraphIntuneApp
+
+    .PARAMETER PARAM1
+
+
+    .LINK
+        https://github.com/Ryan2065/MSGraphCmdlets
+    
+    .Notes
+        Author: Ryan Ephgrave
+#>
+    [CmdletBinding(SupportsShouldProcess=$true)]
     Param(
         [Parameter(
             Mandatory=$true,
@@ -257,7 +277,9 @@ Function Remove-GraphIntuneApp {
         foreach($AppId in $id){
             if($force) {
                 try {
-                    Invoke-GraphMethod -Version (Get-GraphIntuneVersion) -method 'Delete' -query "deviceAppManagement/mobileApps/$($AppId)"
+                    if($PSCmdlet.ShouldProcess("$($AppId)","Invoke-GraphMethod -Method Delete")){
+                        Invoke-GraphMethod -Version (Get-GraphIntuneVersion) -method 'Delete' -query "deviceAppManagement/mobileApps/$($AppId)"
+                    }
                 }
                 catch {
                     Write-GraphLog -Exception $_
@@ -269,7 +291,9 @@ Function Remove-GraphIntuneApp {
                     $Result = Read-Host "Do you want to delete the app $($AppInfo.DisplayName)? (Y/N)"
                     if($Result -eq 'y') {
                         try {
-                            Invoke-GraphMethod -Version (Get-GraphIntuneVersion) -method 'Delete' -query "deviceAppManagement/mobileApps/$($AppId)"
+                            if($PSCmdlet.ShouldProcess("$($AppId)","Invoke-GraphMethod -Method Delete")){
+                                Invoke-GraphMethod -Version (Get-GraphIntuneVersion) -method 'Delete' -query "deviceAppManagement/mobileApps/$($AppId)"
+                            }
                         }
                         catch {
                             Write-GraphLog -Exception $_
