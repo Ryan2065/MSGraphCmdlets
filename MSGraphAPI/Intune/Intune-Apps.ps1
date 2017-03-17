@@ -249,13 +249,16 @@ Function Remove-GraphIntuneApp {
         Will delete an Intune application
 
     .EXAMPLE
-        Get-GraphIntuneApp | Remove-GraphIntuneApp
+        Get-GraphIntuneApp | Remove-GraphIntuneApp -WhatIf
 
-    .PARAMETER PARAM1
+    .PARAMETER id
+        Id of the app you want to remove. Supports pipeline.
 
+    .PARAMETER force
+        Remove app without prompting.
 
     .LINK
-        https://github.com/Ryan2065/MSGraphCmdlets
+        https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/intune_apps_app_conceptual
     
     .Notes
         Author: Ryan Ephgrave
@@ -306,6 +309,25 @@ Function Remove-GraphIntuneApp {
 }
 
 Function Get-GraphIntuneApps {
+<#
+    .SYNOPSIS
+        List Intune apps
+
+    .DESCRIPTION
+        Will query deviceAppManagement/mobileApps to get a list of Intune apps. Filters out managed apps 
+
+    .EXAMPLE
+        Get-GraphIntuneApps
+
+    .PARAMETER Id  
+        Get specific app by Id.
+
+    .LINK
+        https://developer.microsoft.com/en-us/graph/docs/api-reference/beta/resources/intune_apps_app_conceptual
+    
+    .Notes
+        Author: Ryan Ephgrave
+#>    
     Param(
         [string]$Id
     )
@@ -324,6 +346,7 @@ Function Get-GraphIntuneApps {
     }
 }
 
+<#
 Function Set-GraphIntuneApp {
     [CmdletBinding()]
     Param(
@@ -385,3 +408,4 @@ Function Set-GraphIntuneApp {
         
     }
 }
+#>
