@@ -399,6 +399,25 @@ Function Invoke-GraphMethod {
 }
 
 Function Get-GraphNextLink {
+<#
+    .SYNOPSIS
+        Will get the next page of results if there are additional pages
+
+    .DESCRIPTION
+        Will get the next page of results if there are additional pages
+
+    .EXAMPLE
+        Get-GraphNextLink -NextLink $returned.'@odata.nextLink'
+
+    .PARAMETER NextLink
+        Returned through a query when the results are > 100.
+
+    .LINK
+        https://github.com/Ryan2065/MSGraphCmdlets
+    
+    .Notes
+        Author: Ryan Ephgrave
+#>
     Param(
         $NextLink
     )

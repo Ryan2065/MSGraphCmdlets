@@ -18,6 +18,9 @@ Function Get-GraphUsers {
     .PARAMETER GraphVersion
         Graph version to query. Acceptible values are v1.0 or beta
 
+    .PARAMETER SelectProperties
+        List of properties to retrieve. Not all properties come by default, like assignedLicenses
+
     .LINK
         https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user
     
@@ -27,17 +30,33 @@ Function Get-GraphUsers {
     Param(
         [string]$Filter,
         [string]$UserId,
-        [string]$GraphVersion = 'v1.0'
+        [string]$GraphVersion = 'v1.0',
+        [string[]]$SelectProperties
     )
 
     try {
+        $ParamHash = @{
+            'Version'=$GraphVersion
+        }
         if(-not [string]::IsNullOrEmpty($UserId)) {
             $UserId = $UserId.Replace('@','%40')
-            Invoke-GraphMethod -query "users/$($UserId)" -filter $Filter -Version $GraphVersion
+            $ParamHash['query'] = "users/$($UserId)"
         }
         else {
-            Invoke-GraphMethod -query "users" -filter $Filter -Version $GraphVersion
+            $ParamHash['query'] = 'users'
         }
+        if(-not [string]::IsNullOrEmpty($Filter)){
+            $ParamHash['filter'] = $Filter
+        }
+        if(-not [string]::IsNullOrEmpty($SelectProperties)){
+            $SelectString = ''
+            foreach($instance in $SelectProperties) {
+                $SelectString = $SelectString + ",$($instance)"
+            }
+            $SelectString = $SelectString.TrimStart(',')
+            $ParamHash['Select'] = $SelectString
+        }
+        Invoke-GraphMethod @ParamHash
     }
     catch {
         Write-Error -Message $_.Exception.Message
