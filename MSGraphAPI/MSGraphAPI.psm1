@@ -382,7 +382,10 @@ Function Invoke-GraphMethod {
         $RestParams['ContentType'] = $ContentType
     }
     try {
-        $returned = Invoke-RestMethod -Uri $uri -Headers $Global:GraphAuthenticationHash['Header'] @RestParams
+        $Global:returned = Invoke-RestMethod -Uri $uri -Headers $Global:GraphAuthenticationHash['Header'] @RestParams
+        if(-not [string]::IsNullOrEmpty($returned.'@odata.nextLink')){
+            Get-GraphNextLink -NextLink $returned.'@odata.nextLink'
+        }
         if([string]::IsNullOrEmpty($returned.Value)) {
             $returned
         }
@@ -392,6 +395,22 @@ Function Invoke-GraphMethod {
     }
     catch {
         Write-GraphLog -Exception $_
+    }
+}
+
+Function Get-GraphNextLink {
+    Param(
+        $NextLink
+    )
+    $returned = Invoke-RestMethod -Uri $NextLink -Headers $Global:GraphAuthenticationHash['Header']
+    if(-not [string]::IsNullOrEmpty($returned.'@odata.nextLink')){
+        Get-GraphNextLink -NextLink $returned.'@odata.nextLink'
+    }
+    if([string]::IsNullOrEmpty($returned.Value)) {
+        $returned
+    }
+    else {
+        $returned.Value
     }
 }
 
