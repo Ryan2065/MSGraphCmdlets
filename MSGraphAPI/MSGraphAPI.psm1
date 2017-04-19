@@ -1,89 +1,3 @@
-Function Write-GraphLog {
-<#
-    .SYNOPSIS
-        Function to help log in the MSGraphAPI cmdlets
-
-    .DESCRIPTION
-        Easily create a log message with date stamp
-
-    .EXAMPLE
-        Write-GraphLog -Exception $Exception
-        This will output error information including the script name with the error, error lime number, error line, and message.
-
-    .EXAMPLE
-        Write-GraphLog -Message 'My Message' -Verbose
-        This will write my message to the verbose stream with date/time information in front of the message
-
-    .EXAMPLE
-        Write-GraphLog -Message 'My Message'
-        This will write My Message to the output stream
-
-    .PARAMETER Message
-        The message you want displayed. This will have the date/time information added to the beginning
-
-    .PARAMETER Exception
-        This will parse the exception object for information like error message, error line number, script name, etc. 
-        Good way to quickly get additional information.
-
-    .PARAMETER Verbose
-        Switch to write to the Verbose stream. Can view verbose output with $VerbosePreference = 'Continue'
-
-    .NOTES
-        Author: Ryan Ephgrave
-
-    .LINK
-        https://github.com/Ryan2065/MSGraphCmdlets
-#>
-    Param (
-        $Message,
-        $Exception,
-        [switch]$Verbose
-    )
-    $Output = "$(Get-Date) $Message"
-    
-    if($Exception -ne $null) {
-        $ErrorJSON = ''
-        try {
-            if($null -ne $Exception.ErrorDetails.Message) {
-                $ErrorJSON = $Exception.ErrorDetails.Message | ConvertFrom-Json -ErrorAction Continue
-            }
-        }
-        catch { }
-        $ErrorMessage = ''
-        if(-not [string]::IsNullOrEmpty($ErrorJSON)) {
-            $ErrorJSON = "`nError JSON Information:`n" + `
-            "Error: $($ErrorJSON.Error)`n" + `
-            "Error Description: $($ErrorJSON.Error_Description)`n" + `
-            "Error Codes: $($ErrorJSON.Error_Codes)`n" + `
-            "Error Timestamp: $($ErrorJSON.Timestamp)`n" + `
-            "Trace Id: $($ErrorJSON.Trace_Id)`n" + `
-            "Correlation Id: $($ErrorJSON.Correlation_Id)"
-        }
-
-
-        $Output = $Output + @"
-
-ERROR Details:
-Script Name:        $($Exception.InvocationInfo.ScriptName)
-
-Error Line Number:  $($Exception.InvocationInfo.ScriptLineNumber)
-
-Error Line:         $($Exception.InvocationInfo.Line.Trim())
-
-Error Message:      $($Exception.Exception)$($ErrorJSON)
-"@
-    }
-    if($Exception -ne $null) {
-        Write-Error $Output
-    }
-    elseif ($Verbose -eq $true) {
-        Write-Verbose $Output
-    }
-    else {
-        Write-Output $Output
-    }
-}
-
 Function Get-GraphAuthenticationToken {
 <#
     .SYNOPSIS
@@ -130,31 +44,19 @@ Function Get-GraphAuthenticationToken {
         [Parameter(Position=2, Mandatory=$false)][string[]]$Scopes,
         [Parameter(Position=3, Mandatory=$false)][string]$clientid,
         [Parameter(Position=4, Mandatory=$false)][string]$redirecturi,
-        [Parameter(Position=5, Mandatory=$false)][string]$clientsecret
-        
+        [Parameter(Position=5, Mandatory=$false)][string]$clientsecret,
+        [Parameter(Position=6, Mandatory=$false)][switch]$SkipClass
     )
-    try {
         $username = $Credential.UserName
         $password = $Credential.Password 
         $Marshal = [System.Runtime.InteropServices.Marshal] 
         $Bstr = $Marshal::SecureStringToBSTR($Password) 
         $Password = $Marshal::PtrToStringAuto($Bstr) 
         $Marshal::ZeroFreeBSTR($Bstr)
-    }
-    catch {
-        Write-GraphLog 'Error retrieving password from credential object!' $_ 
-        break 
-    }
     if([string]::IsNullOrEmpty($Scopes)) {
         $PayLoad = "resource=https://graph.microsoft.com/&client_id=1950a258-227b-4e31-a9cf-717495945fc2&grant_type=password&username=$($UserName)&scope=user_impersonation&password=$($Password)" 
         $response = ''
-        try {
-            Write-GraphLog 'Trying to get token...' -Verbose
-            $Response = Invoke-WebRequest -Uri "https://login.microsoftonline.com/$($TenantName)/oauth2/token" -Method POST -Body $PayLoad
-        } 
-        catch {
-            Write-GraphLog -Exception $_
-        }
+        $Response = Invoke-WebRequest -Uri "https://login.microsoftonline.com/$($TenantName)/oauth2/token" -Method POST -Body $PayLoad
         $ResponseJSON = $Response | ConvertFrom-Json
         $GraphAPIAuthenticationHeader = $null
         $GraphAPIAuthenticationHeader = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
@@ -163,16 +65,17 @@ Function Get-GraphAuthenticationToken {
                 'Parameters' = @{
                 'TenantName' = $TenantName
                 'Credential' = $Credential
+                'SkipClass' = $SkipClass
             }
             'Token' = $ResponseJSON.access_token
             'Header' = $GraphAPIAuthenticationHeader
         }
     }
     else {
-        if($null -eq $clientid) {
+        if([string]::IsNullOrEmpty($clientid)) {
             $clientid = 'cb89a343-cd2e-463f-81cd-9527bdbda08d'
         }
-        if($null -eq $redirecturi) {
+        if([string]::IsNullOrEmpty($redirecturi)) {
             $redirecturi = 'urn:ietf:wg:oauth:2.0:oob'
         }
         $Authority = "https://login.microsoftonline.com/$($TenantName)/oauth2/token"
@@ -189,6 +92,7 @@ Function Get-GraphAuthenticationToken {
                 'Credential' = $Credential
                 'clientID' = $clientid
                 'redirecturi' = $redirecturi
+                'SkipClass' = $SkipClass
             }
             'Token' = $Result.Token
             'Header' = $GraphAPIAuthenticationHeader
@@ -314,22 +218,20 @@ Function Invoke-GraphMethod {
         $skipToken,
         [Parameter(Mandatory=$false)]
         [ValidateNotNullOrEmpty()]
-        [Nullable[bool]]$count
+        [Nullable[bool]]$count,
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+        [string[]]$scopes
     )
     
-    try {
         if ($null -ne $Global:GraphAuthenticationHash) {
             $Parameters = $Global:GraphAuthenticationHash['Parameters']
+            if(-not [string]::IsNullOrEmpty($Scopes)) { $Parameters['scopes'] = $Scopes }
             Get-GraphAuthenticationToken @Parameters
         }
         else {
             throw 'You must call Get-GraphAuthenticationToken first!'
         }
-    }
-    catch {
-        Write-GraphLog -Exception $_
-        break
-    }
 
     $uri = "https://graph.microsoft.com/$($version)/$($query)?"
 
@@ -381,21 +283,27 @@ Function Invoke-GraphMethod {
     if(-not [string]::IsNullOrEmpty($ContentType)) {
         $RestParams['ContentType'] = $ContentType
     }
-    try {
-        $Global:returned = Invoke-RestMethod -Uri $uri -Headers $Global:GraphAuthenticationHash['Header'] @RestParams
+        $returned = Invoke-RestMethod -Uri $uri -Headers $Global:GraphAuthenticationHash['Header'] @RestParams
         if(-not [string]::IsNullOrEmpty($returned.'@odata.nextLink')){
             Get-GraphNextLink -NextLink $returned.'@odata.nextLink'
         }
-        if([string]::IsNullOrEmpty($returned.Value)) {
-            $returned
+        if($returned.Value) {
+            if($Global:GraphAuthenticationHash.Parameters.SkipClass) {
+                $returned.Value
+            }
+            else {
+                New-GraphClassMember -Context $returned.'@odata.context' -Data $returned.Value -Version $Version
+            }
         }
         else {
-            $returned.Value
+            if($Global:GraphAuthenticationHash.Parameters.SkipClass) {
+                $returned
+            }
+            else {
+                New-GraphClassMember -Context $returned.'@odata.context' -Data $returned -Version $Version
+            }
+        
         }
-    }
-    catch {
-        Write-GraphLog -Exception $_
-    }
 }
 
 Function Get-GraphNextLink {
@@ -425,11 +333,21 @@ Function Get-GraphNextLink {
     if(-not [string]::IsNullOrEmpty($returned.'@odata.nextLink')){
         Get-GraphNextLink -NextLink $returned.'@odata.nextLink'
     }
-    if([string]::IsNullOrEmpty($returned.Value)) {
-        $returned
+    if($returned.Value) {
+        if($Global:GraphAuthenticationHash.Parameters.SkipClass) {
+            $returned.Value
+        }
+        else {
+            New-GraphClassMember -Context $returned.'@odata.context' -Data $returned.Value -Version $Version
+        }
     }
     else {
-        $returned.Value
+        if($Global:GraphAuthenticationHash.Parameters.SkipClass) {
+            $returned
+        }
+        else {
+            New-GraphClassMember -Context $returned.'@odata.context' -Data $returned -Version $Version
+        }
     }
 }
 
@@ -480,14 +398,74 @@ Function Show-GraphMetadataExplorer {
     ."$PSScriptRoot\MetadataExplorer\MetadataExplorer.ps1"
 }
 
+Function New-GraphClassMember {
+    Param(
+        $Context,
+        $Data,
+        $Version
+    )
+    $EntityContainer = ''
+    if(-not [string]::IsNullOrEmpty($Context)) {
+        $type = ($Context.Split('#'))[1]
+        $EntityContainer = ("microsoft_graph_$($type)_$($version)").Replace('.','_').Replace('#','')
+        try {
+            $test = New-Object $EntityContainer
+        }
+        catch {
+            $type = $type.TrimEnd('s')
+            $EntityContainer = ("microsoft_graph_$($type)_$($version)").Replace('.','_').Replace('#','')
+        }
+    }
+    foreach($instance in $Data) {
+        try {
+            $NoteProperties = (Get-Member -InputObject $instance -MemberType NoteProperty).Name
+            if(-not [string]::IsNullOrEmpty($instance.'@odata.type')) {
+                $Type = ("$($instance.'@odata.type')_$($Version)").Replace('.','_').Replace('#','')
+                $tempobj = New-Object -TypeName $Type
+                $tempObjProperties = (Get-Member -InputObject $tempobj -MemberType Property).Name
+                foreach($NoteProperty in $NoteProperties) {
+                    try{
+                        $tempobj."$($NoteProperty)" = $instance."$($NoteProperty)"
+                    }
+                    catch {
+                        $tempobj.GraphAdditionalProperties[$NoteProperty] = $instance."$($NoteProperty)"
+                    }
+                }
+                $tempobj
+            }
+            else {
+                if(-not [string]::IsNullOrEmpty($EntityContainer)) {
+                    $tempobj = New-Object -TypeName $EntityContainer
+                    foreach($NoteProperty in $NoteProperties) {
+                        try{
+                            $tempobj."$($NoteProperty)" = $instance."$($NoteProperty)"
+                        }
+                        catch {
+                            $tempobj.GraphAdditionalProperties[$NoteProperty] = $instance."$($NoteProperty)"
+                        }
+                    }
+                    $tempobj
+                }
+                else {
+                    $instance
+                }
+            }
+        }
+        catch {
+            $instance
+        }
+    }
+}
+
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process
 
 $PowerShellFiles = Get-ChildItem $PSScriptRoot -Recurse -Filter "*.ps1"
 Foreach($File in $PowerShellFiles) {
     If(-not $File.DirectoryName.EndsWith('MetadataExplorer')){
-        Import-Module $File.FullName
+        . $File.FullName
     }
 }
 
 $null = [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Microsoft.Identity.Client\Microsoft.Identity.Client.Platform.dll")
 $null = [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\Microsoft.Identity.Client\Microsoft.Identity.Client.dll")
+

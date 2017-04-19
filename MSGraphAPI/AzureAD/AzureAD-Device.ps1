@@ -45,6 +45,6 @@ Function Get-GraphDevices {
         }
     }
     catch {
-        Write-Error -Message $_.Exception.Message
+        throw $_
     }
 }

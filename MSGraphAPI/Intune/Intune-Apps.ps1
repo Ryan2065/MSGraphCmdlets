@@ -145,7 +145,6 @@
         [ValidateNotNullOrEmpty()]
         [string]$Notes
     )
-    try {
         [hashtable]$AppHashTable = @{}
         $AppHashTable['displayName'] = $DisplayName
         $AppHashTable['description'] = $Description
@@ -234,10 +233,6 @@
         }
         $AppJSON = $AppHashTable | ConvertTo-Json -Depth 10
         Invoke-GraphMethod -Method 'Post' -Version (Get-GraphIntuneVersion) -query 'deviceAppManagement/mobileApps' -body $AppJSON -ContentType 'application/json'
-    }
-    catch {
-        Write-GraphLog -Exception $_
-    }
 }
 
 Function Remove-GraphIntuneApp {
@@ -279,28 +274,18 @@ Function Remove-GraphIntuneApp {
     process {
         foreach($AppId in $id){
             if($force) {
-                try {
                     if($PSCmdlet.ShouldProcess("$($AppId)","Invoke-GraphMethod -Method Delete")){
                         Invoke-GraphMethod -Version (Get-GraphIntuneVersion) -method 'Delete' -query "deviceAppManagement/mobileApps/$($AppId)"
                     }
-                }
-                catch {
-                    Write-GraphLog -Exception $_
-                }
             }
             else {
                 $AppInfo = Get-GraphIntuneApps -AppId $AppId
                 if(-not [string]::IsNullOrEmpty($AppInfo)) {
                     $Result = Read-Host "Do you want to delete the app $($AppInfo.DisplayName)? (Y/N)"
                     if($Result -eq 'y') {
-                        try {
                             if($PSCmdlet.ShouldProcess("$($AppId)","Invoke-GraphMethod -Method Delete")){
                                 Invoke-GraphMethod -Version (Get-GraphIntuneVersion) -method 'Delete' -query "deviceAppManagement/mobileApps/$($AppId)"
                             }
-                        }
-                        catch {
-                            Write-GraphLog -Exception $_
-                        }
                     }
                 }
             }

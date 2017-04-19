@@ -29,7 +29,6 @@ Function New-GraphIntuneDeviceCateogry {
         [ValidateNotNullOrEmpty()]
         [string]$Description
     )
-    try{
         $CategoryHash = @{
             '@odata.type' = '#microsoft.graph.deviceCategory'
             'displayName' = $DisplayName
@@ -44,10 +43,6 @@ Function New-GraphIntuneDeviceCateogry {
             'ContentType' = 'application/json'
         }
         Invoke-GraphMethod @GraphHash
-    }
-    catch{
-        Write-GraphLog -Exception $_
-    }
 }
 
 Function Get-GraphIntuneDeviceCateogry {
@@ -140,7 +135,6 @@ Function Set-GraphIntuneDeviceCategory{
     )
     Process {
         foreach($CategoryId in $Id){
-            try{
                 $UpdateHash = @{}
                 $SendPatch = $false
                 if($DisplayName) {
@@ -162,10 +156,6 @@ Function Set-GraphIntuneDeviceCategory{
                     }
                     Invoke-GraphMethod @InvokeHash
                 }
-            }
-            catch {
-                Write-GraphLog -Exception $_
-            }
         }
     }
 }

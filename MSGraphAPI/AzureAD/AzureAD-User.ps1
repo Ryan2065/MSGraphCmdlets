@@ -59,7 +59,7 @@ Function Get-GraphUsers {
         Invoke-GraphMethod @ParamHash
     }
     catch {
-        Write-Error -Message $_.Exception.Message
+        throw $_
     }
 }
 
@@ -112,7 +112,6 @@ Function New-GraphUser {
         [Parameter(Mandatory=$true)]
         $MailNickName
     )
-    try {
         [hashtable]$UserHashTable = @{
             'accountEnabled'=$accountEnabled
             'displayName'=$displayName
@@ -126,8 +125,5 @@ Function New-GraphUser {
         }
         $UserJSON = $UserHashTable | ConvertTo-Json -Depth 10
         Invoke-GraphMethod -Method 'Post' -query 'users' -body $UserJSON -ContentType 'application/json'
-    }
-    catch {
-        Write-GraphLog -Exception $_
-    }
 }
+
