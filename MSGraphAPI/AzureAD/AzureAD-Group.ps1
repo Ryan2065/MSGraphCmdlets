@@ -1,4 +1,4 @@
-Function Get-GraphGroup {
+<#Function Get-GraphGroup {
 <#
     .SYNOPSIS
         Querys the Groups endpoint to get a list of Azure AD groups
@@ -24,7 +24,7 @@ Function Get-GraphGroup {
     .Notes
         Author: Ryan Ephgrave
 #>
-    Param(
+<#    Param(
         [string]$Filter,
         [string]$GroupId,
         [string]$GraphVersion = 'v1.0'
@@ -47,7 +47,7 @@ Function Get-GraphGroup {
         Write-Error -Message $_.Exception.Message
     }
 }
-
+#>
 Function New-GraphGroup {
     <#
         .SYNOPSIS

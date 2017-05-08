@@ -196,31 +196,22 @@ Function Invoke-GraphMethod {
         [Parameter(Mandatory=$false)]
         $filter,
         [Parameter(Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
         $search,
         [Parameter(Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
         $select,
         [Parameter(Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
         $expand,
         [Parameter(Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
         $orderby,
         [Parameter(Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
         [Nullable[int]]$top,
         [Parameter(Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
         [Nullable[int]]$skip,
         [Parameter(Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
         $skipToken,
         [Parameter(Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
         [Nullable[bool]]$count,
         [Parameter(Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
         [string[]]$scopes
     )
     
@@ -244,6 +235,9 @@ Function Invoke-GraphMethod {
     }
 
     if(-not [string]::IsNullOrEmpty($select)) {
+        if(-not $select.tolower().contains('id')) {
+            $select = $select + ",id"
+        }
         $uri = "$($uri)`$select=$($select.replace(' ','%20').replace("'",'%27'))&"
     }
 
@@ -407,6 +401,7 @@ Function New-GraphClassMember {
     $EntityContainer = ''
     if(-not [string]::IsNullOrEmpty($Context)) {
         $type = ($Context.Split('#'))[1]
+        $type = $type.split('(')[0]
         $EntityContainer = ("microsoft_graph_$($type)_$($version)").Replace('.','_').Replace('#','')
         try {
             $test = New-Object $EntityContainer

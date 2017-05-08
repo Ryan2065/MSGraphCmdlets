@@ -1,0 +1,6 @@
+[submodule "MSGraphCmdlets.wiki"]
+	path = MSGraphCmdlets.wiki
+	url = https://github.com/Ryan2065/MSGraphCmdlets.wiki.git
+[submodule "microsoft-graph-docs"]
+	path = microsoft-graph-docs
+	url = https://github.com/microsoftgraph/microsoft-graph-docs.git

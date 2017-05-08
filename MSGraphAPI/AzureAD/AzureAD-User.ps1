@@ -1,4 +1,4 @@
-Function Get-GraphUsers {
+<#Function Get-GraphUsers {
 <#
     .SYNOPSIS
         Used to get a list of users in Azure AD
@@ -27,7 +27,7 @@ Function Get-GraphUsers {
     .Notes
         Author: Ryan Ephgrave
 #>
-    Param(
+<#    Param(
         [string]$Filter,
         [string]$UserId,
         [string]$GraphVersion = 'v1.0',
@@ -62,7 +62,7 @@ Function Get-GraphUsers {
         throw $_
     }
 }
-
+#>
 Function New-GraphUser {
 <#
     .SYNOPSIS

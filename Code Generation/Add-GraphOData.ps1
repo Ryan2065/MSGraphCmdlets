@@ -1,0 +1,27 @@
+Function Add-GraphOData {
+@'
+        [Parameter(Mandatory=$false)]
+        $filter,
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+        $search,
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+        [string]$select,
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+        $expand,
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+        $orderby,
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+        [Nullable[int]]$top,
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+        [Nullable[int]]$skip,
+        [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+        [Nullable[bool]]$count
+'@
+}

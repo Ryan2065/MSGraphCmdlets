@@ -201,11 +201,6 @@ Function New-GraphClass {
     $BetaMetadata = Get-GraphMetadata -Version 'beta'
     Get-GraphEntityTypes -EntityTypes $BetaMetadata.EntityType -GraphVersion 'beta'
     Get-GraphEntityContainers -Metadata $BetaMetadata -Version 'beta'
-    #if(Test-Path "$($env:APPDATA)\MSGraphAPIClasses.ps1") {
-    #    $ClassContent = Get-Content "$($env:APPDATA)\MSGraphAPIClasses.ps1"
-    #    if($ClassContent -ne $Global:GraphAuthenticationHash['ClassCode']) { Write-Warning 'Graph Class file updated. Please re-start PowerShell!' }
-    #}
-    #$Global:GraphAuthenticationHash['ClassCode'] > "$($env:APPDATA)\MSGraphAPIClasses.ps1"
 }
 
 Function New-GraphClassObject {
