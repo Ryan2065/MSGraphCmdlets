@@ -41,7 +41,7 @@ Function Get-GraphAuthenticationToken {
     Param (
         [Parameter(Position=0, Mandatory=$true)][string]$TenantName,
         [Parameter(Position=1, Mandatory=$true)][pscredential]$Credential,
-        [Parameter(Position=2, Mandatory=$false)][string[]]$Scopes,
+        [Parameter(Position=2, Mandatory=$false)][string[]]$Scopes = 'user_impersonation',
         [Parameter(Position=3, Mandatory=$false)][string]$clientid,
         [Parameter(Position=4, Mandatory=$false)][string]$redirecturi,
         [Parameter(Position=5, Mandatory=$false)][string]$clientsecret,
@@ -53,11 +53,11 @@ Function Get-GraphAuthenticationToken {
         $Bstr = $Marshal::SecureStringToBSTR($Password) 
         $Password = $Marshal::PtrToStringAuto($Bstr) 
         $Marshal::ZeroFreeBSTR($Bstr)
-    if([string]::IsNullOrEmpty($Scopes)) {
+    if($Scopes -eq 'user_impersonation') {
         $PayLoad = "resource=https://graph.microsoft.com/&client_id=1950a258-227b-4e31-a9cf-717495945fc2&grant_type=password&username=$($UserName)&scope=user_impersonation&password=$($Password)" 
         $response = ''
-        $Response = Invoke-WebRequest -Uri "https://login.microsoftonline.com/$($TenantName)/oauth2/token" -Method POST -Body $PayLoad
-        $ResponseJSON = $Response | ConvertFrom-Json
+        $ResponseJSON = Invoke-RestMethod -Uri "https://login.microsoftonline.com/$($TenantName)/oauth2/token" -Method POST -Body $PayLoad
+        $UnixDateConverter = New-Object -Type DateTime -ArgumentList 1970, 1, 1, 0, 0, 0, 0
         $GraphAPIAuthenticationHeader = $null
         $GraphAPIAuthenticationHeader = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
         $GraphAPIAuthenticationHeader.Add("Authorization", "Bearer $($ResponseJSON.access_token)")
@@ -67,8 +67,9 @@ Function Get-GraphAuthenticationToken {
                 'Credential' = $Credential
                 'SkipClass' = $SkipClass
             }
-            'Token' = $ResponseJSON.access_token
             'Header' = $GraphAPIAuthenticationHeader
+            'Expires' = $UnixDateConverter.AddSeconds($ResponseJSON.expires_on)
+            'Scopes' = $ResponseJSON.scope
         }
     }
     else {
@@ -94,7 +95,6 @@ Function Get-GraphAuthenticationToken {
                 'redirecturi' = $redirecturi
                 'SkipClass' = $SkipClass
             }
-            'Token' = $Result.Token
             'Header' = $GraphAPIAuthenticationHeader
         }
     }
@@ -212,13 +212,15 @@ Function Invoke-GraphMethod {
         [Parameter(Mandatory=$false)]
         [Nullable[bool]]$count,
         [Parameter(Mandatory=$false)]
-        [string[]]$scopes
+        [string[]]$scopes = 'user_impersonation'
     )
     
         if ($null -ne $Global:GraphAuthenticationHash) {
-            $Parameters = $Global:GraphAuthenticationHash['Parameters']
-            if(-not [string]::IsNullOrEmpty($Scopes)) { $Parameters['scopes'] = $Scopes }
-            Get-GraphAuthenticationToken @Parameters
+            if(($Global:GraphAuthenticationHash.Scopes -notcontains $scopes) -or ( $Global:GraphAuthenticationHash.expires -lt (get-date).ToUniversalTime() )){
+                $Parameters = $Global:GraphAuthenticationHash['Parameters']
+                if(-not [string]::IsNullOrEmpty($Scopes)) { $Parameters['scopes'] = $Scopes }
+                Get-GraphAuthenticationToken @Parameters
+            }
         }
         else {
             throw 'You must call Get-GraphAuthenticationToken first!'
@@ -277,16 +279,16 @@ Function Invoke-GraphMethod {
     if(-not [string]::IsNullOrEmpty($ContentType)) {
         $RestParams['ContentType'] = $ContentType
     }
-        $returned = Invoke-RestMethod -Uri $uri -Headers $Global:GraphAuthenticationHash['Header'] @RestParams
+        $Global:returned = Invoke-RestMethod -Uri $uri -Headers $Global:GraphAuthenticationHash['Header'] @RestParams
         if(-not [string]::IsNullOrEmpty($returned.'@odata.nextLink')){
-            Get-GraphNextLink -NextLink $returned.'@odata.nextLink'
+            Get-GraphNextLink -NextLink $returned.'@odata.nextLink' -GraphPath $query
         }
         if($returned.Value) {
             if($Global:GraphAuthenticationHash.Parameters.SkipClass) {
                 $returned.Value
             }
             else {
-                New-GraphClassMember -Context $returned.'@odata.context' -Data $returned.Value -Version $Version
+                New-GraphClassMember -Context $returned.'@odata.context' -Data $returned.Value -Version $Version -GraphPath $Query
             }
         }
         else {
@@ -294,7 +296,7 @@ Function Invoke-GraphMethod {
                 $returned
             }
             else {
-                New-GraphClassMember -Context $returned.'@odata.context' -Data $returned -Version $Version
+                New-GraphClassMember -Context $returned.'@odata.context' -Data $returned -Version $Version -GraphPath $Query
             }
         
         }
@@ -321,7 +323,8 @@ Function Get-GraphNextLink {
         Author: Ryan Ephgrave
 #>
     Param(
-        $NextLink
+        $NextLink,
+        $GraphPath
     )
     $returned = Invoke-RestMethod -Uri $NextLink -Headers $Global:GraphAuthenticationHash['Header']
     if(-not [string]::IsNullOrEmpty($returned.'@odata.nextLink')){
@@ -332,7 +335,7 @@ Function Get-GraphNextLink {
             $returned.Value
         }
         else {
-            New-GraphClassMember -Context $returned.'@odata.context' -Data $returned.Value -Version $Version
+            New-GraphClassMember -Context $returned.'@odata.context' -Data $returned.Value -Version $Version -GraphPath $GraphPath
         }
     }
     else {
@@ -340,7 +343,7 @@ Function Get-GraphNextLink {
             $returned
         }
         else {
-            New-GraphClassMember -Context $returned.'@odata.context' -Data $returned -Version $Version
+            New-GraphClassMember -Context $returned.'@odata.context' -Data $returned -Version $Version -GraphPath $GraphPath
         }
     }
 }
@@ -396,7 +399,8 @@ Function New-GraphClassMember {
     Param(
         $Context,
         $Data,
-        $Version
+        $Version,
+        $GraphPath
     )
     $EntityContainer = ''
     if(-not [string]::IsNullOrEmpty($Context)) {
@@ -417,6 +421,7 @@ Function New-GraphClassMember {
             if(-not [string]::IsNullOrEmpty($instance.'@odata.type')) {
                 $Type = ("$($instance.'@odata.type')_$($Version)").Replace('.','_').Replace('#','')
                 $tempobj = New-Object -TypeName $Type
+                $tempobj.__Path = $GraphPath
                 $tempObjProperties = (Get-Member -InputObject $tempobj -MemberType Property).Name
                 foreach($NoteProperty in $NoteProperties) {
                     try{
@@ -431,6 +436,7 @@ Function New-GraphClassMember {
             else {
                 if(-not [string]::IsNullOrEmpty($EntityContainer)) {
                     $tempobj = New-Object -TypeName $EntityContainer
+                    $tempobj.__Path = $GraphPath
                     foreach($NoteProperty in $NoteProperties) {
                         try{
                             $tempobj."$($NoteProperty)" = $instance."$($NoteProperty)"

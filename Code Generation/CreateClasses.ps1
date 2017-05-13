@@ -208,7 +208,6 @@ Function New-GraphClassObject {
         $Type,
         $Data
     )
-    #Invoke-Expression $Global:GraphAuthenticationHash['ClassCode']."$Type"
     $tempobject = New-Object $Type
     $instPropertyNames = ($Data | Get-Member -MemberType NoteProperty).Name
     $objPropNames = ($tempobject | Get-Member -MemberType Property).Name
