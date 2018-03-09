@@ -8,13 +8,10 @@ Install the module from the PowerShell gallery with the command:
 `Install-Module MSGraphAPI`
 
 ### Current Functions
-1. Authenticate to Microsot Graph with Get-GraphAuthenticationToken
-2. Run graph methods with Invoke-GraphMethod
-3. Get / Create / Remove Azure AD users
-4. Manage Intune apps
-5. Manage Intune device categories
+1. Authenticate to Microsot Graph with Connect-MSGraphAPI
 
 
 ## To Do
-This is project is still new so there is a lot to do! I'm focusing first on adding Intune features.
-If you want to see something new, feel free to open an issue or code it yourself! 
+Just switched this project over to using the [MSGraph SDK](https://github.com/microsoftgraph/msgraph-sdk-dotnet) made by Microsoft. Because of this, there 
+will be a new way to authenticate and the functions will need to be re-created. Will publish to 
+the PowerShell Gallery once we can reliably authenticate and browse Graph
