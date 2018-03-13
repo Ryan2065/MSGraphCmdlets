@@ -1,31 +1,39 @@
 Function Connect-MSGraphAPI {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName='GetGraphClientByUserAndPassword')]
     Param(
-        [Parameter(Mandatory=$true)]
-        [string]$Tenant,
-        [Parameter(Mandatory=$true)]
-        [string]$ClientId,
-        [Parameter(Mandatory=$true)]
-        [string]$RedirectURI,
-        [Parameter(Mandatory=$true)]
-        [string]$Resource,
-        [Parameter(Mandatory=$true)]
-        [pscredential]$Credential,
-        [ValidateSet('v1.0', 'beta')]
-        [string]$GraphEndpoint = 'v1.0',
-        [Parameter(Mandatory=$false)]
-        [switch]$ReturnClientObject
+        [Parameter(Mandatory=$true, ParameterSetName='GetGraphClientByUserAndPassword')]
+            [string]$Tenant,
+        [Parameter(Mandatory=$true, ParameterSetName='GetGraphClientByUserAndPassword')]
+            [string]$ClientId,
+        [Parameter(Mandatory=$true, ParameterSetName='GetGraphClientByUserAndPassword')]
+            [string]$RedirectURI,
+        [Parameter(Mandatory=$true, ParameterSetName='GetGraphClientByUserAndPassword')]
+            [string]$Resource,
+        [Parameter(Mandatory=$true, ParameterSetName='GetGraphClientByUserAndPassword')]
+            [pscredential]$Credential
     )
-    $Script:MSGraphClient = [MSGraphAPI.ConnectADAL]::GetGraphClientByUserAndPassword(
-        $Tenant,
-        $ClientId,
-        $RedirectURI,
-        $Resource,
-        $Credential.UserName,
-        $Credential.GetNetworkCredential().SecurePassword,
-        $GraphEndpoint
-    )
-    if($ReturnClientObject){
-        return $Script:MSGraphClient
+    if($PSCmdlet.ParameterSetName -eq 'GetGraphClientByUserAndPassword'){
+        $token = [MSGraphAPI.ConnectADAL]::GetGraphClientByUserAndPassword(
+            $Tenant,
+            $ClientId,
+            $RedirectURI,
+            $Resource,
+            $Credential.UserName,
+            $Credential.GetNetworkCredential().SecurePassword
+        )
+        $Header = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
+        $null = $Header.Add("Authorization", "Bearer $($token.AccessToken)")
+        $Script:MSGraphAPISettings = New-Object -TypeName MSGraphAPISettings -Property @{
+            AuthorizationHeader = $Header
+            ConnectParameters = @{
+                Tenant = $Tenant
+                ClientId = $ClientId
+                RedirectURI = $RedirectURI
+                Resource = $Resource
+                Credential = $Credential
+            }
+            ExpiresOn = $Token.ExpiresOn.UtcDateTime
+        }
     }
 }
+
