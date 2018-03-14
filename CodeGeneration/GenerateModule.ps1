@@ -165,7 +165,7 @@ Function Get-MSGraphAPIEntityType {
     $NavigationProperties = @()
     foreach($NavProperty in $EntityType.NavigationProperty){
         $NavPropertyText  = "    [object]Get_$($NavProperty.Name)(){`n"
-        $NavPropertyText += "        return (Invoke-GraphMethod -URI `"`$(`$this.GraphURL)/$($NavProperty.Name)`")`n"
+        $NavPropertyText += "        return (Invoke-MSGraphMethod -query `"`$(`$this.GraphPath)/$($NavProperty.Name)`")`n"
         $NavPropertyText += "    }"
         $NavigationProperties += @($NavPropertyText)
     }

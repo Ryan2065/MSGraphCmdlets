@@ -2,7 +2,8 @@ Function New-MSGraphClassMember {
     Param(
         [object]$InputObject,
         [string]$Context,
-        [string]$Version
+        [string]$Version,
+        [string]$BaseURI
     )
     $EntityContainer = ''
     if(-not [string]::IsNullOrEmpty($Context)) {
@@ -24,16 +25,19 @@ Function New-MSGraphClassMember {
             $NoteProperties = (Get-Member -InputObject $instance -MemberType NoteProperty).Name
             if(-not [string]::IsNullOrEmpty($instance.'@odata.type')) {
                 $Type = ''
-                $Type = $Script:MSGraphAPIClassHash[$instance.'@odata.type'] 
+                $Type = $Script:MSGraphAPIClassHash[ ($instance.'@odata.type').TrimStart('#') ]
                 if(-not [string]::IsNullOrEmpty($Type)){
                     $tempobj = New-Object -TypeName $Type
                     $tempobj.AdditionalProperties = @{}
                     foreach($NoteProperty in $NoteProperties) {
                         try{
                             $tempobj."$($NoteProperty)" = $instance."$($NoteProperty)"
+                            if($NoteProperty -eq 'Id'){
+                                $tempObj.GraphPath = "$BaseURI/$($instance."$($NoteProperty)")"
+                            }
                         }
                         catch {
-                            if($NoteProperty -ne '@odata.context'){
+                            if( ($NoteProperty -ne '@odata.context') -and ($NoteProperty -ne '@odata.type') ){
                                 $tempobj.AdditionalProperties.Add($NoteProperty, $instance."$($NoteProperty)")
                             }
                         }
@@ -51,6 +55,9 @@ Function New-MSGraphClassMember {
                     foreach($NoteProperty in $NoteProperties) {
                         try{
                             $tempobj."$($NoteProperty)" = $instance."$($NoteProperty)"
+                            if($NoteProperty -eq 'Id'){
+                                $tempObj.GraphPath = "$BaseURI/$($instance."$($NoteProperty)")"
+                            }
                         }
                         catch {
                             if($NoteProperty -ne '@odata.context'){

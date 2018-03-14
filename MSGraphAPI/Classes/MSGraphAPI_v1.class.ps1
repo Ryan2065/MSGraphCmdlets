@@ -2,7 +2,7 @@
 
 Class MSGraphAPI_Base {
     [hashtable] $AdditionalProperties
-    [string] $GraphURL
+    hidden [string] $GraphPath
 }
 
 
@@ -1297,13 +1297,13 @@ class MSGraphAPI_v1_device : MSGraphAPI_v1_directoryObject {
     [string[]] $physicalIds
     [string] $trustType
     [object]Get_registeredOwners(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/registeredOwners")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/registeredOwners")
     }
     [object]Get_registeredUsers(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/registeredUsers")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/registeredUsers")
     }
     [object]Get_extensions(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/extensions")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/extensions")
     }
 
 
@@ -1336,7 +1336,7 @@ class MSGraphAPI_v1_directoryRole : MSGraphAPI_v1_directoryObject {
     [string] $displayName
     [string] $roleTemplateId
     [object]Get_members(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/members")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/members")
     }
 
 
@@ -1367,13 +1367,13 @@ class MSGraphAPI_v1_domain : MSGraphAPI_v1_entity {
     [string[]] $supportedServices
     [MSGraphAPI_v1_domainState] $state
     [object]Get_serviceConfigurationRecords(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/serviceConfigurationRecords")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/serviceConfigurationRecords")
     }
     [object]Get_verificationDnsRecords(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/verificationDnsRecords")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/verificationDnsRecords")
     }
     [object]Get_domainNameReferences(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/domainNameReferences")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/domainNameReferences")
     }
     [object]verify(){
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'verify')
@@ -1506,67 +1506,67 @@ class MSGraphAPI_v1_group : MSGraphAPI_v1_directoryObject {
     [Nullable[bool]] $isSubscribedByMail
     [Nullable[int]] $unseenCount
     [object]Get_members(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/members")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/members")
     }
     [object]Get_memberOf(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/memberOf")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/memberOf")
     }
     [object]Get_createdOnBehalfOf(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/createdOnBehalfOf")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/createdOnBehalfOf")
     }
     [object]Get_owners(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/owners")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/owners")
     }
     [object]Get_settings(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/settings")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/settings")
     }
     [object]Get_extensions(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/extensions")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/extensions")
     }
     [object]Get_threads(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/threads")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/threads")
     }
     [object]Get_calendar(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/calendar")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/calendar")
     }
     [object]Get_calendarView(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/calendarView")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/calendarView")
     }
     [object]Get_events(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/events")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/events")
     }
     [object]Get_conversations(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/conversations")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/conversations")
     }
     [object]Get_photo(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/photo")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/photo")
     }
     [object]Get_photos(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/photos")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/photos")
     }
     [object]Get_acceptedSenders(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/acceptedSenders")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/acceptedSenders")
     }
     [object]Get_rejectedSenders(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/rejectedSenders")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/rejectedSenders")
     }
     [object]Get_drive(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/drive")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/drive")
     }
     [object]Get_drives(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/drives")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/drives")
     }
     [object]Get_sites(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/sites")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/sites")
     }
     [object]Get_planner(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/planner")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/planner")
     }
     [object]Get_onenote(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/onenote")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/onenote")
     }
     [object]Get_groupLifecyclePolicies(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/groupLifecyclePolicies")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/groupLifecyclePolicies")
     }
     [object]subscribeByMail(){
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'subscribeByMail')
@@ -1614,7 +1614,7 @@ class MSGraphAPI_v1_conversationThread : MSGraphAPI_v1_entity {
     [string] $preview
     [Nullable[bool]] $isLocked
     [object]Get_posts(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/posts")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/posts")
     }
     [object]reply([MSGraphAPI_v1_post]$Post){
         $ParamHash = @{
@@ -1637,16 +1637,16 @@ class MSGraphAPI_v1_calendar : MSGraphAPI_v1_entity {
     [Nullable[bool]] $canEdit
     [MSGraphAPI_v1_emailAddress] $owner
     [object]Get_events(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/events")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/events")
     }
     [object]Get_calendarView(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/calendarView")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/calendarView")
     }
     [object]Get_singleValueExtendedProperties(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/singleValueExtendedProperties")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/singleValueExtendedProperties")
     }
     [object]Get_multiValueExtendedProperties(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/multiValueExtendedProperties")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/multiValueExtendedProperties")
     }
 
 
@@ -1698,22 +1698,22 @@ class MSGraphAPI_v1_event : MSGraphAPI_v1_outlookItem {
     [string] $webLink
     [string] $onlineMeetingUrl
     [object]Get_calendar(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/calendar")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/calendar")
     }
     [object]Get_instances(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/instances")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/instances")
     }
     [object]Get_extensions(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/extensions")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/extensions")
     }
     [object]Get_attachments(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/attachments")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/attachments")
     }
     [object]Get_singleValueExtendedProperties(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/singleValueExtendedProperties")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/singleValueExtendedProperties")
     }
     [object]Get_multiValueExtendedProperties(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/multiValueExtendedProperties")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/multiValueExtendedProperties")
     }
     [object]accept([string]$Comment,[Nullable[bool]]$SendResponse){
         $ParamHash = @{
@@ -1758,7 +1758,7 @@ class MSGraphAPI_v1_conversation : MSGraphAPI_v1_entity {
     [string[]] $uniqueSenders
     [string] $preview
     [object]Get_threads(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/threads")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/threads")
     }
 
 
@@ -1789,10 +1789,10 @@ class MSGraphAPI_v1_baseItem : MSGraphAPI_v1_entity {
     [MSGraphAPI_v1_itemReference] $parentReference
     [string] $webUrl
     [object]Get_createdByUser(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/createdByUser")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/createdByUser")
     }
     [object]Get_lastModifiedByUser(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/lastModifiedByUser")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/lastModifiedByUser")
     }
 
 
@@ -1808,16 +1808,16 @@ class MSGraphAPI_v1_drive : MSGraphAPI_v1_baseItem {
     [MSGraphAPI_v1_sharepointIds] $sharePointIds
     [MSGraphAPI_v1_systemFacet] $system
     [object]Get_items(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/items")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/items")
     }
     [object]Get_list(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/list")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/list")
     }
     [object]Get_root(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/root")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/root")
     }
     [object]Get_special(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/special")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/special")
     }
 
     [object]recent(){
@@ -1843,28 +1843,28 @@ class MSGraphAPI_v1_site : MSGraphAPI_v1_baseItem {
     [MSGraphAPI_v1_sharepointIds] $sharepointIds
     [MSGraphAPI_v1_siteCollection] $siteCollection
     [object]Get_columns(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/columns")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/columns")
     }
     [object]Get_contentTypes(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/contentTypes")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/contentTypes")
     }
     [object]Get_drive(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/drive")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/drive")
     }
     [object]Get_drives(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/drives")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/drives")
     }
     [object]Get_items(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/items")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/items")
     }
     [object]Get_lists(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/lists")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/lists")
     }
     [object]Get_sites(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/sites")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/sites")
     }
     [object]Get_onenote(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/onenote")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/onenote")
     }
 
     [object]getByPath([string]$path){
@@ -1881,7 +1881,7 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerGroup', 'MSGraphAPI_v1_p
 class MSGraphAPI_v1_plannerGroup : MSGraphAPI_v1_entity {
 
     [object]Get_plans(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/plans")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/plans")
     }
 
 
@@ -1893,22 +1893,22 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.onenote', 'MSGraphAPI_v1_onenot
 class MSGraphAPI_v1_onenote : MSGraphAPI_v1_entity {
 
     [object]Get_notebooks(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/notebooks")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/notebooks")
     }
     [object]Get_sections(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/sections")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/sections")
     }
     [object]Get_sectionGroups(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/sectionGroups")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/sectionGroups")
     }
     [object]Get_pages(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/pages")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/pages")
     }
     [object]Get_resources(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/resources")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/resources")
     }
     [object]Get_operations(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/operations")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/operations")
     }
 
 
@@ -1999,7 +1999,7 @@ class MSGraphAPI_v1_organization : MSGraphAPI_v1_directoryObject {
     [MSGraphAPI_v1_verifiedDomain[]] $verifiedDomains
     [MSGraphAPI_v1_mdmAuthority] $mobileDeviceManagementAuthority
     [object]Get_extensions(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/extensions")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/extensions")
     }
     [object]setMobileDeviceManagementAuthority(){
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'setMobileDeviceManagementAuthority')
@@ -2086,91 +2086,91 @@ class MSGraphAPI_v1_user : MSGraphAPI_v1_directoryObject {
     [string[]] $skills
     [Nullable[int]] $deviceEnrollmentLimit
     [object]Get_ownedDevices(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/ownedDevices")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/ownedDevices")
     }
     [object]Get_registeredDevices(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/registeredDevices")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/registeredDevices")
     }
     [object]Get_manager(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/manager")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/manager")
     }
     [object]Get_directReports(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/directReports")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/directReports")
     }
     [object]Get_memberOf(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/memberOf")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/memberOf")
     }
     [object]Get_createdObjects(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/createdObjects")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/createdObjects")
     }
     [object]Get_ownedObjects(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/ownedObjects")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/ownedObjects")
     }
     [object]Get_licenseDetails(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/licenseDetails")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/licenseDetails")
     }
     [object]Get_extensions(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/extensions")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/extensions")
     }
     [object]Get_messages(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/messages")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/messages")
     }
     [object]Get_mailFolders(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/mailFolders")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/mailFolders")
     }
     [object]Get_calendar(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/calendar")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/calendar")
     }
     [object]Get_calendars(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/calendars")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/calendars")
     }
     [object]Get_calendarGroups(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/calendarGroups")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/calendarGroups")
     }
     [object]Get_calendarView(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/calendarView")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/calendarView")
     }
     [object]Get_events(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/events")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/events")
     }
     [object]Get_people(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/people")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/people")
     }
     [object]Get_contacts(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/contacts")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/contacts")
     }
     [object]Get_contactFolders(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/contactFolders")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/contactFolders")
     }
     [object]Get_inferenceClassification(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/inferenceClassification")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/inferenceClassification")
     }
     [object]Get_photo(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/photo")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/photo")
     }
     [object]Get_photos(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/photos")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/photos")
     }
     [object]Get_drive(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/drive")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/drive")
     }
     [object]Get_drives(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/drives")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/drives")
     }
     [object]Get_planner(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/planner")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/planner")
     }
     [object]Get_onenote(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/onenote")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/onenote")
     }
     [object]Get_managedDevices(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/managedDevices")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/managedDevices")
     }
     [object]Get_managedAppRegistrations(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/managedAppRegistrations")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/managedAppRegistrations")
     }
     [object]Get_deviceManagementTroubleshootingEvents(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceManagementTroubleshootingEvents")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceManagementTroubleshootingEvents")
     }
     [object]assignLicense([MSGraphAPI_v1_assignedLicense[]]$addLicenses,[Nullable[Guid][]]$removeLicenses){
         $ParamHash = @{
@@ -2312,16 +2312,16 @@ class MSGraphAPI_v1_message : MSGraphAPI_v1_outlookItem {
     [string] $webLink
     [MSGraphAPI_v1_inferenceClassificationType] $inferenceClassification
     [object]Get_attachments(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/attachments")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/attachments")
     }
     [object]Get_extensions(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/extensions")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/extensions")
     }
     [object]Get_singleValueExtendedProperties(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/singleValueExtendedProperties")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/singleValueExtendedProperties")
     }
     [object]Get_multiValueExtendedProperties(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/multiValueExtendedProperties")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/multiValueExtendedProperties")
     }
     [object]copy([string]$DestinationId){
         $ParamHash = @{
@@ -2379,16 +2379,16 @@ class MSGraphAPI_v1_mailFolder : MSGraphAPI_v1_entity {
     [Nullable[int]] $unreadItemCount
     [Nullable[int]] $totalItemCount
     [object]Get_messages(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/messages")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/messages")
     }
     [object]Get_childFolders(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/childFolders")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/childFolders")
     }
     [object]Get_singleValueExtendedProperties(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/singleValueExtendedProperties")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/singleValueExtendedProperties")
     }
     [object]Get_multiValueExtendedProperties(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/multiValueExtendedProperties")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/multiValueExtendedProperties")
     }
     [object]copy([string]$DestinationId){
         $ParamHash = @{
@@ -2413,7 +2413,7 @@ class MSGraphAPI_v1_calendarGroup : MSGraphAPI_v1_entity {
     [Nullable[Guid]] $classId
     [string] $changeKey
     [object]Get_calendars(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/calendars")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/calendars")
     }
 
 
@@ -2485,16 +2485,16 @@ class MSGraphAPI_v1_contact : MSGraphAPI_v1_outlookItem {
     [string] $personalNotes
     [string[]] $children
     [object]Get_extensions(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/extensions")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/extensions")
     }
     [object]Get_singleValueExtendedProperties(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/singleValueExtendedProperties")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/singleValueExtendedProperties")
     }
     [object]Get_multiValueExtendedProperties(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/multiValueExtendedProperties")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/multiValueExtendedProperties")
     }
     [object]Get_photo(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/photo")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/photo")
     }
 
 
@@ -2507,16 +2507,16 @@ class MSGraphAPI_v1_contactFolder : MSGraphAPI_v1_entity {
     [string] $parentFolderId
     [string] $displayName
     [object]Get_contacts(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/contacts")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/contacts")
     }
     [object]Get_childFolders(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/childFolders")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/childFolders")
     }
     [object]Get_singleValueExtendedProperties(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/singleValueExtendedProperties")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/singleValueExtendedProperties")
     }
     [object]Get_multiValueExtendedProperties(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/multiValueExtendedProperties")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/multiValueExtendedProperties")
     }
 
 
@@ -2528,7 +2528,7 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.inferenceClassification', 'MSGr
 class MSGraphAPI_v1_inferenceClassification : MSGraphAPI_v1_entity {
 
     [object]Get_overrides(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/overrides")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/overrides")
     }
 
 
@@ -2540,10 +2540,10 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerUser', 'MSGraphAPI_v1_pl
 class MSGraphAPI_v1_plannerUser : MSGraphAPI_v1_entity {
 
     [object]Get_tasks(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/tasks")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/tasks")
     }
     [object]Get_plans(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/plans")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/plans")
     }
 
 
@@ -2599,13 +2599,13 @@ class MSGraphAPI_v1_managedDevice : MSGraphAPI_v1_entity {
     [string] $managedDeviceName
     [MSGraphAPI_v1_managedDevicePartnerReportedHealthState] $partnerReportedThreatState
     [object]Get_deviceConfigurationStates(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceConfigurationStates")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceConfigurationStates")
     }
     [object]Get_deviceCategory(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceCategory")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceCategory")
     }
     [object]Get_deviceCompliancePolicyStates(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceCompliancePolicyStates")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceCompliancePolicyStates")
     }
     [object]retire(){
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'retire')
@@ -2698,13 +2698,13 @@ class MSGraphAPI_v1_managedAppRegistration : MSGraphAPI_v1_entity {
     [MSGraphAPI_v1_mobileAppIdentifier] $appIdentifier
     [string] $version
     [object]Get_appliedPolicies(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/appliedPolicies")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/appliedPolicies")
     }
     [object]Get_intendedPolicies(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/intendedPolicies")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/intendedPolicies")
     }
     [object]Get_operations(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/operations")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/operations")
     }
 
 
@@ -2956,7 +2956,7 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.itemAttachment', 'MSGraphAPI_v1
 class MSGraphAPI_v1_itemAttachment : MSGraphAPI_v1_attachment {
 
     [object]Get_item(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/item")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/item")
     }
 
 
@@ -3015,7 +3015,7 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.eventMessage', 'MSGraphAPI_v1_e
 class MSGraphAPI_v1_eventMessage : MSGraphAPI_v1_message {
     [MSGraphAPI_v1_meetingMessageType] $meetingMessageType
     [object]Get_event(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/event")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/event")
     }
 
 
@@ -3054,19 +3054,19 @@ class MSGraphAPI_v1_post : MSGraphAPI_v1_outlookItem {
     [MSGraphAPI_v1_recipient[]] $newParticipants
     [string] $conversationId
     [object]Get_extensions(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/extensions")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/extensions")
     }
     [object]Get_inReplyTo(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/inReplyTo")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/inReplyTo")
     }
     [object]Get_attachments(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/attachments")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/attachments")
     }
     [object]Get_singleValueExtendedProperties(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/singleValueExtendedProperties")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/singleValueExtendedProperties")
     }
     [object]Get_multiValueExtendedProperties(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/multiValueExtendedProperties")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/multiValueExtendedProperties")
     }
     [object]forward([string]$Comment,[MSGraphAPI_v1_recipient[]]$ToRecipients){
         $ParamHash = @{
@@ -3313,7 +3313,7 @@ class MSGraphAPI_v1_contentType : MSGraphAPI_v1_entity {
     [Nullable[bool]] $readOnly
     [Nullable[bool]] $sealed
     [object]Get_columnLinks(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/columnLinks")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/columnLinks")
     }
 
 
@@ -3370,19 +3370,19 @@ class MSGraphAPI_v1_driveItem : MSGraphAPI_v1_baseItem {
     [MSGraphAPI_v1_video] $video
     [string] $webDavUrl
     [object]Get_children(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/children")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/children")
     }
     [object]Get_listItem(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/listItem")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/listItem")
     }
     [object]Get_permissions(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/permissions")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/permissions")
     }
     [object]Get_thumbnails(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/thumbnails")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/thumbnails")
     }
     [object]Get_workbook(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/workbook")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/workbook")
     }
     [object]copy([string]$name,[MSGraphAPI_v1_itemReference]$parentReference){
         $ParamHash = @{
@@ -3440,16 +3440,16 @@ class MSGraphAPI_v1_list : MSGraphAPI_v1_baseItem {
     [MSGraphAPI_v1_sharepointIds] $sharepointIds
     [MSGraphAPI_v1_systemFacet] $system
     [object]Get_columns(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/columns")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/columns")
     }
     [object]Get_contentTypes(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/contentTypes")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/contentTypes")
     }
     [object]Get_drive(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/drive")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/drive")
     }
     [object]Get_items(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/items")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/items")
     }
 
 
@@ -3643,10 +3643,10 @@ class MSGraphAPI_v1_listItem : MSGraphAPI_v1_baseItem {
     [MSGraphAPI_v1_contentTypeInfo] $contentType
     [MSGraphAPI_v1_sharepointIds] $sharepointIds
     [object]Get_driveItem(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/driveItem")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/driveItem")
     }
     [object]Get_fields(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/fields")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/fields")
     }
 
 
@@ -3686,19 +3686,19 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbook', 'MSGraphAPI_v1_workb
 class MSGraphAPI_v1_workbook : MSGraphAPI_v1_entity {
 
     [object]Get_application(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/application")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/application")
     }
     [object]Get_names(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/names")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/names")
     }
     [object]Get_tables(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/tables")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/tables")
     }
     [object]Get_worksheets(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/worksheets")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/worksheets")
     }
     [object]Get_functions(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/functions")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/functions")
     }
 
 
@@ -3756,22 +3756,22 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.sharedDriveItem', 'MSGraphAPI_v
 class MSGraphAPI_v1_sharedDriveItem : MSGraphAPI_v1_baseItem {
     [MSGraphAPI_v1_identitySet] $owner
     [object]Get_driveItem(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/driveItem")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/driveItem")
     }
     [object]Get_items(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/items")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/items")
     }
     [object]Get_list(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/list")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/list")
     }
     [object]Get_listItem(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/listItem")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/listItem")
     }
     [object]Get_root(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/root")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/root")
     }
     [object]Get_site(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/site")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/site")
     }
 
 
@@ -3843,7 +3843,7 @@ class MSGraphAPI_v1_workbookNamedItem : MSGraphAPI_v1_entity {
     [MSGraphAPI_v1_Json] $value
     [Nullable[bool]] $visible
     [object]Get_worksheet(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/worksheet")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/worksheet")
     }
 
 
@@ -3863,16 +3863,16 @@ class MSGraphAPI_v1_workbookTable : MSGraphAPI_v1_entity {
     [Nullable[bool]] $showTotals
     [string] $style
     [object]Get_columns(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/columns")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/columns")
     }
     [object]Get_rows(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/rows")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/rows")
     }
     [object]Get_sort(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/sort")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/sort")
     }
     [object]Get_worksheet(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/worksheet")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/worksheet")
     }
 
 
@@ -3886,19 +3886,19 @@ class MSGraphAPI_v1_workbookWorksheet : MSGraphAPI_v1_entity {
     [Nullable[int]] $position
     [string] $visibility
     [object]Get_charts(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/charts")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/charts")
     }
     [object]Get_names(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/names")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/names")
     }
     [object]Get_pivotTables(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/pivotTables")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/pivotTables")
     }
     [object]Get_protection(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/protection")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/protection")
     }
     [object]Get_tables(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/tables")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/tables")
     }
 
 
@@ -3939,25 +3939,25 @@ class MSGraphAPI_v1_workbookChart : MSGraphAPI_v1_entity {
     [Nullable[Double]] $top
     [Nullable[Double]] $width
     [object]Get_axes(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/axes")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/axes")
     }
     [object]Get_dataLabels(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/dataLabels")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/dataLabels")
     }
     [object]Get_format(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/format")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/format")
     }
     [object]Get_legend(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/legend")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/legend")
     }
     [object]Get_series(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/series")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/series")
     }
     [object]Get_title(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/title")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/title")
     }
     [object]Get_worksheet(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/worksheet")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/worksheet")
     }
 
 
@@ -3969,13 +3969,13 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartAxes', 'MSGraphAPI
 class MSGraphAPI_v1_workbookChartAxes : MSGraphAPI_v1_entity {
 
     [object]Get_categoryAxis(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/categoryAxis")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/categoryAxis")
     }
     [object]Get_seriesAxis(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/seriesAxis")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/seriesAxis")
     }
     [object]Get_valueAxis(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/valueAxis")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/valueAxis")
     }
 
 
@@ -3994,7 +3994,7 @@ class MSGraphAPI_v1_workbookChartDataLabels : MSGraphAPI_v1_entity {
     [Nullable[bool]] $showSeriesName
     [Nullable[bool]] $showValue
     [object]Get_format(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/format")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/format")
     }
 
 
@@ -4006,10 +4006,10 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartAreaFormat', 'MSGr
 class MSGraphAPI_v1_workbookChartAreaFormat : MSGraphAPI_v1_entity {
 
     [object]Get_fill(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/fill")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/fill")
     }
     [object]Get_font(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/font")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/font")
     }
 
 
@@ -4023,7 +4023,7 @@ class MSGraphAPI_v1_workbookChartLegend : MSGraphAPI_v1_entity {
     [string] $position
     [Nullable[bool]] $visible
     [object]Get_format(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/format")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/format")
     }
 
 
@@ -4035,10 +4035,10 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartSeries', 'MSGraphA
 class MSGraphAPI_v1_workbookChartSeries : MSGraphAPI_v1_entity {
     [string] $name
     [object]Get_format(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/format")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/format")
     }
     [object]Get_points(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/points")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/points")
     }
 
 
@@ -4052,7 +4052,7 @@ class MSGraphAPI_v1_workbookChartTitle : MSGraphAPI_v1_entity {
     [string] $text
     [Nullable[bool]] $visible
     [object]Get_format(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/format")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/format")
     }
 
 
@@ -4092,16 +4092,16 @@ class MSGraphAPI_v1_workbookChartAxis : MSGraphAPI_v1_entity {
     [MSGraphAPI_v1_Json] $minimum
     [MSGraphAPI_v1_Json] $minorUnit
     [object]Get_format(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/format")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/format")
     }
     [object]Get_majorGridlines(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/majorGridlines")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/majorGridlines")
     }
     [object]Get_minorGridlines(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/minorGridlines")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/minorGridlines")
     }
     [object]Get_title(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/title")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/title")
     }
 
 
@@ -4113,10 +4113,10 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartAxisFormat', 'MSGr
 class MSGraphAPI_v1_workbookChartAxisFormat : MSGraphAPI_v1_entity {
 
     [object]Get_font(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/font")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/font")
     }
     [object]Get_line(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/line")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/line")
     }
 
 
@@ -4128,7 +4128,7 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartGridlines', 'MSGra
 class MSGraphAPI_v1_workbookChartGridlines : MSGraphAPI_v1_entity {
     [Nullable[bool]] $visible
     [object]Get_format(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/format")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/format")
     }
 
 
@@ -4141,7 +4141,7 @@ class MSGraphAPI_v1_workbookChartAxisTitle : MSGraphAPI_v1_entity {
     [string] $text
     [Nullable[bool]] $visible
     [object]Get_format(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/format")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/format")
     }
 
 
@@ -4163,7 +4163,7 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartAxisTitleFormat', 
 class MSGraphAPI_v1_workbookChartAxisTitleFormat : MSGraphAPI_v1_entity {
 
     [object]Get_font(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/font")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/font")
     }
 
 
@@ -4175,10 +4175,10 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartDataLabelFormat', 
 class MSGraphAPI_v1_workbookChartDataLabelFormat : MSGraphAPI_v1_entity {
 
     [object]Get_fill(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/fill")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/fill")
     }
     [object]Get_font(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/font")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/font")
     }
 
 
@@ -4190,7 +4190,7 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartGridlinesFormat', 
 class MSGraphAPI_v1_workbookChartGridlinesFormat : MSGraphAPI_v1_entity {
 
     [object]Get_line(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/line")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/line")
     }
 
 
@@ -4202,10 +4202,10 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartLegendFormat', 'MS
 class MSGraphAPI_v1_workbookChartLegendFormat : MSGraphAPI_v1_entity {
 
     [object]Get_fill(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/fill")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/fill")
     }
     [object]Get_font(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/font")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/font")
     }
 
 
@@ -4217,7 +4217,7 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartPoint', 'MSGraphAP
 class MSGraphAPI_v1_workbookChartPoint : MSGraphAPI_v1_entity {
     [MSGraphAPI_v1_Json] $value
     [object]Get_format(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/format")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/format")
     }
 
 
@@ -4229,7 +4229,7 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartPointFormat', 'MSG
 class MSGraphAPI_v1_workbookChartPointFormat : MSGraphAPI_v1_entity {
 
     [object]Get_fill(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/fill")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/fill")
     }
 
 
@@ -4241,10 +4241,10 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartSeriesFormat', 'MS
 class MSGraphAPI_v1_workbookChartSeriesFormat : MSGraphAPI_v1_entity {
 
     [object]Get_fill(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/fill")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/fill")
     }
     [object]Get_line(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/line")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/line")
     }
 
 
@@ -4256,10 +4256,10 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartTitleFormat', 'MSG
 class MSGraphAPI_v1_workbookChartTitleFormat : MSGraphAPI_v1_entity {
 
     [object]Get_fill(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/fill")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/fill")
     }
     [object]Get_font(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/font")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/font")
     }
 
 
@@ -4325,7 +4325,7 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookPivotTable', 'MSGraphAP
 class MSGraphAPI_v1_workbookPivotTable : MSGraphAPI_v1_entity {
     [string] $name
     [object]Get_worksheet(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/worksheet")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/worksheet")
     }
 
 
@@ -4353,13 +4353,13 @@ class MSGraphAPI_v1_workbookRange : MSGraphAPI_v1_entity {
     [MSGraphAPI_v1_Json] $valueTypes
     [MSGraphAPI_v1_Json] $values
     [object]Get_format(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/format")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/format")
     }
     [object]Get_sort(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/sort")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/sort")
     }
     [object]Get_worksheet(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/worksheet")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/worksheet")
     }
 
 
@@ -4375,16 +4375,16 @@ class MSGraphAPI_v1_workbookRangeFormat : MSGraphAPI_v1_entity {
     [string] $verticalAlignment
     [Nullable[bool]] $wrapText
     [object]Get_borders(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/borders")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/borders")
     }
     [object]Get_fill(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/fill")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/fill")
     }
     [object]Get_font(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/font")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/font")
     }
     [object]Get_protection(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/protection")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/protection")
     }
 
 
@@ -4454,7 +4454,7 @@ class MSGraphAPI_v1_workbookRangeView : MSGraphAPI_v1_entity {
     [MSGraphAPI_v1_Json] $valueTypes
     [MSGraphAPI_v1_Json] $values
     [object]Get_rows(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/rows")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/rows")
     }
 
 
@@ -4468,7 +4468,7 @@ class MSGraphAPI_v1_workbookTableColumn : MSGraphAPI_v1_entity {
     [string] $name
     [MSGraphAPI_v1_Json] $values
     [object]Get_filter(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/filter")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/filter")
     }
 
 
@@ -4579,7 +4579,7 @@ class MSGraphAPI_v1_invitation : MSGraphAPI_v1_entity {
     [string] $inviteRedeemUrl
     [string] $status
     [object]Get_invitedUser(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/invitedUser")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/invitedUser")
     }
 
 
@@ -4619,16 +4619,16 @@ class MSGraphAPI_v1_plannerTask : MSGraphAPI_v1_entity {
     [MSGraphAPI_v1_plannerAssignments] $assignments
     [string] $conversationThreadId
     [object]Get_details(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/details")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/details")
     }
     [object]Get_assignedToTaskBoardFormat(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/assignedToTaskBoardFormat")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/assignedToTaskBoardFormat")
     }
     [object]Get_progressTaskBoardFormat(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/progressTaskBoardFormat")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/progressTaskBoardFormat")
     }
     [object]Get_bucketTaskBoardFormat(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/bucketTaskBoardFormat")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/bucketTaskBoardFormat")
     }
 
 
@@ -4643,13 +4643,13 @@ class MSGraphAPI_v1_plannerPlan : MSGraphAPI_v1_entity {
     [string] $owner
     [string] $title
     [object]Get_tasks(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/tasks")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/tasks")
     }
     [object]Get_buckets(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/buckets")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/buckets")
     }
     [object]Get_details(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/details")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/details")
     }
 
 
@@ -4661,13 +4661,13 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.planner', 'MSGraphAPI_v1_planne
 class MSGraphAPI_v1_planner : MSGraphAPI_v1_entity {
 
     [object]Get_tasks(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/tasks")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/tasks")
     }
     [object]Get_plans(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/plans")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/plans")
     }
     [object]Get_buckets(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/buckets")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/buckets")
     }
 
 
@@ -4681,7 +4681,7 @@ class MSGraphAPI_v1_plannerBucket : MSGraphAPI_v1_entity {
     [string] $planId
     [string] $orderHint
     [object]Get_tasks(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/tasks")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/tasks")
     }
 
 
@@ -4871,10 +4871,10 @@ class MSGraphAPI_v1_notebook : MSGraphAPI_v1_onenoteEntityHierarchyModel {
     [string] $sectionGroupsUrl
     [MSGraphAPI_v1_notebookLinks] $links
     [object]Get_sections(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/sections")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/sections")
     }
     [object]Get_sectionGroups(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/sectionGroups")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/sectionGroups")
     }
     [object]copyNotebook([string]$siteCollectionId,[string]$siteId,[string]$groupId,[string]$renameAs,[string]$notebookFolder){
         $ParamHash = @{
@@ -4897,13 +4897,13 @@ class MSGraphAPI_v1_onenoteSection : MSGraphAPI_v1_onenoteEntityHierarchyModel {
     [MSGraphAPI_v1_sectionLinks] $links
     [string] $pagesUrl
     [object]Get_parentNotebook(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/parentNotebook")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/parentNotebook")
     }
     [object]Get_parentSectionGroup(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/parentSectionGroup")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/parentSectionGroup")
     }
     [object]Get_pages(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/pages")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/pages")
     }
     [object]copyToNotebook([string]$id,[string]$siteCollectionId,[string]$siteId,[string]$groupId,[string]$renameAs){
         $ParamHash = @{
@@ -4935,16 +4935,16 @@ class MSGraphAPI_v1_sectionGroup : MSGraphAPI_v1_onenoteEntityHierarchyModel {
     [string] $sectionsUrl
     [string] $sectionGroupsUrl
     [object]Get_parentNotebook(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/parentNotebook")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/parentNotebook")
     }
     [object]Get_parentSectionGroup(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/parentSectionGroup")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/parentSectionGroup")
     }
     [object]Get_sections(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/sections")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/sections")
     }
     [object]Get_sectionGroups(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/sectionGroups")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/sectionGroups")
     }
 
 
@@ -4964,10 +4964,10 @@ class MSGraphAPI_v1_onenotePage : MSGraphAPI_v1_onenoteEntitySchemaObjectModel {
     [Nullable[int]] $order
     [string[]] $userTags
     [object]Get_parentSection(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/parentSection")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/parentSection")
     }
     [object]Get_parentNotebook(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/parentNotebook")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/parentNotebook")
     }
     [object]onenotePatchContent([MSGraphAPI_v1_onenotePatchContentCommand[]]$commands){
         $ParamHash = @{
@@ -5594,16 +5594,16 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.educationRoot', 'MSGraphAPI_v1_
 class MSGraphAPI_v1_educationRoot : MSGraphAPI_v1_entity {
 
     [object]Get_classes(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/classes")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/classes")
     }
     [object]Get_schools(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/schools")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/schools")
     }
     [object]Get_users(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/users")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/users")
     }
     [object]Get_me(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/me")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/me")
     }
 
 
@@ -5623,16 +5623,16 @@ class MSGraphAPI_v1_educationClass : MSGraphAPI_v1_entity {
     [MSGraphAPI_v1_educationExternalSource] $externalSource
     [MSGraphAPI_v1_educationTerm] $term
     [object]Get_schools(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/schools")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/schools")
     }
     [object]Get_members(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/members")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/members")
     }
     [object]Get_teachers(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/teachers")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/teachers")
     }
     [object]Get_group(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/group")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/group")
     }
     [object]renew(){
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'renew')
@@ -5668,13 +5668,13 @@ class MSGraphAPI_v1_educationSchool : MSGraphAPI_v1_educationOrganization {
     [MSGraphAPI_v1_identitySet] $createdBy
     [MSGraphAPI_v1_physicalAddress] $address
     [object]Get_classes(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/classes")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/classes")
     }
     [object]Get_users(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/users")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/users")
     }
     [object]Get_administrativeUnit(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/administrativeUnit")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/administrativeUnit")
     }
 
 
@@ -5715,13 +5715,13 @@ class MSGraphAPI_v1_educationUser : MSGraphAPI_v1_entity {
     [string] $userPrincipalName
     [string] $userType
     [object]Get_schools(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/schools")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/schools")
     }
     [object]Get_classes(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/classes")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/classes")
     }
     [object]Get_user(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/user")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/user")
     }
 
 
@@ -5778,43 +5778,43 @@ class MSGraphAPI_v1_deviceAppManagement : MSGraphAPI_v1_entity {
     [string] $microsoftStoreForBusinessLanguage
     [Nullable[DateTimeOffset]] $microsoftStoreForBusinessLastCompletedApplicationSyncTime
     [object]Get_mobileApps(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/mobileApps")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/mobileApps")
     }
     [object]Get_mobileAppCategories(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/mobileAppCategories")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/mobileAppCategories")
     }
     [object]Get_mobileAppConfigurations(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/mobileAppConfigurations")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/mobileAppConfigurations")
     }
     [object]Get_managedAppPolicies(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/managedAppPolicies")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/managedAppPolicies")
     }
     [object]Get_iosManagedAppProtections(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/iosManagedAppProtections")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/iosManagedAppProtections")
     }
     [object]Get_androidManagedAppProtections(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/androidManagedAppProtections")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/androidManagedAppProtections")
     }
     [object]Get_defaultManagedAppProtections(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/defaultManagedAppProtections")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/defaultManagedAppProtections")
     }
     [object]Get_targetedManagedAppConfigurations(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/targetedManagedAppConfigurations")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/targetedManagedAppConfigurations")
     }
     [object]Get_mdmWindowsInformationProtectionPolicies(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/mdmWindowsInformationProtectionPolicies")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/mdmWindowsInformationProtectionPolicies")
     }
     [object]Get_windowsInformationProtectionPolicies(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/windowsInformationProtectionPolicies")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/windowsInformationProtectionPolicies")
     }
     [object]Get_managedAppRegistrations(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/managedAppRegistrations")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/managedAppRegistrations")
     }
     [object]Get_managedAppStatuses(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/managedAppStatuses")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/managedAppStatuses")
     }
     [object]Get_managedEBooks(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/managedEBooks")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/managedEBooks")
     }
     [object]syncMicrosoftStoreForBusinessApps(){
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'syncMicrosoftStoreForBusinessApps')
@@ -5840,10 +5840,10 @@ class MSGraphAPI_v1_mobileApp : MSGraphAPI_v1_entity {
     [string] $notes
     [MSGraphAPI_v1_mobileAppPublishingState] $publishingState
     [object]Get_categories(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/categories")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/categories")
     }
     [object]Get_assignments(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/assignments")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/assignments")
     }
     [object]assign([MSGraphAPI_v1_mobileAppAssignment[]]$mobileAppAssignments){
         $ParamHash = @{
@@ -5876,16 +5876,16 @@ class MSGraphAPI_v1_managedDeviceMobileAppConfiguration : MSGraphAPI_v1_entity {
     [string] $displayName
     [Nullable[int]] $version
     [object]Get_assignments(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/assignments")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/assignments")
     }
     [object]Get_userStatuses(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/userStatuses")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/userStatuses")
     }
     [object]Get_deviceStatusSummary(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceStatusSummary")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceStatusSummary")
     }
     [object]Get_userStatusSummary(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/userStatusSummary")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/userStatusSummary")
     }
 
 
@@ -5956,7 +5956,7 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.targetedManagedAppProtection', 
 class MSGraphAPI_v1_targetedManagedAppProtection : MSGraphAPI_v1_managedAppProtection {
     [Nullable[bool]] $isAssigned
     [object]Get_assignments(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/assignments")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/assignments")
     }
     [object]assign([MSGraphAPI_v1_targetedManagedAppPolicyAssignment[]]$assignments){
         $ParamHash = @{
@@ -5976,10 +5976,10 @@ class MSGraphAPI_v1_iosManagedAppProtection : MSGraphAPI_v1_targetedManagedAppPr
     [Nullable[int]] $deployedAppCount
     [Nullable[bool]] $faceIdBlocked
     [object]Get_apps(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/apps")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/apps")
     }
     [object]Get_deploymentSummary(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deploymentSummary")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deploymentSummary")
     }
 
 
@@ -5996,10 +5996,10 @@ class MSGraphAPI_v1_androidManagedAppProtection : MSGraphAPI_v1_targetedManagedA
     [string] $minimumRequiredPatchVersion
     [string] $minimumWarningPatchVersion
     [object]Get_apps(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/apps")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/apps")
     }
     [object]Get_deploymentSummary(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deploymentSummary")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deploymentSummary")
     }
 
 
@@ -6020,10 +6020,10 @@ class MSGraphAPI_v1_defaultManagedAppProtection : MSGraphAPI_v1_managedAppProtec
     [string] $minimumWarningPatchVersion
     [Nullable[bool]] $faceIdBlocked
     [object]Get_apps(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/apps")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/apps")
     }
     [object]Get_deploymentSummary(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deploymentSummary")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deploymentSummary")
     }
 
 
@@ -6046,13 +6046,13 @@ class MSGraphAPI_v1_targetedManagedAppConfiguration : MSGraphAPI_v1_managedAppCo
     [Nullable[int]] $deployedAppCount
     [Nullable[bool]] $isAssigned
     [object]Get_apps(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/apps")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/apps")
     }
     [object]Get_deploymentSummary(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deploymentSummary")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deploymentSummary")
     }
     [object]Get_assignments(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/assignments")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/assignments")
     }
     [object]assign([MSGraphAPI_v1_targetedManagedAppPolicyAssignment[]]$assignments){
         $ParamHash = @{
@@ -6096,13 +6096,13 @@ class MSGraphAPI_v1_windowsInformationProtection : MSGraphAPI_v1_managedAppPolic
     [MSGraphAPI_v1_windowsInformationProtectionResourceCollection[]] $smbAutoEncryptedFileExtensions
     [Nullable[bool]] $isAssigned
     [object]Get_protectedAppLockerFiles(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/protectedAppLockerFiles")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/protectedAppLockerFiles")
     }
     [object]Get_exemptAppLockerFiles(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/exemptAppLockerFiles")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/exemptAppLockerFiles")
     }
     [object]Get_assignments(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/assignments")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/assignments")
     }
     [object]assign([MSGraphAPI_v1_targetedManagedAppPolicyAssignment[]]$assignments){
         $ParamHash = @{
@@ -6169,16 +6169,16 @@ class MSGraphAPI_v1_managedEBook : MSGraphAPI_v1_entity {
     [string] $informationUrl
     [string] $privacyInformationUrl
     [object]Get_assignments(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/assignments")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/assignments")
     }
     [object]Get_installSummary(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/installSummary")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/installSummary")
     }
     [object]Get_deviceStates(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceStates")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceStates")
     }
     [object]Get_userStateSummary(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/userStateSummary")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/userStateSummary")
     }
     [object]assign([MSGraphAPI_v1_managedEBookAssignment[]]$managedEBookAssignments){
         $ParamHash = @{
@@ -6405,7 +6405,7 @@ class MSGraphAPI_v1_managedMobileLobApp : MSGraphAPI_v1_managedApp {
     [string] $fileName
     [Nullable[int64]] $size
     [object]Get_contentVersions(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/contentVersions")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/contentVersions")
     }
 
 
@@ -6417,7 +6417,7 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileAppContent', 'MSGraphAPI_
 class MSGraphAPI_v1_mobileAppContent : MSGraphAPI_v1_entity {
 
     [object]Get_files(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/files")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/files")
     }
 
 
@@ -6459,7 +6459,7 @@ class MSGraphAPI_v1_mobileLobApp : MSGraphAPI_v1_mobileApp {
     [string] $fileName
     [Nullable[int64]] $size
     [object]Get_contentVersions(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/contentVersions")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/contentVersions")
     }
 
 
@@ -6673,85 +6673,85 @@ class MSGraphAPI_v1_deviceManagement : MSGraphAPI_v1_entity {
     [MSGraphAPI_v1_deviceManagementSettings] $settings
     [MSGraphAPI_v1_intuneBrand] $intuneBrand
     [object]Get_termsAndConditions(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/termsAndConditions")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/termsAndConditions")
     }
     [object]Get_applePushNotificationCertificate(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/applePushNotificationCertificate")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/applePushNotificationCertificate")
     }
     [object]Get_managedDeviceOverview(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/managedDeviceOverview")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/managedDeviceOverview")
     }
     [object]Get_detectedApps(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/detectedApps")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/detectedApps")
     }
     [object]Get_managedDevices(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/managedDevices")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/managedDevices")
     }
     [object]Get_deviceConfigurations(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceConfigurations")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceConfigurations")
     }
     [object]Get_deviceCompliancePolicies(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceCompliancePolicies")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceCompliancePolicies")
     }
     [object]Get_softwareUpdateStatusSummary(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/softwareUpdateStatusSummary")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/softwareUpdateStatusSummary")
     }
     [object]Get_deviceCompliancePolicyDeviceStateSummary(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceCompliancePolicyDeviceStateSummary")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceCompliancePolicyDeviceStateSummary")
     }
     [object]Get_deviceCompliancePolicySettingStateSummaries(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceCompliancePolicySettingStateSummaries")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceCompliancePolicySettingStateSummaries")
     }
     [object]Get_deviceConfigurationDeviceStateSummaries(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceConfigurationDeviceStateSummaries")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceConfigurationDeviceStateSummaries")
     }
     [object]Get_iosUpdateStatuses(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/iosUpdateStatuses")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/iosUpdateStatuses")
     }
     [object]Get_deviceCategories(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceCategories")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceCategories")
     }
     [object]Get_exchangeConnectors(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/exchangeConnectors")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/exchangeConnectors")
     }
     [object]Get_deviceEnrollmentConfigurations(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceEnrollmentConfigurations")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceEnrollmentConfigurations")
     }
     [object]Get_conditionalAccessSettings(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/conditionalAccessSettings")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/conditionalAccessSettings")
     }
     [object]Get_mobileThreatDefenseConnectors(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/mobileThreatDefenseConnectors")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/mobileThreatDefenseConnectors")
     }
     [object]Get_deviceManagementPartners(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceManagementPartners")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceManagementPartners")
     }
     [object]Get_notificationMessageTemplates(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/notificationMessageTemplates")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/notificationMessageTemplates")
     }
     [object]Get_roleDefinitions(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/roleDefinitions")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/roleDefinitions")
     }
     [object]Get_roleAssignments(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/roleAssignments")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/roleAssignments")
     }
     [object]Get_resourceOperations(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/resourceOperations")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/resourceOperations")
     }
     [object]Get_telecomExpenseManagementPartners(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/telecomExpenseManagementPartners")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/telecomExpenseManagementPartners")
     }
     [object]Get_remoteAssistancePartners(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/remoteAssistancePartners")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/remoteAssistancePartners")
     }
     [object]Get_windowsInformationProtectionAppLearningSummaries(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/windowsInformationProtectionAppLearningSummaries")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/windowsInformationProtectionAppLearningSummaries")
     }
     [object]Get_windowsInformationProtectionNetworkLearningSummaries(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/windowsInformationProtectionNetworkLearningSummaries")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/windowsInformationProtectionNetworkLearningSummaries")
     }
     [object]Get_troubleshootingEvents(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/troubleshootingEvents")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/troubleshootingEvents")
     }
 
     [object]verifyWindowsEnrollmentAutoDiscovery([string]$domainName){
@@ -6781,10 +6781,10 @@ class MSGraphAPI_v1_termsAndConditions : MSGraphAPI_v1_entity {
     [string] $acceptanceStatement
     [Nullable[int]] $version
     [object]Get_assignments(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/assignments")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/assignments")
     }
     [object]Get_acceptanceStatuses(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/acceptanceStatuses")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/acceptanceStatuses")
     }
 
 
@@ -6829,7 +6829,7 @@ class MSGraphAPI_v1_detectedApp : MSGraphAPI_v1_entity {
     [Nullable[int64]] $sizeInByte
     [Nullable[int]] $deviceCount
     [object]Get_managedDevices(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/managedDevices")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/managedDevices")
     }
 
 
@@ -6854,22 +6854,22 @@ class MSGraphAPI_v1_deviceConfiguration : MSGraphAPI_v1_entity {
     [string] $displayName
     [Nullable[int]] $version
     [object]Get_assignments(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/assignments")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/assignments")
     }
     [object]Get_deviceStatuses(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceStatuses")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceStatuses")
     }
     [object]Get_userStatuses(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/userStatuses")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/userStatuses")
     }
     [object]Get_deviceStatusOverview(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceStatusOverview")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceStatusOverview")
     }
     [object]Get_userStatusOverview(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/userStatusOverview")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/userStatusOverview")
     }
     [object]Get_deviceSettingStateSummaries(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceSettingStateSummaries")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceSettingStateSummaries")
     }
     [object]assign([MSGraphAPI_v1_deviceConfigurationAssignment[]]$assignments){
         $ParamHash = @{
@@ -6890,25 +6890,25 @@ class MSGraphAPI_v1_deviceCompliancePolicy : MSGraphAPI_v1_entity {
     [string] $displayName
     [Nullable[int]] $version
     [object]Get_scheduledActionsForRule(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/scheduledActionsForRule")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/scheduledActionsForRule")
     }
     [object]Get_deviceStatuses(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceStatuses")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceStatuses")
     }
     [object]Get_userStatuses(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/userStatuses")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/userStatuses")
     }
     [object]Get_deviceStatusOverview(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceStatusOverview")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceStatusOverview")
     }
     [object]Get_userStatusOverview(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/userStatusOverview")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/userStatusOverview")
     }
     [object]Get_deviceSettingStateSummaries(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceSettingStateSummaries")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceSettingStateSummaries")
     }
     [object]Get_assignments(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/assignments")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/assignments")
     }
     [object]assign([MSGraphAPI_v1_deviceCompliancePolicyAssignment[]]$assignments){
         $ParamHash = @{
@@ -6982,7 +6982,7 @@ class MSGraphAPI_v1_deviceCompliancePolicySettingStateSummary : MSGraphAPI_v1_en
     [Nullable[int]] $errorDeviceCount
     [Nullable[int]] $conflictDeviceCount
     [object]Get_deviceComplianceSettingStates(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceComplianceSettingStates")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceComplianceSettingStates")
     }
 
 
@@ -7097,7 +7097,7 @@ class MSGraphAPI_v1_deviceEnrollmentConfiguration : MSGraphAPI_v1_entity {
     [Nullable[DateTimeOffset]] $lastModifiedDateTime
     [Nullable[int]] $version
     [object]Get_assignments(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/assignments")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/assignments")
     }
     [object]setPriority([Nullable[int]]$priority){
         $ParamHash = @{
@@ -7170,7 +7170,7 @@ class MSGraphAPI_v1_notificationMessageTemplate : MSGraphAPI_v1_entity {
     [string] $defaultLocale
     [MSGraphAPI_v1_notificationTemplateBrandingOptions] $brandingOptions
     [object]Get_localizedNotificationMessages(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/localizedNotificationMessages")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/localizedNotificationMessages")
     }
     [object]sendTestMessage(){
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'sendTestMessage')
@@ -7187,7 +7187,7 @@ class MSGraphAPI_v1_roleDefinition : MSGraphAPI_v1_entity {
     [MSGraphAPI_v1_rolePermission[]] $rolePermissions
     [Nullable[bool]] $isBuiltIn
     [object]Get_roleAssignments(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/roleAssignments")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/roleAssignments")
     }
 
 
@@ -7201,7 +7201,7 @@ class MSGraphAPI_v1_roleAssignment : MSGraphAPI_v1_entity {
     [string] $description
     [string[]] $resourceScopes
     [object]Get_roleDefinition(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/roleDefinition")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/roleDefinition")
     }
 
 
@@ -7302,7 +7302,7 @@ class MSGraphAPI_v1_termsAndConditionsAcceptanceStatus : MSGraphAPI_v1_entity {
     [Nullable[int]] $acceptedVersion
     [Nullable[DateTimeOffset]] $acceptedDateTime
     [object]Get_termsAndConditions(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/termsAndConditions")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/termsAndConditions")
     }
 
 
@@ -7610,7 +7610,7 @@ $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceComplianceScheduledAction
 class MSGraphAPI_v1_deviceComplianceScheduledActionForRule : MSGraphAPI_v1_entity {
     [string] $ruleName
     [object]Get_scheduledActionConfigurations(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/scheduledActionConfigurations")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/scheduledActionConfigurations")
     }
 
 
@@ -9393,7 +9393,7 @@ class MSGraphAPI_v1_userInstallStateSummary : MSGraphAPI_v1_entity {
     [Nullable[int]] $failedDeviceCount
     [Nullable[int]] $notInstalledDeviceCount
     [object]Get_deviceStates(){
-        return (Invoke-GraphMethod -URI "$($this.GraphURL)/deviceStates")
+        return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceStates")
     }
 
 

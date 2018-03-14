@@ -2,5 +2,5 @@ $Script:MSGraphAPIClassHash = New-Object "System.Collections.Generic.Dictionary`
 
 Class MSGraphAPI_Base {
     [hashtable] $AdditionalProperties
-    [string] $GraphURL
+    hidden [string] $GraphPath
 }
