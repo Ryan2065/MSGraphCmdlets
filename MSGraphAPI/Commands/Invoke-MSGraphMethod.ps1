@@ -124,20 +124,21 @@ Function Invoke-MSGraphMethod {
     #refresh the token if it needs to be refreshed
     if(Test-MSGraphAPIConnection){
         $uri = "https://graph.microsoft.com/$($version)/$($query)?"
+        $BaseURI = $Query.TrimEnd('/')
         if(-not [string]::IsNullOrEmpty($Filter)) {
-            $uri = "$($uri)`$filter=$($Filter.replace(' ','%20').replace("'",'%27'))&"
+            $uri = "$($uri)`$filter=$([System.Web.HttpUtility]::UrlEncode($Filter))&"
         }
         if(-not [string]::IsNullOrEmpty($search)) {
-            $uri = "$($uri)`$search=`"$($search.replace(' ','%20').replace("'",'%27'))`"&"
+            $uri = "$($uri)`$search=`"$([System.Web.HttpUtility]::UrlEncode($search))`"&"
         }
         if(-not [string]::IsNullOrEmpty($select)) {
-            $uri = "$($uri)`$select=$($select.replace(' ','%20').replace("'",'%27'))&"
+            $uri = "$($uri)`$select=$([System.Web.HttpUtility]::UrlEncode($select))&"
         }
         if(-not [string]::IsNullOrEmpty($expand)) {
-            $uri = "$($uri)`$expand=$($expand.replace(' ','%20').replace("'",'%27'))&"
+            $uri = "$($uri)`$expand=$([System.Web.HttpUtility]::UrlEncode($expand))&"
         }
         if(-not [string]::IsNullOrEmpty($orderby)) {
-            $uri = "$($uri)`$orderby=$($orderby.replace(' ','%20').replace("'",'%27'))&"
+            $uri = "$($uri)`$orderby=$([System.Web.HttpUtility]::UrlEncode($orderby))&"
         }
         if(-not [string]::IsNullOrEmpty($top)){
             $uri = "$($uri)`$top=$($top)&"
@@ -146,7 +147,7 @@ Function Invoke-MSGraphMethod {
             $uri = "$($uri)`$skip=$($skip)&"
         }
         if(-not [string]::IsNullOrEmpty($skipToken)) {
-            $uri = "$($uri)`$skipToken=$($skip)&"
+            $uri = "$($uri)`$skipToken=$([System.Web.HttpUtility]::UrlEncode($skip))&"
         }
         if($count) {
             $uri = "$($uri)`$count=true&"
@@ -161,15 +162,15 @@ Function Invoke-MSGraphMethod {
         if(-not [string]::IsNullOrEmpty($ContentType)) {
             $RestParams['ContentType'] = $ContentType
         }
-        $Global:returned = Invoke-RestMethod -Uri $uri -Headers $Script:MSGraphAPISettings.AuthorizationHeader @RestParams
+        $returned = Invoke-RestMethod -Uri $uri -Headers $Script:MSGraphAPISettings.AuthorizationHeader @RestParams
         if(-not [string]::IsNullOrEmpty($returned.'@odata.nextLink')){
-            Get-GraphNextLink -NextLink $returned.'@odata.nextLink'
+            Get-GraphNextLink -NextLink $returned.'@odata.nextLink' -BaseURI $BaseURI
         }
         if($returned.Value) {
-            New-MSGraphClassMember -Context $returned.'@odata.context' -InputObject $returned.Value -Version $Version
+            New-MSGraphClassMember -Context $returned.'@odata.context' -InputObject $returned.Value -Version $Version -BaseURI $BaseURI
         }
         else {
-            New-MSGraphClassMember -Context $returned.'@odata.context' -InputObject $returned -Version $Version
+            New-MSGraphClassMember -Context $returned.'@odata.context' -InputObject $returned -Version $Version -BaseURI $BaseURI
         }
     }
 }
@@ -195,7 +196,8 @@ Function Get-GraphNextLink {
             Author: Ryan Ephgrave
     #>
     Param(
-        $NextLink
+        $NextLink,
+        [string]$BaseURI
     )
     if(Test-MSGraphAPIConnection){
         $returned = Invoke-RestMethod -Uri $NextLink -Headers $Script:MSGraphAPISettings.AuthorizationHeader
@@ -203,10 +205,10 @@ Function Get-GraphNextLink {
             Get-GraphNextLink -NextLink $returned.'@odata.nextLink'
         }
         if($returned.Value) {
-            New-MSGraphClassMember -Context $returned.'@odata.context' -InputObject $returned.Value -Version $Version
+            New-MSGraphClassMember -Context $returned.'@odata.context' -InputObject $returned.Value -Version $Version -BaseURI $BaseURI
         }
         else {
-            New-MSGraphClassMember -Context $returned.'@odata.context' -InputObject $returned -Version $Version
+            New-MSGraphClassMember -Context $returned.'@odata.context' -InputObject $returned -Version $Version -BaseURI $BaseURI
         }
     }
 }
