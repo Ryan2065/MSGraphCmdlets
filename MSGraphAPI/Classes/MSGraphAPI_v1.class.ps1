@@ -1,4 +1,41 @@
 ﻿$Script:MSGraphAPIClassHash = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
+$Script:MSGraphAPICreateArray = New-Object -TypeName System.Collections.ArrayList
+$Script:MSGraphAPIDeleteArray = New-Object -TypeName System.Collections.ArrayList
+$Script:MSGraphAPIUpdateArray = New-Object -TypeName System.Collections.ArrayList
+
+Function Start-MSGraphAPIAction {
+    Param (
+        [string]$BaseURI,
+        [string]$Action,
+        [Hashtable]$ParamHash
+    )
+    $InvokeHash = @{
+        'query' = "$($BaseURI)/$($Action)"
+        'method' = 'Post'
+    }
+    if($null -ne $ParamHash) {
+        $InvokeHash.Add('ContentType', 'application/json')
+        $InvokeHash.Add('body', ($ParamHash | ConvertTo-JSON -Depth 10) )
+    }
+    Invoke-MSGraphMethod @InvokeHash
+}
+
+Function Start-MSGraphAPIFunction {
+    Param (
+        [string]$BaseURI,
+        [string]$Function,
+        [Hashtable]$ParamHash
+    )
+    $InvokeHash = @{
+        'query' = "$($BaseURI)/$($Function)"
+        'method' = 'Get'
+    }
+    if($null -ne $ParamHash) {
+        $InvokeHash.Add('ContentType', 'application/json')
+        $InvokeHash.Add('body', ($ParamHash | ConvertTo-JSON -Depth 10) )
+    }
+    Invoke-MSGraphMethod @InvokeHash
+}
 
 Class MSGraphAPI_Base {
     [hashtable] $AdditionalProperties
@@ -1239,8 +1276,8 @@ Enum MSGraphAPI_v1_deviceEnrollmentFailureReason {
     clientDisconnected = 10
 }
 
-$Script:MSGraphAPIClassHash.Add('entity', 'MSGraphAPI_v1_entity')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.entity', 'MSGraphAPI_v1_entity')
+$null = $Script:MSGraphAPIClassHash.Add('entity', 'MSGraphAPI_v1_entity')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.entity', 'MSGraphAPI_v1_entity')
 
 
 class MSGraphAPI_v1_entity : MSGraphAPI_Base {
@@ -1249,8 +1286,8 @@ class MSGraphAPI_v1_entity : MSGraphAPI_Base {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('directoryObject', 'MSGraphAPI_v1_directoryObject')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.directoryObject', 'MSGraphAPI_v1_directoryObject')
+$null = $Script:MSGraphAPIClassHash.Add('directoryObject', 'MSGraphAPI_v1_directoryObject')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.directoryObject', 'MSGraphAPI_v1_directoryObject')
 
 
 class MSGraphAPI_v1_directoryObject : MSGraphAPI_v1_entity {
@@ -1276,8 +1313,8 @@ class MSGraphAPI_v1_directoryObject : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('device', 'MSGraphAPI_v1_device')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.device', 'MSGraphAPI_v1_device')
+$null = $Script:MSGraphAPIClassHash.Add('device', 'MSGraphAPI_v1_device')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.device', 'MSGraphAPI_v1_device')
 
 
 class MSGraphAPI_v1_device : MSGraphAPI_v1_directoryObject {
@@ -1308,8 +1345,8 @@ class MSGraphAPI_v1_device : MSGraphAPI_v1_directoryObject {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('alternativeSecurityId', 'MSGraphAPI_v1_alternativeSecurityId')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.alternativeSecurityId', 'MSGraphAPI_v1_alternativeSecurityId')
+$null = $Script:MSGraphAPIClassHash.Add('alternativeSecurityId', 'MSGraphAPI_v1_alternativeSecurityId')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.alternativeSecurityId', 'MSGraphAPI_v1_alternativeSecurityId')
 
 
 class MSGraphAPI_v1_alternativeSecurityId : MSGraphAPI_Base {
@@ -1317,8 +1354,8 @@ class MSGraphAPI_v1_alternativeSecurityId : MSGraphAPI_Base {
     [string] $identityProvider
     [object] $key
 }
-$Script:MSGraphAPIClassHash.Add('extension', 'MSGraphAPI_v1_extension')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.extension', 'MSGraphAPI_v1_extension')
+$null = $Script:MSGraphAPIClassHash.Add('extension', 'MSGraphAPI_v1_extension')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.extension', 'MSGraphAPI_v1_extension')
 
 
 class MSGraphAPI_v1_extension : MSGraphAPI_v1_entity {
@@ -1327,8 +1364,8 @@ class MSGraphAPI_v1_extension : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('directoryRole', 'MSGraphAPI_v1_directoryRole')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.directoryRole', 'MSGraphAPI_v1_directoryRole')
+$null = $Script:MSGraphAPIClassHash.Add('directoryRole', 'MSGraphAPI_v1_directoryRole')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.directoryRole', 'MSGraphAPI_v1_directoryRole')
 
 
 class MSGraphAPI_v1_directoryRole : MSGraphAPI_v1_directoryObject {
@@ -1341,8 +1378,8 @@ class MSGraphAPI_v1_directoryRole : MSGraphAPI_v1_directoryObject {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('directoryRoleTemplate', 'MSGraphAPI_v1_directoryRoleTemplate')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.directoryRoleTemplate', 'MSGraphAPI_v1_directoryRoleTemplate')
+$null = $Script:MSGraphAPIClassHash.Add('directoryRoleTemplate', 'MSGraphAPI_v1_directoryRoleTemplate')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.directoryRoleTemplate', 'MSGraphAPI_v1_directoryRoleTemplate')
 
 
 class MSGraphAPI_v1_directoryRoleTemplate : MSGraphAPI_v1_directoryObject {
@@ -1352,8 +1389,8 @@ class MSGraphAPI_v1_directoryRoleTemplate : MSGraphAPI_v1_directoryObject {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('domain', 'MSGraphAPI_v1_domain')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.domain', 'MSGraphAPI_v1_domain')
+$null = $Script:MSGraphAPIClassHash.Add('domain', 'MSGraphAPI_v1_domain')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.domain', 'MSGraphAPI_v1_domain')
 
 
 class MSGraphAPI_v1_domain : MSGraphAPI_v1_entity {
@@ -1380,8 +1417,8 @@ class MSGraphAPI_v1_domain : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('domainState', 'MSGraphAPI_v1_domainState')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.domainState', 'MSGraphAPI_v1_domainState')
+$null = $Script:MSGraphAPIClassHash.Add('domainState', 'MSGraphAPI_v1_domainState')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.domainState', 'MSGraphAPI_v1_domainState')
 
 
 class MSGraphAPI_v1_domainState : MSGraphAPI_Base {
@@ -1389,8 +1426,8 @@ class MSGraphAPI_v1_domainState : MSGraphAPI_Base {
     [string] $operation
     [Nullable[DateTimeOffset]] $lastActionDateTime
 }
-$Script:MSGraphAPIClassHash.Add('domainDnsRecord', 'MSGraphAPI_v1_domainDnsRecord')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.domainDnsRecord', 'MSGraphAPI_v1_domainDnsRecord')
+$null = $Script:MSGraphAPIClassHash.Add('domainDnsRecord', 'MSGraphAPI_v1_domainDnsRecord')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.domainDnsRecord', 'MSGraphAPI_v1_domainDnsRecord')
 
 
 class MSGraphAPI_v1_domainDnsRecord : MSGraphAPI_v1_entity {
@@ -1403,8 +1440,8 @@ class MSGraphAPI_v1_domainDnsRecord : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('domainDnsCnameRecord', 'MSGraphAPI_v1_domainDnsCnameRecord')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.domainDnsCnameRecord', 'MSGraphAPI_v1_domainDnsCnameRecord')
+$null = $Script:MSGraphAPIClassHash.Add('domainDnsCnameRecord', 'MSGraphAPI_v1_domainDnsCnameRecord')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.domainDnsCnameRecord', 'MSGraphAPI_v1_domainDnsCnameRecord')
 
 
 class MSGraphAPI_v1_domainDnsCnameRecord : MSGraphAPI_v1_domainDnsRecord {
@@ -1413,8 +1450,8 @@ class MSGraphAPI_v1_domainDnsCnameRecord : MSGraphAPI_v1_domainDnsRecord {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('domainDnsMxRecord', 'MSGraphAPI_v1_domainDnsMxRecord')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.domainDnsMxRecord', 'MSGraphAPI_v1_domainDnsMxRecord')
+$null = $Script:MSGraphAPIClassHash.Add('domainDnsMxRecord', 'MSGraphAPI_v1_domainDnsMxRecord')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.domainDnsMxRecord', 'MSGraphAPI_v1_domainDnsMxRecord')
 
 
 class MSGraphAPI_v1_domainDnsMxRecord : MSGraphAPI_v1_domainDnsRecord {
@@ -1424,8 +1461,8 @@ class MSGraphAPI_v1_domainDnsMxRecord : MSGraphAPI_v1_domainDnsRecord {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('domainDnsSrvRecord', 'MSGraphAPI_v1_domainDnsSrvRecord')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.domainDnsSrvRecord', 'MSGraphAPI_v1_domainDnsSrvRecord')
+$null = $Script:MSGraphAPIClassHash.Add('domainDnsSrvRecord', 'MSGraphAPI_v1_domainDnsSrvRecord')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.domainDnsSrvRecord', 'MSGraphAPI_v1_domainDnsSrvRecord')
 
 
 class MSGraphAPI_v1_domainDnsSrvRecord : MSGraphAPI_v1_domainDnsRecord {
@@ -1439,8 +1476,8 @@ class MSGraphAPI_v1_domainDnsSrvRecord : MSGraphAPI_v1_domainDnsRecord {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('domainDnsTxtRecord', 'MSGraphAPI_v1_domainDnsTxtRecord')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.domainDnsTxtRecord', 'MSGraphAPI_v1_domainDnsTxtRecord')
+$null = $Script:MSGraphAPIClassHash.Add('domainDnsTxtRecord', 'MSGraphAPI_v1_domainDnsTxtRecord')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.domainDnsTxtRecord', 'MSGraphAPI_v1_domainDnsTxtRecord')
 
 
 class MSGraphAPI_v1_domainDnsTxtRecord : MSGraphAPI_v1_domainDnsRecord {
@@ -1449,8 +1486,8 @@ class MSGraphAPI_v1_domainDnsTxtRecord : MSGraphAPI_v1_domainDnsRecord {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('domainDnsUnavailableRecord', 'MSGraphAPI_v1_domainDnsUnavailableRecord')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.domainDnsUnavailableRecord', 'MSGraphAPI_v1_domainDnsUnavailableRecord')
+$null = $Script:MSGraphAPIClassHash.Add('domainDnsUnavailableRecord', 'MSGraphAPI_v1_domainDnsUnavailableRecord')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.domainDnsUnavailableRecord', 'MSGraphAPI_v1_domainDnsUnavailableRecord')
 
 
 class MSGraphAPI_v1_domainDnsUnavailableRecord : MSGraphAPI_v1_domainDnsRecord {
@@ -1459,8 +1496,8 @@ class MSGraphAPI_v1_domainDnsUnavailableRecord : MSGraphAPI_v1_domainDnsRecord {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('licenseDetails', 'MSGraphAPI_v1_licenseDetails')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.licenseDetails', 'MSGraphAPI_v1_licenseDetails')
+$null = $Script:MSGraphAPIClassHash.Add('licenseDetails', 'MSGraphAPI_v1_licenseDetails')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.licenseDetails', 'MSGraphAPI_v1_licenseDetails')
 
 
 class MSGraphAPI_v1_licenseDetails : MSGraphAPI_v1_entity {
@@ -1471,8 +1508,8 @@ class MSGraphAPI_v1_licenseDetails : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('servicePlanInfo', 'MSGraphAPI_v1_servicePlanInfo')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.servicePlanInfo', 'MSGraphAPI_v1_servicePlanInfo')
+$null = $Script:MSGraphAPIClassHash.Add('servicePlanInfo', 'MSGraphAPI_v1_servicePlanInfo')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.servicePlanInfo', 'MSGraphAPI_v1_servicePlanInfo')
 
 
 class MSGraphAPI_v1_servicePlanInfo : MSGraphAPI_Base {
@@ -1481,8 +1518,8 @@ class MSGraphAPI_v1_servicePlanInfo : MSGraphAPI_Base {
     [string] $provisioningStatus
     [string] $appliesTo
 }
-$Script:MSGraphAPIClassHash.Add('group', 'MSGraphAPI_v1_group')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.group', 'MSGraphAPI_v1_group')
+$null = $Script:MSGraphAPIClassHash.Add('group', 'MSGraphAPI_v1_group')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.group', 'MSGraphAPI_v1_group')
 
 
 class MSGraphAPI_v1_group : MSGraphAPI_v1_directoryObject {
@@ -1588,8 +1625,8 @@ class MSGraphAPI_v1_group : MSGraphAPI_v1_directoryObject {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('groupSetting', 'MSGraphAPI_v1_groupSetting')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.groupSetting', 'MSGraphAPI_v1_groupSetting')
+$null = $Script:MSGraphAPIClassHash.Add('groupSetting', 'MSGraphAPI_v1_groupSetting')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.groupSetting', 'MSGraphAPI_v1_groupSetting')
 
 
 class MSGraphAPI_v1_groupSetting : MSGraphAPI_v1_entity {
@@ -1600,8 +1637,8 @@ class MSGraphAPI_v1_groupSetting : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('conversationThread', 'MSGraphAPI_v1_conversationThread')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.conversationThread', 'MSGraphAPI_v1_conversationThread')
+$null = $Script:MSGraphAPIClassHash.Add('conversationThread', 'MSGraphAPI_v1_conversationThread')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.conversationThread', 'MSGraphAPI_v1_conversationThread')
 
 
 class MSGraphAPI_v1_conversationThread : MSGraphAPI_v1_entity {
@@ -1616,7 +1653,7 @@ class MSGraphAPI_v1_conversationThread : MSGraphAPI_v1_entity {
     [object]Get_posts(){
         return (Invoke-MSGraphMethod -query "$($this.GraphPath)/posts")
     }
-    [object]reply([MSGraphAPI_v1_post]$Post){
+    [object]reply([object]$Post){
         $ParamHash = @{
             'Post'=$Post
         }
@@ -1624,8 +1661,8 @@ class MSGraphAPI_v1_conversationThread : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('calendar', 'MSGraphAPI_v1_calendar')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.calendar', 'MSGraphAPI_v1_calendar')
+$null = $Script:MSGraphAPIClassHash.Add('calendar', 'MSGraphAPI_v1_calendar')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.calendar', 'MSGraphAPI_v1_calendar')
 
 
 class MSGraphAPI_v1_calendar : MSGraphAPI_v1_entity {
@@ -1651,8 +1688,8 @@ class MSGraphAPI_v1_calendar : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('outlookItem', 'MSGraphAPI_v1_outlookItem')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.outlookItem', 'MSGraphAPI_v1_outlookItem')
+$null = $Script:MSGraphAPIClassHash.Add('outlookItem', 'MSGraphAPI_v1_outlookItem')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.outlookItem', 'MSGraphAPI_v1_outlookItem')
 
 
 class MSGraphAPI_v1_outlookItem : MSGraphAPI_v1_entity {
@@ -1664,8 +1701,8 @@ class MSGraphAPI_v1_outlookItem : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('event', 'MSGraphAPI_v1_event')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.event', 'MSGraphAPI_v1_event')
+$null = $Script:MSGraphAPIClassHash.Add('event', 'MSGraphAPI_v1_event')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.event', 'MSGraphAPI_v1_event')
 
 
 class MSGraphAPI_v1_event : MSGraphAPI_v1_outlookItem {
@@ -1736,7 +1773,7 @@ class MSGraphAPI_v1_event : MSGraphAPI_v1_outlookItem {
         }
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'tentativelyAccept' -ParamHash $ParamHash)
     }
-    [object]snoozeReminder([MSGraphAPI_v1_dateTimeTimeZone]$NewReminderTime){
+    [object]snoozeReminder([object]$NewReminderTime){
         $ParamHash = @{
             'NewReminderTime'=$NewReminderTime
         }
@@ -1747,8 +1784,8 @@ class MSGraphAPI_v1_event : MSGraphAPI_v1_outlookItem {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('conversation', 'MSGraphAPI_v1_conversation')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.conversation', 'MSGraphAPI_v1_conversation')
+$null = $Script:MSGraphAPIClassHash.Add('conversation', 'MSGraphAPI_v1_conversation')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.conversation', 'MSGraphAPI_v1_conversation')
 
 
 class MSGraphAPI_v1_conversation : MSGraphAPI_v1_entity {
@@ -1763,8 +1800,8 @@ class MSGraphAPI_v1_conversation : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('profilePhoto', 'MSGraphAPI_v1_profilePhoto')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.profilePhoto', 'MSGraphAPI_v1_profilePhoto')
+$null = $Script:MSGraphAPIClassHash.Add('profilePhoto', 'MSGraphAPI_v1_profilePhoto')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.profilePhoto', 'MSGraphAPI_v1_profilePhoto')
 
 
 class MSGraphAPI_v1_profilePhoto : MSGraphAPI_v1_entity {
@@ -1774,8 +1811,8 @@ class MSGraphAPI_v1_profilePhoto : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('baseItem', 'MSGraphAPI_v1_baseItem')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.baseItem', 'MSGraphAPI_v1_baseItem')
+$null = $Script:MSGraphAPIClassHash.Add('baseItem', 'MSGraphAPI_v1_baseItem')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.baseItem', 'MSGraphAPI_v1_baseItem')
 
 
 class MSGraphAPI_v1_baseItem : MSGraphAPI_v1_entity {
@@ -1797,8 +1834,8 @@ class MSGraphAPI_v1_baseItem : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('drive', 'MSGraphAPI_v1_drive')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.drive', 'MSGraphAPI_v1_drive')
+$null = $Script:MSGraphAPIClassHash.Add('drive', 'MSGraphAPI_v1_drive')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.drive', 'MSGraphAPI_v1_drive')
 
 
 class MSGraphAPI_v1_drive : MSGraphAPI_v1_baseItem {
@@ -1833,8 +1870,8 @@ class MSGraphAPI_v1_drive : MSGraphAPI_v1_baseItem {
         return (Start-MSGraphAPIFunction -BaseURI $this.GraphURL -Function 'sharedWithMe')
     }
 }
-$Script:MSGraphAPIClassHash.Add('site', 'MSGraphAPI_v1_site')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.site', 'MSGraphAPI_v1_site')
+$null = $Script:MSGraphAPIClassHash.Add('site', 'MSGraphAPI_v1_site')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.site', 'MSGraphAPI_v1_site')
 
 
 class MSGraphAPI_v1_site : MSGraphAPI_v1_baseItem {
@@ -1874,8 +1911,8 @@ class MSGraphAPI_v1_site : MSGraphAPI_v1_baseItem {
         return (Start-MSGraphAPIFunction -BaseURI $this.GraphURL -Function 'getByPath' -ParamHash $ParamHash)
     }
 }
-$Script:MSGraphAPIClassHash.Add('plannerGroup', 'MSGraphAPI_v1_plannerGroup')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerGroup', 'MSGraphAPI_v1_plannerGroup')
+$null = $Script:MSGraphAPIClassHash.Add('plannerGroup', 'MSGraphAPI_v1_plannerGroup')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerGroup', 'MSGraphAPI_v1_plannerGroup')
 
 
 class MSGraphAPI_v1_plannerGroup : MSGraphAPI_v1_entity {
@@ -1886,8 +1923,8 @@ class MSGraphAPI_v1_plannerGroup : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('onenote', 'MSGraphAPI_v1_onenote')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.onenote', 'MSGraphAPI_v1_onenote')
+$null = $Script:MSGraphAPIClassHash.Add('onenote', 'MSGraphAPI_v1_onenote')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.onenote', 'MSGraphAPI_v1_onenote')
 
 
 class MSGraphAPI_v1_onenote : MSGraphAPI_v1_entity {
@@ -1913,8 +1950,8 @@ class MSGraphAPI_v1_onenote : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('groupLifecyclePolicy', 'MSGraphAPI_v1_groupLifecyclePolicy')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.groupLifecyclePolicy', 'MSGraphAPI_v1_groupLifecyclePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('groupLifecyclePolicy', 'MSGraphAPI_v1_groupLifecyclePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.groupLifecyclePolicy', 'MSGraphAPI_v1_groupLifecyclePolicy')
 
 
 class MSGraphAPI_v1_groupLifecyclePolicy : MSGraphAPI_v1_entity {
@@ -1936,8 +1973,8 @@ class MSGraphAPI_v1_groupLifecyclePolicy : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('contract', 'MSGraphAPI_v1_contract')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.contract', 'MSGraphAPI_v1_contract')
+$null = $Script:MSGraphAPIClassHash.Add('contract', 'MSGraphAPI_v1_contract')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.contract', 'MSGraphAPI_v1_contract')
 
 
 class MSGraphAPI_v1_contract : MSGraphAPI_v1_directoryObject {
@@ -1949,8 +1986,8 @@ class MSGraphAPI_v1_contract : MSGraphAPI_v1_directoryObject {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('subscribedSku', 'MSGraphAPI_v1_subscribedSku')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.subscribedSku', 'MSGraphAPI_v1_subscribedSku')
+$null = $Script:MSGraphAPIClassHash.Add('subscribedSku', 'MSGraphAPI_v1_subscribedSku')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.subscribedSku', 'MSGraphAPI_v1_subscribedSku')
 
 
 class MSGraphAPI_v1_subscribedSku : MSGraphAPI_v1_entity {
@@ -1965,8 +2002,8 @@ class MSGraphAPI_v1_subscribedSku : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('licenseUnitsDetail', 'MSGraphAPI_v1_licenseUnitsDetail')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.licenseUnitsDetail', 'MSGraphAPI_v1_licenseUnitsDetail')
+$null = $Script:MSGraphAPIClassHash.Add('licenseUnitsDetail', 'MSGraphAPI_v1_licenseUnitsDetail')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.licenseUnitsDetail', 'MSGraphAPI_v1_licenseUnitsDetail')
 
 
 class MSGraphAPI_v1_licenseUnitsDetail : MSGraphAPI_Base {
@@ -1974,8 +2011,8 @@ class MSGraphAPI_v1_licenseUnitsDetail : MSGraphAPI_Base {
     [Nullable[int]] $suspended
     [Nullable[int]] $warning
 }
-$Script:MSGraphAPIClassHash.Add('organization', 'MSGraphAPI_v1_organization')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.organization', 'MSGraphAPI_v1_organization')
+$null = $Script:MSGraphAPIClassHash.Add('organization', 'MSGraphAPI_v1_organization')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.organization', 'MSGraphAPI_v1_organization')
 
 
 class MSGraphAPI_v1_organization : MSGraphAPI_v1_directoryObject {
@@ -2006,8 +2043,8 @@ class MSGraphAPI_v1_organization : MSGraphAPI_v1_directoryObject {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('assignedPlan', 'MSGraphAPI_v1_assignedPlan')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.assignedPlan', 'MSGraphAPI_v1_assignedPlan')
+$null = $Script:MSGraphAPIClassHash.Add('assignedPlan', 'MSGraphAPI_v1_assignedPlan')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.assignedPlan', 'MSGraphAPI_v1_assignedPlan')
 
 
 class MSGraphAPI_v1_assignedPlan : MSGraphAPI_Base {
@@ -2016,8 +2053,8 @@ class MSGraphAPI_v1_assignedPlan : MSGraphAPI_Base {
     [string] $service
     [Nullable[Guid]] $servicePlanId
 }
-$Script:MSGraphAPIClassHash.Add('provisionedPlan', 'MSGraphAPI_v1_provisionedPlan')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.provisionedPlan', 'MSGraphAPI_v1_provisionedPlan')
+$null = $Script:MSGraphAPIClassHash.Add('provisionedPlan', 'MSGraphAPI_v1_provisionedPlan')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.provisionedPlan', 'MSGraphAPI_v1_provisionedPlan')
 
 
 class MSGraphAPI_v1_provisionedPlan : MSGraphAPI_Base {
@@ -2025,8 +2062,8 @@ class MSGraphAPI_v1_provisionedPlan : MSGraphAPI_Base {
     [string] $provisioningStatus
     [string] $service
 }
-$Script:MSGraphAPIClassHash.Add('verifiedDomain', 'MSGraphAPI_v1_verifiedDomain')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.verifiedDomain', 'MSGraphAPI_v1_verifiedDomain')
+$null = $Script:MSGraphAPIClassHash.Add('verifiedDomain', 'MSGraphAPI_v1_verifiedDomain')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.verifiedDomain', 'MSGraphAPI_v1_verifiedDomain')
 
 
 class MSGraphAPI_v1_verifiedDomain : MSGraphAPI_Base {
@@ -2036,8 +2073,8 @@ class MSGraphAPI_v1_verifiedDomain : MSGraphAPI_Base {
     [string] $name
     [string] $type
 }
-$Script:MSGraphAPIClassHash.Add('user', 'MSGraphAPI_v1_user')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.user', 'MSGraphAPI_v1_user')
+$null = $Script:MSGraphAPIClassHash.Add('user', 'MSGraphAPI_v1_user')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.user', 'MSGraphAPI_v1_user')
 
 
 class MSGraphAPI_v1_user : MSGraphAPI_v1_directoryObject {
@@ -2172,7 +2209,7 @@ class MSGraphAPI_v1_user : MSGraphAPI_v1_directoryObject {
     [object]Get_deviceManagementTroubleshootingEvents(){
         return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceManagementTroubleshootingEvents")
     }
-    [object]assignLicense([MSGraphAPI_v1_assignedLicense[]]$addLicenses,[Nullable[Guid][]]$removeLicenses){
+    [object]assignLicense([object]$addLicenses,[Nullable[Guid][]]$removeLicenses){
         $ParamHash = @{
             'addLicenses'=$addLicenses
             'removeLicenses'=$removeLicenses
@@ -2186,14 +2223,14 @@ class MSGraphAPI_v1_user : MSGraphAPI_v1_directoryObject {
         }
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'changePassword' -ParamHash $ParamHash)
     }
-    [object]sendMail([MSGraphAPI_v1_message]$Message,[Nullable[bool]]$SaveToSentItems){
+    [object]sendMail([object]$Message,[Nullable[bool]]$SaveToSentItems){
         $ParamHash = @{
             'Message'=$Message
             'SaveToSentItems'=$SaveToSentItems
         }
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'sendMail' -ParamHash $ParamHash)
     }
-    [object]findMeetingTimes([MSGraphAPI_v1_attendeeBase[]]$Attendees,[MSGraphAPI_v1_locationConstraint]$LocationConstraint,[MSGraphAPI_v1_timeConstraint]$TimeConstraint,[object]$MeetingDuration,[Nullable[int]]$MaxCandidates,[Nullable[bool]]$IsOrganizerOptional,[Nullable[bool]]$ReturnSuggestionReasons,[Nullable[Double]]$MinimumAttendeePercentage){
+    [object]findMeetingTimes([object]$Attendees,[object]$LocationConstraint,[object]$TimeConstraint,[object]$MeetingDuration,[Nullable[int]]$MaxCandidates,[Nullable[bool]]$IsOrganizerOptional,[Nullable[bool]]$ReturnSuggestionReasons,[Nullable[Double]]$MinimumAttendeePercentage){
         $ParamHash = @{
             'Attendees'=$Attendees
             'LocationConstraint'=$LocationConstraint
@@ -2229,24 +2266,24 @@ class MSGraphAPI_v1_user : MSGraphAPI_v1_directoryObject {
         return (Start-MSGraphAPIFunction -BaseURI $this.GraphURL -Function 'getManagedAppPolicies')
     }
 }
-$Script:MSGraphAPIClassHash.Add('assignedLicense', 'MSGraphAPI_v1_assignedLicense')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.assignedLicense', 'MSGraphAPI_v1_assignedLicense')
+$null = $Script:MSGraphAPIClassHash.Add('assignedLicense', 'MSGraphAPI_v1_assignedLicense')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.assignedLicense', 'MSGraphAPI_v1_assignedLicense')
 
 
 class MSGraphAPI_v1_assignedLicense : MSGraphAPI_Base {
     [Nullable[Guid][]] $disabledPlans
     [Nullable[Guid]] $skuId
 }
-$Script:MSGraphAPIClassHash.Add('passwordProfile', 'MSGraphAPI_v1_passwordProfile')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.passwordProfile', 'MSGraphAPI_v1_passwordProfile')
+$null = $Script:MSGraphAPIClassHash.Add('passwordProfile', 'MSGraphAPI_v1_passwordProfile')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.passwordProfile', 'MSGraphAPI_v1_passwordProfile')
 
 
 class MSGraphAPI_v1_passwordProfile : MSGraphAPI_Base {
     [string] $password
     [Nullable[bool]] $forceChangePasswordNextSignIn
 }
-$Script:MSGraphAPIClassHash.Add('mailboxSettings', 'MSGraphAPI_v1_mailboxSettings')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mailboxSettings', 'MSGraphAPI_v1_mailboxSettings')
+$null = $Script:MSGraphAPIClassHash.Add('mailboxSettings', 'MSGraphAPI_v1_mailboxSettings')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mailboxSettings', 'MSGraphAPI_v1_mailboxSettings')
 
 
 class MSGraphAPI_v1_mailboxSettings : MSGraphAPI_Base {
@@ -2255,8 +2292,8 @@ class MSGraphAPI_v1_mailboxSettings : MSGraphAPI_Base {
     [string] $timeZone
     [MSGraphAPI_v1_localeInfo] $language
 }
-$Script:MSGraphAPIClassHash.Add('automaticRepliesSetting', 'MSGraphAPI_v1_automaticRepliesSetting')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.automaticRepliesSetting', 'MSGraphAPI_v1_automaticRepliesSetting')
+$null = $Script:MSGraphAPIClassHash.Add('automaticRepliesSetting', 'MSGraphAPI_v1_automaticRepliesSetting')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.automaticRepliesSetting', 'MSGraphAPI_v1_automaticRepliesSetting')
 
 
 class MSGraphAPI_v1_automaticRepliesSetting : MSGraphAPI_Base {
@@ -2267,24 +2304,24 @@ class MSGraphAPI_v1_automaticRepliesSetting : MSGraphAPI_Base {
     [string] $internalReplyMessage
     [string] $externalReplyMessage
 }
-$Script:MSGraphAPIClassHash.Add('dateTimeTimeZone', 'MSGraphAPI_v1_dateTimeTimeZone')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.dateTimeTimeZone', 'MSGraphAPI_v1_dateTimeTimeZone')
+$null = $Script:MSGraphAPIClassHash.Add('dateTimeTimeZone', 'MSGraphAPI_v1_dateTimeTimeZone')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.dateTimeTimeZone', 'MSGraphAPI_v1_dateTimeTimeZone')
 
 
 class MSGraphAPI_v1_dateTimeTimeZone : MSGraphAPI_Base {
     [string] $dateTime
     [string] $timeZone
 }
-$Script:MSGraphAPIClassHash.Add('localeInfo', 'MSGraphAPI_v1_localeInfo')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.localeInfo', 'MSGraphAPI_v1_localeInfo')
+$null = $Script:MSGraphAPIClassHash.Add('localeInfo', 'MSGraphAPI_v1_localeInfo')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.localeInfo', 'MSGraphAPI_v1_localeInfo')
 
 
 class MSGraphAPI_v1_localeInfo : MSGraphAPI_Base {
     [string] $locale
     [string] $displayName
 }
-$Script:MSGraphAPIClassHash.Add('message', 'MSGraphAPI_v1_message')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.message', 'MSGraphAPI_v1_message')
+$null = $Script:MSGraphAPIClassHash.Add('message', 'MSGraphAPI_v1_message')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.message', 'MSGraphAPI_v1_message')
 
 
 class MSGraphAPI_v1_message : MSGraphAPI_v1_outlookItem {
@@ -2356,7 +2393,7 @@ class MSGraphAPI_v1_message : MSGraphAPI_v1_outlookItem {
         }
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'replyAll' -ParamHash $ParamHash)
     }
-    [object]forward([string]$Comment,[MSGraphAPI_v1_recipient[]]$ToRecipients){
+    [object]forward([string]$Comment,[object]$ToRecipients){
         $ParamHash = @{
             'Comment'=$Comment
             'ToRecipients'=$ToRecipients
@@ -2368,8 +2405,8 @@ class MSGraphAPI_v1_message : MSGraphAPI_v1_outlookItem {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('mailFolder', 'MSGraphAPI_v1_mailFolder')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mailFolder', 'MSGraphAPI_v1_mailFolder')
+$null = $Script:MSGraphAPIClassHash.Add('mailFolder', 'MSGraphAPI_v1_mailFolder')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mailFolder', 'MSGraphAPI_v1_mailFolder')
 
 
 class MSGraphAPI_v1_mailFolder : MSGraphAPI_v1_entity {
@@ -2404,8 +2441,8 @@ class MSGraphAPI_v1_mailFolder : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('calendarGroup', 'MSGraphAPI_v1_calendarGroup')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.calendarGroup', 'MSGraphAPI_v1_calendarGroup')
+$null = $Script:MSGraphAPIClassHash.Add('calendarGroup', 'MSGraphAPI_v1_calendarGroup')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.calendarGroup', 'MSGraphAPI_v1_calendarGroup')
 
 
 class MSGraphAPI_v1_calendarGroup : MSGraphAPI_v1_entity {
@@ -2418,8 +2455,8 @@ class MSGraphAPI_v1_calendarGroup : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('person', 'MSGraphAPI_v1_person')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.person', 'MSGraphAPI_v1_person')
+$null = $Script:MSGraphAPIClassHash.Add('person', 'MSGraphAPI_v1_person')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.person', 'MSGraphAPI_v1_person')
 
 
 class MSGraphAPI_v1_person : MSGraphAPI_v1_entity {
@@ -2446,8 +2483,8 @@ class MSGraphAPI_v1_person : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('contact', 'MSGraphAPI_v1_contact')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.contact', 'MSGraphAPI_v1_contact')
+$null = $Script:MSGraphAPIClassHash.Add('contact', 'MSGraphAPI_v1_contact')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.contact', 'MSGraphAPI_v1_contact')
 
 
 class MSGraphAPI_v1_contact : MSGraphAPI_v1_outlookItem {
@@ -2499,8 +2536,8 @@ class MSGraphAPI_v1_contact : MSGraphAPI_v1_outlookItem {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('contactFolder', 'MSGraphAPI_v1_contactFolder')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.contactFolder', 'MSGraphAPI_v1_contactFolder')
+$null = $Script:MSGraphAPIClassHash.Add('contactFolder', 'MSGraphAPI_v1_contactFolder')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.contactFolder', 'MSGraphAPI_v1_contactFolder')
 
 
 class MSGraphAPI_v1_contactFolder : MSGraphAPI_v1_entity {
@@ -2521,8 +2558,8 @@ class MSGraphAPI_v1_contactFolder : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('inferenceClassification', 'MSGraphAPI_v1_inferenceClassification')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.inferenceClassification', 'MSGraphAPI_v1_inferenceClassification')
+$null = $Script:MSGraphAPIClassHash.Add('inferenceClassification', 'MSGraphAPI_v1_inferenceClassification')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.inferenceClassification', 'MSGraphAPI_v1_inferenceClassification')
 
 
 class MSGraphAPI_v1_inferenceClassification : MSGraphAPI_v1_entity {
@@ -2533,8 +2570,8 @@ class MSGraphAPI_v1_inferenceClassification : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('plannerUser', 'MSGraphAPI_v1_plannerUser')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerUser', 'MSGraphAPI_v1_plannerUser')
+$null = $Script:MSGraphAPIClassHash.Add('plannerUser', 'MSGraphAPI_v1_plannerUser')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerUser', 'MSGraphAPI_v1_plannerUser')
 
 
 class MSGraphAPI_v1_plannerUser : MSGraphAPI_v1_entity {
@@ -2548,8 +2585,8 @@ class MSGraphAPI_v1_plannerUser : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedDevice', 'MSGraphAPI_v1_managedDevice')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedDevice', 'MSGraphAPI_v1_managedDevice')
+$null = $Script:MSGraphAPIClassHash.Add('managedDevice', 'MSGraphAPI_v1_managedDevice')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedDevice', 'MSGraphAPI_v1_managedDevice')
 
 
 class MSGraphAPI_v1_managedDevice : MSGraphAPI_v1_entity {
@@ -2672,7 +2709,7 @@ class MSGraphAPI_v1_managedDevice : MSGraphAPI_v1_entity {
     [object]windowsDefenderUpdateSignatures(){
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'windowsDefenderUpdateSignatures')
     }
-    [object]updateWindowsDeviceAccount([MSGraphAPI_v1_updateWindowsDeviceAccountActionParameter]$updateWindowsDeviceAccountActionParameter){
+    [object]updateWindowsDeviceAccount([object]$updateWindowsDeviceAccountActionParameter){
         $ParamHash = @{
             'updateWindowsDeviceAccountActionParameter'=$updateWindowsDeviceAccountActionParameter
         }
@@ -2680,8 +2717,8 @@ class MSGraphAPI_v1_managedDevice : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('managedAppRegistration', 'MSGraphAPI_v1_managedAppRegistration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppRegistration', 'MSGraphAPI_v1_managedAppRegistration')
+$null = $Script:MSGraphAPIClassHash.Add('managedAppRegistration', 'MSGraphAPI_v1_managedAppRegistration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppRegistration', 'MSGraphAPI_v1_managedAppRegistration')
 
 
 class MSGraphAPI_v1_managedAppRegistration : MSGraphAPI_v1_entity {
@@ -2709,8 +2746,8 @@ class MSGraphAPI_v1_managedAppRegistration : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceManagementTroubleshootingEvent', 'MSGraphAPI_v1_deviceManagementTroubleshootingEvent')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceManagementTroubleshootingEvent', 'MSGraphAPI_v1_deviceManagementTroubleshootingEvent')
+$null = $Script:MSGraphAPIClassHash.Add('deviceManagementTroubleshootingEvent', 'MSGraphAPI_v1_deviceManagementTroubleshootingEvent')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceManagementTroubleshootingEvent', 'MSGraphAPI_v1_deviceManagementTroubleshootingEvent')
 
 
 class MSGraphAPI_v1_deviceManagementTroubleshootingEvent : MSGraphAPI_v1_entity {
@@ -2720,16 +2757,16 @@ class MSGraphAPI_v1_deviceManagementTroubleshootingEvent : MSGraphAPI_v1_entity 
 
 
 }
-$Script:MSGraphAPIClassHash.Add('settingValue', 'MSGraphAPI_v1_settingValue')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.settingValue', 'MSGraphAPI_v1_settingValue')
+$null = $Script:MSGraphAPIClassHash.Add('settingValue', 'MSGraphAPI_v1_settingValue')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.settingValue', 'MSGraphAPI_v1_settingValue')
 
 
 class MSGraphAPI_v1_settingValue : MSGraphAPI_Base {
     [string] $name
     [string] $value
 }
-$Script:MSGraphAPIClassHash.Add('groupSettingTemplate', 'MSGraphAPI_v1_groupSettingTemplate')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.groupSettingTemplate', 'MSGraphAPI_v1_groupSettingTemplate')
+$null = $Script:MSGraphAPIClassHash.Add('groupSettingTemplate', 'MSGraphAPI_v1_groupSettingTemplate')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.groupSettingTemplate', 'MSGraphAPI_v1_groupSettingTemplate')
 
 
 class MSGraphAPI_v1_groupSettingTemplate : MSGraphAPI_v1_directoryObject {
@@ -2740,8 +2777,8 @@ class MSGraphAPI_v1_groupSettingTemplate : MSGraphAPI_v1_directoryObject {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('settingTemplateValue', 'MSGraphAPI_v1_settingTemplateValue')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.settingTemplateValue', 'MSGraphAPI_v1_settingTemplateValue')
+$null = $Script:MSGraphAPIClassHash.Add('settingTemplateValue', 'MSGraphAPI_v1_settingTemplateValue')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.settingTemplateValue', 'MSGraphAPI_v1_settingTemplateValue')
 
 
 class MSGraphAPI_v1_settingTemplateValue : MSGraphAPI_Base {
@@ -2750,15 +2787,15 @@ class MSGraphAPI_v1_settingTemplateValue : MSGraphAPI_Base {
     [string] $defaultValue
     [string] $description
 }
-$Script:MSGraphAPIClassHash.Add('ComplexExtensionValue', 'MSGraphAPI_v1_ComplexExtensionValue')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.ComplexExtensionValue', 'MSGraphAPI_v1_ComplexExtensionValue')
+$null = $Script:MSGraphAPIClassHash.Add('ComplexExtensionValue', 'MSGraphAPI_v1_ComplexExtensionValue')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.ComplexExtensionValue', 'MSGraphAPI_v1_ComplexExtensionValue')
 
 
 class MSGraphAPI_v1_ComplexExtensionValue : MSGraphAPI_Base {
 
 }
-$Script:MSGraphAPIClassHash.Add('schemaExtension', 'MSGraphAPI_v1_schemaExtension')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.schemaExtension', 'MSGraphAPI_v1_schemaExtension')
+$null = $Script:MSGraphAPIClassHash.Add('schemaExtension', 'MSGraphAPI_v1_schemaExtension')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.schemaExtension', 'MSGraphAPI_v1_schemaExtension')
 
 
 class MSGraphAPI_v1_schemaExtension : MSGraphAPI_v1_entity {
@@ -2771,16 +2808,16 @@ class MSGraphAPI_v1_schemaExtension : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('extensionSchemaProperty', 'MSGraphAPI_v1_extensionSchemaProperty')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.extensionSchemaProperty', 'MSGraphAPI_v1_extensionSchemaProperty')
+$null = $Script:MSGraphAPIClassHash.Add('extensionSchemaProperty', 'MSGraphAPI_v1_extensionSchemaProperty')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.extensionSchemaProperty', 'MSGraphAPI_v1_extensionSchemaProperty')
 
 
 class MSGraphAPI_v1_extensionSchemaProperty : MSGraphAPI_Base {
     [string] $name
     [string] $type
 }
-$Script:MSGraphAPIClassHash.Add('attachment', 'MSGraphAPI_v1_attachment')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.attachment', 'MSGraphAPI_v1_attachment')
+$null = $Script:MSGraphAPIClassHash.Add('attachment', 'MSGraphAPI_v1_attachment')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.attachment', 'MSGraphAPI_v1_attachment')
 
 
 class MSGraphAPI_v1_attachment : MSGraphAPI_v1_entity {
@@ -2793,38 +2830,38 @@ class MSGraphAPI_v1_attachment : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('recipient', 'MSGraphAPI_v1_recipient')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.recipient', 'MSGraphAPI_v1_recipient')
+$null = $Script:MSGraphAPIClassHash.Add('recipient', 'MSGraphAPI_v1_recipient')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.recipient', 'MSGraphAPI_v1_recipient')
 
 
 class MSGraphAPI_v1_recipient : MSGraphAPI_Base {
     [MSGraphAPI_v1_emailAddress] $emailAddress
 }
-$Script:MSGraphAPIClassHash.Add('emailAddress', 'MSGraphAPI_v1_emailAddress')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.emailAddress', 'MSGraphAPI_v1_emailAddress')
+$null = $Script:MSGraphAPIClassHash.Add('emailAddress', 'MSGraphAPI_v1_emailAddress')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.emailAddress', 'MSGraphAPI_v1_emailAddress')
 
 
 class MSGraphAPI_v1_emailAddress : MSGraphAPI_Base {
     [string] $name
     [string] $address
 }
-$Script:MSGraphAPIClassHash.Add('attendeeBase', 'MSGraphAPI_v1_attendeeBase')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.attendeeBase', 'MSGraphAPI_v1_attendeeBase')
+$null = $Script:MSGraphAPIClassHash.Add('attendeeBase', 'MSGraphAPI_v1_attendeeBase')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.attendeeBase', 'MSGraphAPI_v1_attendeeBase')
 
 
 class MSGraphAPI_v1_attendeeBase : MSGraphAPI_v1_recipient {
     [MSGraphAPI_v1_attendeeType] $type
 }
-$Script:MSGraphAPIClassHash.Add('meetingTimeSuggestionsResult', 'MSGraphAPI_v1_meetingTimeSuggestionsResult')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.meetingTimeSuggestionsResult', 'MSGraphAPI_v1_meetingTimeSuggestionsResult')
+$null = $Script:MSGraphAPIClassHash.Add('meetingTimeSuggestionsResult', 'MSGraphAPI_v1_meetingTimeSuggestionsResult')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.meetingTimeSuggestionsResult', 'MSGraphAPI_v1_meetingTimeSuggestionsResult')
 
 
 class MSGraphAPI_v1_meetingTimeSuggestionsResult : MSGraphAPI_Base {
     [MSGraphAPI_v1_meetingTimeSuggestion[]] $meetingTimeSuggestions
     [string] $emptySuggestionsReason
 }
-$Script:MSGraphAPIClassHash.Add('meetingTimeSuggestion', 'MSGraphAPI_v1_meetingTimeSuggestion')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.meetingTimeSuggestion', 'MSGraphAPI_v1_meetingTimeSuggestion')
+$null = $Script:MSGraphAPIClassHash.Add('meetingTimeSuggestion', 'MSGraphAPI_v1_meetingTimeSuggestion')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.meetingTimeSuggestion', 'MSGraphAPI_v1_meetingTimeSuggestion')
 
 
 class MSGraphAPI_v1_meetingTimeSuggestion : MSGraphAPI_Base {
@@ -2835,24 +2872,24 @@ class MSGraphAPI_v1_meetingTimeSuggestion : MSGraphAPI_Base {
     [MSGraphAPI_v1_location[]] $locations
     [string] $suggestionReason
 }
-$Script:MSGraphAPIClassHash.Add('timeSlot', 'MSGraphAPI_v1_timeSlot')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.timeSlot', 'MSGraphAPI_v1_timeSlot')
+$null = $Script:MSGraphAPIClassHash.Add('timeSlot', 'MSGraphAPI_v1_timeSlot')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.timeSlot', 'MSGraphAPI_v1_timeSlot')
 
 
 class MSGraphAPI_v1_timeSlot : MSGraphAPI_Base {
     [MSGraphAPI_v1_dateTimeTimeZone] $start
     [MSGraphAPI_v1_dateTimeTimeZone] $end
 }
-$Script:MSGraphAPIClassHash.Add('attendeeAvailability', 'MSGraphAPI_v1_attendeeAvailability')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.attendeeAvailability', 'MSGraphAPI_v1_attendeeAvailability')
+$null = $Script:MSGraphAPIClassHash.Add('attendeeAvailability', 'MSGraphAPI_v1_attendeeAvailability')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.attendeeAvailability', 'MSGraphAPI_v1_attendeeAvailability')
 
 
 class MSGraphAPI_v1_attendeeAvailability : MSGraphAPI_Base {
     [MSGraphAPI_v1_attendeeBase] $attendee
     [MSGraphAPI_v1_freeBusyStatus] $availability
 }
-$Script:MSGraphAPIClassHash.Add('location', 'MSGraphAPI_v1_location')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.location', 'MSGraphAPI_v1_location')
+$null = $Script:MSGraphAPIClassHash.Add('location', 'MSGraphAPI_v1_location')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.location', 'MSGraphAPI_v1_location')
 
 
 class MSGraphAPI_v1_location : MSGraphAPI_Base {
@@ -2860,8 +2897,8 @@ class MSGraphAPI_v1_location : MSGraphAPI_Base {
     [string] $locationEmailAddress
     [MSGraphAPI_v1_physicalAddress] $address
 }
-$Script:MSGraphAPIClassHash.Add('physicalAddress', 'MSGraphAPI_v1_physicalAddress')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.physicalAddress', 'MSGraphAPI_v1_physicalAddress')
+$null = $Script:MSGraphAPIClassHash.Add('physicalAddress', 'MSGraphAPI_v1_physicalAddress')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.physicalAddress', 'MSGraphAPI_v1_physicalAddress')
 
 
 class MSGraphAPI_v1_physicalAddress : MSGraphAPI_Base {
@@ -2871,8 +2908,8 @@ class MSGraphAPI_v1_physicalAddress : MSGraphAPI_Base {
     [string] $countryOrRegion
     [string] $postalCode
 }
-$Script:MSGraphAPIClassHash.Add('locationConstraint', 'MSGraphAPI_v1_locationConstraint')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.locationConstraint', 'MSGraphAPI_v1_locationConstraint')
+$null = $Script:MSGraphAPIClassHash.Add('locationConstraint', 'MSGraphAPI_v1_locationConstraint')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.locationConstraint', 'MSGraphAPI_v1_locationConstraint')
 
 
 class MSGraphAPI_v1_locationConstraint : MSGraphAPI_Base {
@@ -2880,23 +2917,23 @@ class MSGraphAPI_v1_locationConstraint : MSGraphAPI_Base {
     [Nullable[bool]] $suggestLocation
     [MSGraphAPI_v1_locationConstraintItem[]] $locations
 }
-$Script:MSGraphAPIClassHash.Add('locationConstraintItem', 'MSGraphAPI_v1_locationConstraintItem')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.locationConstraintItem', 'MSGraphAPI_v1_locationConstraintItem')
+$null = $Script:MSGraphAPIClassHash.Add('locationConstraintItem', 'MSGraphAPI_v1_locationConstraintItem')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.locationConstraintItem', 'MSGraphAPI_v1_locationConstraintItem')
 
 
 class MSGraphAPI_v1_locationConstraintItem : MSGraphAPI_v1_location {
     [Nullable[bool]] $resolveAvailability
 }
-$Script:MSGraphAPIClassHash.Add('timeConstraint', 'MSGraphAPI_v1_timeConstraint')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.timeConstraint', 'MSGraphAPI_v1_timeConstraint')
+$null = $Script:MSGraphAPIClassHash.Add('timeConstraint', 'MSGraphAPI_v1_timeConstraint')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.timeConstraint', 'MSGraphAPI_v1_timeConstraint')
 
 
 class MSGraphAPI_v1_timeConstraint : MSGraphAPI_Base {
     [MSGraphAPI_v1_activityDomain] $activityDomain
     [MSGraphAPI_v1_timeSlot[]] $timeslots
 }
-$Script:MSGraphAPIClassHash.Add('reminder', 'MSGraphAPI_v1_reminder')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.reminder', 'MSGraphAPI_v1_reminder')
+$null = $Script:MSGraphAPIClassHash.Add('reminder', 'MSGraphAPI_v1_reminder')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.reminder', 'MSGraphAPI_v1_reminder')
 
 
 class MSGraphAPI_v1_reminder : MSGraphAPI_Base {
@@ -2909,8 +2946,8 @@ class MSGraphAPI_v1_reminder : MSGraphAPI_Base {
     [string] $eventWebLink
     [MSGraphAPI_v1_dateTimeTimeZone] $reminderFireTime
 }
-$Script:MSGraphAPIClassHash.Add('singleValueLegacyExtendedProperty', 'MSGraphAPI_v1_singleValueLegacyExtendedProperty')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.singleValueLegacyExtendedProperty', 'MSGraphAPI_v1_singleValueLegacyExtendedProperty')
+$null = $Script:MSGraphAPIClassHash.Add('singleValueLegacyExtendedProperty', 'MSGraphAPI_v1_singleValueLegacyExtendedProperty')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.singleValueLegacyExtendedProperty', 'MSGraphAPI_v1_singleValueLegacyExtendedProperty')
 
 
 class MSGraphAPI_v1_singleValueLegacyExtendedProperty : MSGraphAPI_v1_entity {
@@ -2919,8 +2956,8 @@ class MSGraphAPI_v1_singleValueLegacyExtendedProperty : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('multiValueLegacyExtendedProperty', 'MSGraphAPI_v1_multiValueLegacyExtendedProperty')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.multiValueLegacyExtendedProperty', 'MSGraphAPI_v1_multiValueLegacyExtendedProperty')
+$null = $Script:MSGraphAPIClassHash.Add('multiValueLegacyExtendedProperty', 'MSGraphAPI_v1_multiValueLegacyExtendedProperty')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.multiValueLegacyExtendedProperty', 'MSGraphAPI_v1_multiValueLegacyExtendedProperty')
 
 
 class MSGraphAPI_v1_multiValueLegacyExtendedProperty : MSGraphAPI_v1_entity {
@@ -2929,16 +2966,16 @@ class MSGraphAPI_v1_multiValueLegacyExtendedProperty : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('itemBody', 'MSGraphAPI_v1_itemBody')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.itemBody', 'MSGraphAPI_v1_itemBody')
+$null = $Script:MSGraphAPIClassHash.Add('itemBody', 'MSGraphAPI_v1_itemBody')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.itemBody', 'MSGraphAPI_v1_itemBody')
 
 
 class MSGraphAPI_v1_itemBody : MSGraphAPI_Base {
     [MSGraphAPI_v1_bodyType] $contentType
     [string] $content
 }
-$Script:MSGraphAPIClassHash.Add('fileAttachment', 'MSGraphAPI_v1_fileAttachment')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.fileAttachment', 'MSGraphAPI_v1_fileAttachment')
+$null = $Script:MSGraphAPIClassHash.Add('fileAttachment', 'MSGraphAPI_v1_fileAttachment')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.fileAttachment', 'MSGraphAPI_v1_fileAttachment')
 
 
 class MSGraphAPI_v1_fileAttachment : MSGraphAPI_v1_attachment {
@@ -2949,8 +2986,8 @@ class MSGraphAPI_v1_fileAttachment : MSGraphAPI_v1_attachment {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('itemAttachment', 'MSGraphAPI_v1_itemAttachment')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.itemAttachment', 'MSGraphAPI_v1_itemAttachment')
+$null = $Script:MSGraphAPIClassHash.Add('itemAttachment', 'MSGraphAPI_v1_itemAttachment')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.itemAttachment', 'MSGraphAPI_v1_itemAttachment')
 
 
 class MSGraphAPI_v1_itemAttachment : MSGraphAPI_v1_attachment {
@@ -2961,24 +2998,24 @@ class MSGraphAPI_v1_itemAttachment : MSGraphAPI_v1_attachment {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('responseStatus', 'MSGraphAPI_v1_responseStatus')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.responseStatus', 'MSGraphAPI_v1_responseStatus')
+$null = $Script:MSGraphAPIClassHash.Add('responseStatus', 'MSGraphAPI_v1_responseStatus')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.responseStatus', 'MSGraphAPI_v1_responseStatus')
 
 
 class MSGraphAPI_v1_responseStatus : MSGraphAPI_Base {
     [MSGraphAPI_v1_responseType] $response
     [Nullable[DateTimeOffset]] $time
 }
-$Script:MSGraphAPIClassHash.Add('patternedRecurrence', 'MSGraphAPI_v1_patternedRecurrence')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.patternedRecurrence', 'MSGraphAPI_v1_patternedRecurrence')
+$null = $Script:MSGraphAPIClassHash.Add('patternedRecurrence', 'MSGraphAPI_v1_patternedRecurrence')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.patternedRecurrence', 'MSGraphAPI_v1_patternedRecurrence')
 
 
 class MSGraphAPI_v1_patternedRecurrence : MSGraphAPI_Base {
     [MSGraphAPI_v1_recurrencePattern] $pattern
     [MSGraphAPI_v1_recurrenceRange] $range
 }
-$Script:MSGraphAPIClassHash.Add('recurrencePattern', 'MSGraphAPI_v1_recurrencePattern')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.recurrencePattern', 'MSGraphAPI_v1_recurrencePattern')
+$null = $Script:MSGraphAPIClassHash.Add('recurrencePattern', 'MSGraphAPI_v1_recurrencePattern')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.recurrencePattern', 'MSGraphAPI_v1_recurrencePattern')
 
 
 class MSGraphAPI_v1_recurrencePattern : MSGraphAPI_Base {
@@ -2990,8 +3027,8 @@ class MSGraphAPI_v1_recurrencePattern : MSGraphAPI_Base {
     [MSGraphAPI_v1_dayOfWeek] $firstDayOfWeek
     [MSGraphAPI_v1_weekIndex] $index
 }
-$Script:MSGraphAPIClassHash.Add('recurrenceRange', 'MSGraphAPI_v1_recurrenceRange')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.recurrenceRange', 'MSGraphAPI_v1_recurrenceRange')
+$null = $Script:MSGraphAPIClassHash.Add('recurrenceRange', 'MSGraphAPI_v1_recurrenceRange')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.recurrenceRange', 'MSGraphAPI_v1_recurrenceRange')
 
 
 class MSGraphAPI_v1_recurrenceRange : MSGraphAPI_Base {
@@ -3001,15 +3038,15 @@ class MSGraphAPI_v1_recurrenceRange : MSGraphAPI_Base {
     [string] $recurrenceTimeZone
     [Nullable[int]] $numberOfOccurrences
 }
-$Script:MSGraphAPIClassHash.Add('attendee', 'MSGraphAPI_v1_attendee')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.attendee', 'MSGraphAPI_v1_attendee')
+$null = $Script:MSGraphAPIClassHash.Add('attendee', 'MSGraphAPI_v1_attendee')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.attendee', 'MSGraphAPI_v1_attendee')
 
 
 class MSGraphAPI_v1_attendee : MSGraphAPI_v1_attendeeBase {
     [MSGraphAPI_v1_responseStatus] $status
 }
-$Script:MSGraphAPIClassHash.Add('eventMessage', 'MSGraphAPI_v1_eventMessage')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.eventMessage', 'MSGraphAPI_v1_eventMessage')
+$null = $Script:MSGraphAPIClassHash.Add('eventMessage', 'MSGraphAPI_v1_eventMessage')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.eventMessage', 'MSGraphAPI_v1_eventMessage')
 
 
 class MSGraphAPI_v1_eventMessage : MSGraphAPI_v1_message {
@@ -3020,8 +3057,8 @@ class MSGraphAPI_v1_eventMessage : MSGraphAPI_v1_message {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('referenceAttachment', 'MSGraphAPI_v1_referenceAttachment')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.referenceAttachment', 'MSGraphAPI_v1_referenceAttachment')
+$null = $Script:MSGraphAPIClassHash.Add('referenceAttachment', 'MSGraphAPI_v1_referenceAttachment')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.referenceAttachment', 'MSGraphAPI_v1_referenceAttachment')
 
 
 class MSGraphAPI_v1_referenceAttachment : MSGraphAPI_v1_attachment {
@@ -3030,8 +3067,8 @@ class MSGraphAPI_v1_referenceAttachment : MSGraphAPI_v1_attachment {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('openTypeExtension', 'MSGraphAPI_v1_openTypeExtension')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.openTypeExtension', 'MSGraphAPI_v1_openTypeExtension')
+$null = $Script:MSGraphAPIClassHash.Add('openTypeExtension', 'MSGraphAPI_v1_openTypeExtension')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.openTypeExtension', 'MSGraphAPI_v1_openTypeExtension')
 
 
 class MSGraphAPI_v1_openTypeExtension : MSGraphAPI_v1_extension {
@@ -3040,8 +3077,8 @@ class MSGraphAPI_v1_openTypeExtension : MSGraphAPI_v1_extension {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('post', 'MSGraphAPI_v1_post')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.post', 'MSGraphAPI_v1_post')
+$null = $Script:MSGraphAPIClassHash.Add('post', 'MSGraphAPI_v1_post')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.post', 'MSGraphAPI_v1_post')
 
 
 class MSGraphAPI_v1_post : MSGraphAPI_v1_outlookItem {
@@ -3068,14 +3105,14 @@ class MSGraphAPI_v1_post : MSGraphAPI_v1_outlookItem {
     [object]Get_multiValueExtendedProperties(){
         return (Invoke-MSGraphMethod -query "$($this.GraphPath)/multiValueExtendedProperties")
     }
-    [object]forward([string]$Comment,[MSGraphAPI_v1_recipient[]]$ToRecipients){
+    [object]forward([string]$Comment,[object]$ToRecipients){
         $ParamHash = @{
             'Comment'=$Comment
             'ToRecipients'=$ToRecipients
         }
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'forward' -ParamHash $ParamHash)
     }
-    [object]reply([MSGraphAPI_v1_post]$Post){
+    [object]reply([object]$Post){
         $ParamHash = @{
             'Post'=$Post
         }
@@ -3083,8 +3120,8 @@ class MSGraphAPI_v1_post : MSGraphAPI_v1_outlookItem {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('inferenceClassificationOverride', 'MSGraphAPI_v1_inferenceClassificationOverride')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.inferenceClassificationOverride', 'MSGraphAPI_v1_inferenceClassificationOverride')
+$null = $Script:MSGraphAPIClassHash.Add('inferenceClassificationOverride', 'MSGraphAPI_v1_inferenceClassificationOverride')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.inferenceClassificationOverride', 'MSGraphAPI_v1_inferenceClassificationOverride')
 
 
 class MSGraphAPI_v1_inferenceClassificationOverride : MSGraphAPI_v1_entity {
@@ -3094,16 +3131,16 @@ class MSGraphAPI_v1_inferenceClassificationOverride : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('scoredEmailAddress', 'MSGraphAPI_v1_scoredEmailAddress')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.scoredEmailAddress', 'MSGraphAPI_v1_scoredEmailAddress')
+$null = $Script:MSGraphAPIClassHash.Add('scoredEmailAddress', 'MSGraphAPI_v1_scoredEmailAddress')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.scoredEmailAddress', 'MSGraphAPI_v1_scoredEmailAddress')
 
 
 class MSGraphAPI_v1_scoredEmailAddress : MSGraphAPI_Base {
     [string] $address
     [Nullable[Double]] $relevanceScore
 }
-$Script:MSGraphAPIClassHash.Add('phone', 'MSGraphAPI_v1_phone')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.phone', 'MSGraphAPI_v1_phone')
+$null = $Script:MSGraphAPIClassHash.Add('phone', 'MSGraphAPI_v1_phone')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.phone', 'MSGraphAPI_v1_phone')
 
 
 class MSGraphAPI_v1_phone : MSGraphAPI_Base {
@@ -3112,8 +3149,8 @@ class MSGraphAPI_v1_phone : MSGraphAPI_Base {
     [string] $region
     [string] $language
 }
-$Script:MSGraphAPIClassHash.Add('website', 'MSGraphAPI_v1_website')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.website', 'MSGraphAPI_v1_website')
+$null = $Script:MSGraphAPIClassHash.Add('website', 'MSGraphAPI_v1_website')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.website', 'MSGraphAPI_v1_website')
 
 
 class MSGraphAPI_v1_website : MSGraphAPI_Base {
@@ -3121,16 +3158,16 @@ class MSGraphAPI_v1_website : MSGraphAPI_Base {
     [string] $address
     [string] $displayName
 }
-$Script:MSGraphAPIClassHash.Add('personType', 'MSGraphAPI_v1_personType')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.personType', 'MSGraphAPI_v1_personType')
+$null = $Script:MSGraphAPIClassHash.Add('personType', 'MSGraphAPI_v1_personType')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.personType', 'MSGraphAPI_v1_personType')
 
 
 class MSGraphAPI_v1_personType : MSGraphAPI_Base {
     [string] $class
     [string] $subclass
 }
-$Script:MSGraphAPIClassHash.Add('identitySet', 'MSGraphAPI_v1_identitySet')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.identitySet', 'MSGraphAPI_v1_identitySet')
+$null = $Script:MSGraphAPIClassHash.Add('identitySet', 'MSGraphAPI_v1_identitySet')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.identitySet', 'MSGraphAPI_v1_identitySet')
 
 
 class MSGraphAPI_v1_identitySet : MSGraphAPI_Base {
@@ -3138,16 +3175,16 @@ class MSGraphAPI_v1_identitySet : MSGraphAPI_Base {
     [MSGraphAPI_v1_identity] $device
     [MSGraphAPI_v1_identity] $user
 }
-$Script:MSGraphAPIClassHash.Add('identity', 'MSGraphAPI_v1_identity')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.identity', 'MSGraphAPI_v1_identity')
+$null = $Script:MSGraphAPIClassHash.Add('identity', 'MSGraphAPI_v1_identity')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.identity', 'MSGraphAPI_v1_identity')
 
 
 class MSGraphAPI_v1_identity : MSGraphAPI_Base {
     [string] $displayName
     [string] $id
 }
-$Script:MSGraphAPIClassHash.Add('itemReference', 'MSGraphAPI_v1_itemReference')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.itemReference', 'MSGraphAPI_v1_itemReference')
+$null = $Script:MSGraphAPIClassHash.Add('itemReference', 'MSGraphAPI_v1_itemReference')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.itemReference', 'MSGraphAPI_v1_itemReference')
 
 
 class MSGraphAPI_v1_itemReference : MSGraphAPI_Base {
@@ -3159,8 +3196,8 @@ class MSGraphAPI_v1_itemReference : MSGraphAPI_Base {
     [string] $shareId
     [MSGraphAPI_v1_sharepointIds] $sharepointIds
 }
-$Script:MSGraphAPIClassHash.Add('sharepointIds', 'MSGraphAPI_v1_sharepointIds')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.sharepointIds', 'MSGraphAPI_v1_sharepointIds')
+$null = $Script:MSGraphAPIClassHash.Add('sharepointIds', 'MSGraphAPI_v1_sharepointIds')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.sharepointIds', 'MSGraphAPI_v1_sharepointIds')
 
 
 class MSGraphAPI_v1_sharepointIds : MSGraphAPI_Base {
@@ -3171,8 +3208,8 @@ class MSGraphAPI_v1_sharepointIds : MSGraphAPI_Base {
     [string] $siteUrl
     [string] $webId
 }
-$Script:MSGraphAPIClassHash.Add('columnDefinition', 'MSGraphAPI_v1_columnDefinition')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.columnDefinition', 'MSGraphAPI_v1_columnDefinition')
+$null = $Script:MSGraphAPIClassHash.Add('columnDefinition', 'MSGraphAPI_v1_columnDefinition')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.columnDefinition', 'MSGraphAPI_v1_columnDefinition')
 
 
 class MSGraphAPI_v1_columnDefinition : MSGraphAPI_v1_entity {
@@ -3199,15 +3236,15 @@ class MSGraphAPI_v1_columnDefinition : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('booleanColumn', 'MSGraphAPI_v1_booleanColumn')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.booleanColumn', 'MSGraphAPI_v1_booleanColumn')
+$null = $Script:MSGraphAPIClassHash.Add('booleanColumn', 'MSGraphAPI_v1_booleanColumn')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.booleanColumn', 'MSGraphAPI_v1_booleanColumn')
 
 
 class MSGraphAPI_v1_booleanColumn : MSGraphAPI_Base {
 
 }
-$Script:MSGraphAPIClassHash.Add('calculatedColumn', 'MSGraphAPI_v1_calculatedColumn')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.calculatedColumn', 'MSGraphAPI_v1_calculatedColumn')
+$null = $Script:MSGraphAPIClassHash.Add('calculatedColumn', 'MSGraphAPI_v1_calculatedColumn')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.calculatedColumn', 'MSGraphAPI_v1_calculatedColumn')
 
 
 class MSGraphAPI_v1_calculatedColumn : MSGraphAPI_Base {
@@ -3215,8 +3252,8 @@ class MSGraphAPI_v1_calculatedColumn : MSGraphAPI_Base {
     [string] $formula
     [string] $outputType
 }
-$Script:MSGraphAPIClassHash.Add('choiceColumn', 'MSGraphAPI_v1_choiceColumn')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.choiceColumn', 'MSGraphAPI_v1_choiceColumn')
+$null = $Script:MSGraphAPIClassHash.Add('choiceColumn', 'MSGraphAPI_v1_choiceColumn')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.choiceColumn', 'MSGraphAPI_v1_choiceColumn')
 
 
 class MSGraphAPI_v1_choiceColumn : MSGraphAPI_Base {
@@ -3224,31 +3261,31 @@ class MSGraphAPI_v1_choiceColumn : MSGraphAPI_Base {
     [string[]] $choices
     [string] $displayAs
 }
-$Script:MSGraphAPIClassHash.Add('currencyColumn', 'MSGraphAPI_v1_currencyColumn')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.currencyColumn', 'MSGraphAPI_v1_currencyColumn')
+$null = $Script:MSGraphAPIClassHash.Add('currencyColumn', 'MSGraphAPI_v1_currencyColumn')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.currencyColumn', 'MSGraphAPI_v1_currencyColumn')
 
 
 class MSGraphAPI_v1_currencyColumn : MSGraphAPI_Base {
     [string] $locale
 }
-$Script:MSGraphAPIClassHash.Add('dateTimeColumn', 'MSGraphAPI_v1_dateTimeColumn')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.dateTimeColumn', 'MSGraphAPI_v1_dateTimeColumn')
+$null = $Script:MSGraphAPIClassHash.Add('dateTimeColumn', 'MSGraphAPI_v1_dateTimeColumn')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.dateTimeColumn', 'MSGraphAPI_v1_dateTimeColumn')
 
 
 class MSGraphAPI_v1_dateTimeColumn : MSGraphAPI_Base {
     [string] $displayAs
     [string] $format
 }
-$Script:MSGraphAPIClassHash.Add('defaultColumnValue', 'MSGraphAPI_v1_defaultColumnValue')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.defaultColumnValue', 'MSGraphAPI_v1_defaultColumnValue')
+$null = $Script:MSGraphAPIClassHash.Add('defaultColumnValue', 'MSGraphAPI_v1_defaultColumnValue')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.defaultColumnValue', 'MSGraphAPI_v1_defaultColumnValue')
 
 
 class MSGraphAPI_v1_defaultColumnValue : MSGraphAPI_Base {
     [string] $formula
     [string] $value
 }
-$Script:MSGraphAPIClassHash.Add('lookupColumn', 'MSGraphAPI_v1_lookupColumn')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.lookupColumn', 'MSGraphAPI_v1_lookupColumn')
+$null = $Script:MSGraphAPIClassHash.Add('lookupColumn', 'MSGraphAPI_v1_lookupColumn')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.lookupColumn', 'MSGraphAPI_v1_lookupColumn')
 
 
 class MSGraphAPI_v1_lookupColumn : MSGraphAPI_Base {
@@ -3258,8 +3295,8 @@ class MSGraphAPI_v1_lookupColumn : MSGraphAPI_Base {
     [string] $listId
     [string] $primaryLookupColumnId
 }
-$Script:MSGraphAPIClassHash.Add('numberColumn', 'MSGraphAPI_v1_numberColumn')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.numberColumn', 'MSGraphAPI_v1_numberColumn')
+$null = $Script:MSGraphAPIClassHash.Add('numberColumn', 'MSGraphAPI_v1_numberColumn')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.numberColumn', 'MSGraphAPI_v1_numberColumn')
 
 
 class MSGraphAPI_v1_numberColumn : MSGraphAPI_Base {
@@ -3268,8 +3305,8 @@ class MSGraphAPI_v1_numberColumn : MSGraphAPI_Base {
     [Nullable[Double]] $maximum
     [Nullable[Double]] $minimum
 }
-$Script:MSGraphAPIClassHash.Add('personOrGroupColumn', 'MSGraphAPI_v1_personOrGroupColumn')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.personOrGroupColumn', 'MSGraphAPI_v1_personOrGroupColumn')
+$null = $Script:MSGraphAPIClassHash.Add('personOrGroupColumn', 'MSGraphAPI_v1_personOrGroupColumn')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.personOrGroupColumn', 'MSGraphAPI_v1_personOrGroupColumn')
 
 
 class MSGraphAPI_v1_personOrGroupColumn : MSGraphAPI_Base {
@@ -3277,8 +3314,8 @@ class MSGraphAPI_v1_personOrGroupColumn : MSGraphAPI_Base {
     [string] $displayAs
     [string] $chooseFromType
 }
-$Script:MSGraphAPIClassHash.Add('textColumn', 'MSGraphAPI_v1_textColumn')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.textColumn', 'MSGraphAPI_v1_textColumn')
+$null = $Script:MSGraphAPIClassHash.Add('textColumn', 'MSGraphAPI_v1_textColumn')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.textColumn', 'MSGraphAPI_v1_textColumn')
 
 
 class MSGraphAPI_v1_textColumn : MSGraphAPI_Base {
@@ -3288,8 +3325,8 @@ class MSGraphAPI_v1_textColumn : MSGraphAPI_Base {
     [Nullable[int]] $maxLength
     [string] $textType
 }
-$Script:MSGraphAPIClassHash.Add('columnLink', 'MSGraphAPI_v1_columnLink')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.columnLink', 'MSGraphAPI_v1_columnLink')
+$null = $Script:MSGraphAPIClassHash.Add('columnLink', 'MSGraphAPI_v1_columnLink')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.columnLink', 'MSGraphAPI_v1_columnLink')
 
 
 class MSGraphAPI_v1_columnLink : MSGraphAPI_v1_entity {
@@ -3298,8 +3335,8 @@ class MSGraphAPI_v1_columnLink : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('contentType', 'MSGraphAPI_v1_contentType')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.contentType', 'MSGraphAPI_v1_contentType')
+$null = $Script:MSGraphAPIClassHash.Add('contentType', 'MSGraphAPI_v1_contentType')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.contentType', 'MSGraphAPI_v1_contentType')
 
 
 class MSGraphAPI_v1_contentType : MSGraphAPI_v1_entity {
@@ -3318,16 +3355,16 @@ class MSGraphAPI_v1_contentType : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('contentTypeOrder', 'MSGraphAPI_v1_contentTypeOrder')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.contentTypeOrder', 'MSGraphAPI_v1_contentTypeOrder')
+$null = $Script:MSGraphAPIClassHash.Add('contentTypeOrder', 'MSGraphAPI_v1_contentTypeOrder')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.contentTypeOrder', 'MSGraphAPI_v1_contentTypeOrder')
 
 
 class MSGraphAPI_v1_contentTypeOrder : MSGraphAPI_Base {
     [Nullable[bool]] $default
     [Nullable[int]] $position
 }
-$Script:MSGraphAPIClassHash.Add('quota', 'MSGraphAPI_v1_quota')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.quota', 'MSGraphAPI_v1_quota')
+$null = $Script:MSGraphAPIClassHash.Add('quota', 'MSGraphAPI_v1_quota')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.quota', 'MSGraphAPI_v1_quota')
 
 
 class MSGraphAPI_v1_quota : MSGraphAPI_Base {
@@ -3337,15 +3374,15 @@ class MSGraphAPI_v1_quota : MSGraphAPI_Base {
     [Nullable[int64]] $total
     [Nullable[int64]] $used
 }
-$Script:MSGraphAPIClassHash.Add('systemFacet', 'MSGraphAPI_v1_systemFacet')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.systemFacet', 'MSGraphAPI_v1_systemFacet')
+$null = $Script:MSGraphAPIClassHash.Add('systemFacet', 'MSGraphAPI_v1_systemFacet')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.systemFacet', 'MSGraphAPI_v1_systemFacet')
 
 
 class MSGraphAPI_v1_systemFacet : MSGraphAPI_Base {
 
 }
-$Script:MSGraphAPIClassHash.Add('driveItem', 'MSGraphAPI_v1_driveItem')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.driveItem', 'MSGraphAPI_v1_driveItem')
+$null = $Script:MSGraphAPIClassHash.Add('driveItem', 'MSGraphAPI_v1_driveItem')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.driveItem', 'MSGraphAPI_v1_driveItem')
 
 
 class MSGraphAPI_v1_driveItem : MSGraphAPI_v1_baseItem {
@@ -3384,7 +3421,7 @@ class MSGraphAPI_v1_driveItem : MSGraphAPI_v1_baseItem {
     [object]Get_workbook(){
         return (Invoke-MSGraphMethod -query "$($this.GraphPath)/workbook")
     }
-    [object]copy([string]$name,[MSGraphAPI_v1_itemReference]$parentReference){
+    [object]copy([string]$name,[object]$parentReference){
         $ParamHash = @{
             'name'=$name
             'parentReference'=$parentReference
@@ -3398,13 +3435,13 @@ class MSGraphAPI_v1_driveItem : MSGraphAPI_v1_baseItem {
         }
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'createLink' -ParamHash $ParamHash)
     }
-    [object]createUploadSession([MSGraphAPI_v1_driveItemUploadableProperties]$item){
+    [object]createUploadSession([object]$item){
         $ParamHash = @{
             'item'=$item
         }
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'createUploadSession' -ParamHash $ParamHash)
     }
-    [object]invite([Nullable[bool]]$requireSignIn,[string[]]$roles,[Nullable[bool]]$sendInvitation,[string]$message,[MSGraphAPI_v1_driveRecipient[]]$recipients){
+    [object]invite([Nullable[bool]]$requireSignIn,[string[]]$roles,[Nullable[bool]]$sendInvitation,[string]$message,[object]$recipients){
         $ParamHash = @{
             'requireSignIn'=$requireSignIn
             'roles'=$roles
@@ -3430,8 +3467,8 @@ class MSGraphAPI_v1_driveItem : MSGraphAPI_v1_baseItem {
         return (Start-MSGraphAPIFunction -BaseURI $this.GraphURL -Function 'search' -ParamHash $ParamHash)
     }
 }
-$Script:MSGraphAPIClassHash.Add('list', 'MSGraphAPI_v1_list')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.list', 'MSGraphAPI_v1_list')
+$null = $Script:MSGraphAPIClassHash.Add('list', 'MSGraphAPI_v1_list')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.list', 'MSGraphAPI_v1_list')
 
 
 class MSGraphAPI_v1_list : MSGraphAPI_v1_baseItem {
@@ -3454,8 +3491,8 @@ class MSGraphAPI_v1_list : MSGraphAPI_v1_baseItem {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('audio', 'MSGraphAPI_v1_audio')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.audio', 'MSGraphAPI_v1_audio')
+$null = $Script:MSGraphAPIClassHash.Add('audio', 'MSGraphAPI_v1_audio')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.audio', 'MSGraphAPI_v1_audio')
 
 
 class MSGraphAPI_v1_audio : MSGraphAPI_Base {
@@ -3476,15 +3513,15 @@ class MSGraphAPI_v1_audio : MSGraphAPI_Base {
     [Nullable[int]] $trackCount
     [Nullable[int]] $year
 }
-$Script:MSGraphAPIClassHash.Add('deleted', 'MSGraphAPI_v1_deleted')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deleted', 'MSGraphAPI_v1_deleted')
+$null = $Script:MSGraphAPIClassHash.Add('deleted', 'MSGraphAPI_v1_deleted')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deleted', 'MSGraphAPI_v1_deleted')
 
 
 class MSGraphAPI_v1_deleted : MSGraphAPI_Base {
     [string] $state
 }
-$Script:MSGraphAPIClassHash.Add('file', 'MSGraphAPI_v1_file')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.file', 'MSGraphAPI_v1_file')
+$null = $Script:MSGraphAPIClassHash.Add('file', 'MSGraphAPI_v1_file')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.file', 'MSGraphAPI_v1_file')
 
 
 class MSGraphAPI_v1_file : MSGraphAPI_Base {
@@ -3492,8 +3529,8 @@ class MSGraphAPI_v1_file : MSGraphAPI_Base {
     [string] $mimeType
     [Nullable[bool]] $processingMetadata
 }
-$Script:MSGraphAPIClassHash.Add('hashes', 'MSGraphAPI_v1_hashes')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.hashes', 'MSGraphAPI_v1_hashes')
+$null = $Script:MSGraphAPIClassHash.Add('hashes', 'MSGraphAPI_v1_hashes')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.hashes', 'MSGraphAPI_v1_hashes')
 
 
 class MSGraphAPI_v1_hashes : MSGraphAPI_Base {
@@ -3501,8 +3538,8 @@ class MSGraphAPI_v1_hashes : MSGraphAPI_Base {
     [string] $quickXorHash
     [string] $sha1Hash
 }
-$Script:MSGraphAPIClassHash.Add('fileSystemInfo', 'MSGraphAPI_v1_fileSystemInfo')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.fileSystemInfo', 'MSGraphAPI_v1_fileSystemInfo')
+$null = $Script:MSGraphAPIClassHash.Add('fileSystemInfo', 'MSGraphAPI_v1_fileSystemInfo')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.fileSystemInfo', 'MSGraphAPI_v1_fileSystemInfo')
 
 
 class MSGraphAPI_v1_fileSystemInfo : MSGraphAPI_Base {
@@ -3510,16 +3547,16 @@ class MSGraphAPI_v1_fileSystemInfo : MSGraphAPI_Base {
     [Nullable[DateTimeOffset]] $lastAccessedDateTime
     [Nullable[DateTimeOffset]] $lastModifiedDateTime
 }
-$Script:MSGraphAPIClassHash.Add('folder', 'MSGraphAPI_v1_folder')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.folder', 'MSGraphAPI_v1_folder')
+$null = $Script:MSGraphAPIClassHash.Add('folder', 'MSGraphAPI_v1_folder')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.folder', 'MSGraphAPI_v1_folder')
 
 
 class MSGraphAPI_v1_folder : MSGraphAPI_Base {
     [Nullable[int]] $childCount
     [MSGraphAPI_v1_folderView] $view
 }
-$Script:MSGraphAPIClassHash.Add('folderView', 'MSGraphAPI_v1_folderView')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.folderView', 'MSGraphAPI_v1_folderView')
+$null = $Script:MSGraphAPIClassHash.Add('folderView', 'MSGraphAPI_v1_folderView')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.folderView', 'MSGraphAPI_v1_folderView')
 
 
 class MSGraphAPI_v1_folderView : MSGraphAPI_Base {
@@ -3527,16 +3564,16 @@ class MSGraphAPI_v1_folderView : MSGraphAPI_Base {
     [string] $sortOrder
     [string] $viewType
 }
-$Script:MSGraphAPIClassHash.Add('image', 'MSGraphAPI_v1_image')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.image', 'MSGraphAPI_v1_image')
+$null = $Script:MSGraphAPIClassHash.Add('image', 'MSGraphAPI_v1_image')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.image', 'MSGraphAPI_v1_image')
 
 
 class MSGraphAPI_v1_image : MSGraphAPI_Base {
     [Nullable[int]] $height
     [Nullable[int]] $width
 }
-$Script:MSGraphAPIClassHash.Add('geoCoordinates', 'MSGraphAPI_v1_geoCoordinates')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.geoCoordinates', 'MSGraphAPI_v1_geoCoordinates')
+$null = $Script:MSGraphAPIClassHash.Add('geoCoordinates', 'MSGraphAPI_v1_geoCoordinates')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.geoCoordinates', 'MSGraphAPI_v1_geoCoordinates')
 
 
 class MSGraphAPI_v1_geoCoordinates : MSGraphAPI_Base {
@@ -3544,15 +3581,15 @@ class MSGraphAPI_v1_geoCoordinates : MSGraphAPI_Base {
     [Nullable[Double]] $latitude
     [Nullable[Double]] $longitude
 }
-$Script:MSGraphAPIClassHash.Add('package', 'MSGraphAPI_v1_package')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.package', 'MSGraphAPI_v1_package')
+$null = $Script:MSGraphAPIClassHash.Add('package', 'MSGraphAPI_v1_package')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.package', 'MSGraphAPI_v1_package')
 
 
 class MSGraphAPI_v1_package : MSGraphAPI_Base {
     [string] $type
 }
-$Script:MSGraphAPIClassHash.Add('photo', 'MSGraphAPI_v1_photo')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.photo', 'MSGraphAPI_v1_photo')
+$null = $Script:MSGraphAPIClassHash.Add('photo', 'MSGraphAPI_v1_photo')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.photo', 'MSGraphAPI_v1_photo')
 
 
 class MSGraphAPI_v1_photo : MSGraphAPI_Base {
@@ -3565,8 +3602,8 @@ class MSGraphAPI_v1_photo : MSGraphAPI_Base {
     [Nullable[int]] $iso
     [Nullable[DateTimeOffset]] $takenDateTime
 }
-$Script:MSGraphAPIClassHash.Add('remoteItem', 'MSGraphAPI_v1_remoteItem')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.remoteItem', 'MSGraphAPI_v1_remoteItem')
+$null = $Script:MSGraphAPIClassHash.Add('remoteItem', 'MSGraphAPI_v1_remoteItem')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.remoteItem', 'MSGraphAPI_v1_remoteItem')
 
 
 class MSGraphAPI_v1_remoteItem : MSGraphAPI_Base {
@@ -3588,8 +3625,8 @@ class MSGraphAPI_v1_remoteItem : MSGraphAPI_Base {
     [string] $webDavUrl
     [string] $webUrl
 }
-$Script:MSGraphAPIClassHash.Add('shared', 'MSGraphAPI_v1_shared')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.shared', 'MSGraphAPI_v1_shared')
+$null = $Script:MSGraphAPIClassHash.Add('shared', 'MSGraphAPI_v1_shared')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.shared', 'MSGraphAPI_v1_shared')
 
 
 class MSGraphAPI_v1_shared : MSGraphAPI_Base {
@@ -3598,29 +3635,29 @@ class MSGraphAPI_v1_shared : MSGraphAPI_Base {
     [MSGraphAPI_v1_identitySet] $sharedBy
     [Nullable[DateTimeOffset]] $sharedDateTime
 }
-$Script:MSGraphAPIClassHash.Add('specialFolder', 'MSGraphAPI_v1_specialFolder')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.specialFolder', 'MSGraphAPI_v1_specialFolder')
+$null = $Script:MSGraphAPIClassHash.Add('specialFolder', 'MSGraphAPI_v1_specialFolder')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.specialFolder', 'MSGraphAPI_v1_specialFolder')
 
 
 class MSGraphAPI_v1_specialFolder : MSGraphAPI_Base {
     [string] $name
 }
-$Script:MSGraphAPIClassHash.Add('root', 'MSGraphAPI_v1_root')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.root', 'MSGraphAPI_v1_root')
+$null = $Script:MSGraphAPIClassHash.Add('root', 'MSGraphAPI_v1_root')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.root', 'MSGraphAPI_v1_root')
 
 
 class MSGraphAPI_v1_root : MSGraphAPI_Base {
 
 }
-$Script:MSGraphAPIClassHash.Add('searchResult', 'MSGraphAPI_v1_searchResult')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.searchResult', 'MSGraphAPI_v1_searchResult')
+$null = $Script:MSGraphAPIClassHash.Add('searchResult', 'MSGraphAPI_v1_searchResult')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.searchResult', 'MSGraphAPI_v1_searchResult')
 
 
 class MSGraphAPI_v1_searchResult : MSGraphAPI_Base {
     [string] $onClickTelemetryUrl
 }
-$Script:MSGraphAPIClassHash.Add('video', 'MSGraphAPI_v1_video')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.video', 'MSGraphAPI_v1_video')
+$null = $Script:MSGraphAPIClassHash.Add('video', 'MSGraphAPI_v1_video')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.video', 'MSGraphAPI_v1_video')
 
 
 class MSGraphAPI_v1_video : MSGraphAPI_Base {
@@ -3635,8 +3672,8 @@ class MSGraphAPI_v1_video : MSGraphAPI_Base {
     [Nullable[int]] $height
     [Nullable[int]] $width
 }
-$Script:MSGraphAPIClassHash.Add('listItem', 'MSGraphAPI_v1_listItem')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.listItem', 'MSGraphAPI_v1_listItem')
+$null = $Script:MSGraphAPIClassHash.Add('listItem', 'MSGraphAPI_v1_listItem')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.listItem', 'MSGraphAPI_v1_listItem')
 
 
 class MSGraphAPI_v1_listItem : MSGraphAPI_v1_baseItem {
@@ -3651,8 +3688,8 @@ class MSGraphAPI_v1_listItem : MSGraphAPI_v1_baseItem {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('permission', 'MSGraphAPI_v1_permission')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.permission', 'MSGraphAPI_v1_permission')
+$null = $Script:MSGraphAPIClassHash.Add('permission', 'MSGraphAPI_v1_permission')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.permission', 'MSGraphAPI_v1_permission')
 
 
 class MSGraphAPI_v1_permission : MSGraphAPI_v1_entity {
@@ -3666,8 +3703,8 @@ class MSGraphAPI_v1_permission : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('thumbnailSet', 'MSGraphAPI_v1_thumbnailSet')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.thumbnailSet', 'MSGraphAPI_v1_thumbnailSet')
+$null = $Script:MSGraphAPIClassHash.Add('thumbnailSet', 'MSGraphAPI_v1_thumbnailSet')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.thumbnailSet', 'MSGraphAPI_v1_thumbnailSet')
 
 
 class MSGraphAPI_v1_thumbnailSet : MSGraphAPI_v1_entity {
@@ -3679,8 +3716,8 @@ class MSGraphAPI_v1_thumbnailSet : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbook', 'MSGraphAPI_v1_workbook')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbook', 'MSGraphAPI_v1_workbook')
+$null = $Script:MSGraphAPIClassHash.Add('workbook', 'MSGraphAPI_v1_workbook')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbook', 'MSGraphAPI_v1_workbook')
 
 
 class MSGraphAPI_v1_workbook : MSGraphAPI_v1_entity {
@@ -3703,8 +3740,8 @@ class MSGraphAPI_v1_workbook : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('fieldValueSet', 'MSGraphAPI_v1_fieldValueSet')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.fieldValueSet', 'MSGraphAPI_v1_fieldValueSet')
+$null = $Script:MSGraphAPIClassHash.Add('fieldValueSet', 'MSGraphAPI_v1_fieldValueSet')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.fieldValueSet', 'MSGraphAPI_v1_fieldValueSet')
 
 
 class MSGraphAPI_v1_fieldValueSet : MSGraphAPI_v1_entity {
@@ -3713,8 +3750,8 @@ class MSGraphAPI_v1_fieldValueSet : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('listInfo', 'MSGraphAPI_v1_listInfo')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.listInfo', 'MSGraphAPI_v1_listInfo')
+$null = $Script:MSGraphAPIClassHash.Add('listInfo', 'MSGraphAPI_v1_listInfo')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.listInfo', 'MSGraphAPI_v1_listInfo')
 
 
 class MSGraphAPI_v1_listInfo : MSGraphAPI_Base {
@@ -3722,15 +3759,15 @@ class MSGraphAPI_v1_listInfo : MSGraphAPI_Base {
     [Nullable[bool]] $hidden
     [string] $template
 }
-$Script:MSGraphAPIClassHash.Add('contentTypeInfo', 'MSGraphAPI_v1_contentTypeInfo')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.contentTypeInfo', 'MSGraphAPI_v1_contentTypeInfo')
+$null = $Script:MSGraphAPIClassHash.Add('contentTypeInfo', 'MSGraphAPI_v1_contentTypeInfo')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.contentTypeInfo', 'MSGraphAPI_v1_contentTypeInfo')
 
 
 class MSGraphAPI_v1_contentTypeInfo : MSGraphAPI_Base {
     [string] $id
 }
-$Script:MSGraphAPIClassHash.Add('sharingInvitation', 'MSGraphAPI_v1_sharingInvitation')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.sharingInvitation', 'MSGraphAPI_v1_sharingInvitation')
+$null = $Script:MSGraphAPIClassHash.Add('sharingInvitation', 'MSGraphAPI_v1_sharingInvitation')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.sharingInvitation', 'MSGraphAPI_v1_sharingInvitation')
 
 
 class MSGraphAPI_v1_sharingInvitation : MSGraphAPI_Base {
@@ -3739,8 +3776,8 @@ class MSGraphAPI_v1_sharingInvitation : MSGraphAPI_Base {
     [string] $redeemedBy
     [Nullable[bool]] $signInRequired
 }
-$Script:MSGraphAPIClassHash.Add('sharingLink', 'MSGraphAPI_v1_sharingLink')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.sharingLink', 'MSGraphAPI_v1_sharingLink')
+$null = $Script:MSGraphAPIClassHash.Add('sharingLink', 'MSGraphAPI_v1_sharingLink')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.sharingLink', 'MSGraphAPI_v1_sharingLink')
 
 
 class MSGraphAPI_v1_sharingLink : MSGraphAPI_Base {
@@ -3749,8 +3786,8 @@ class MSGraphAPI_v1_sharingLink : MSGraphAPI_Base {
     [string] $type
     [string] $webUrl
 }
-$Script:MSGraphAPIClassHash.Add('sharedDriveItem', 'MSGraphAPI_v1_sharedDriveItem')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.sharedDriveItem', 'MSGraphAPI_v1_sharedDriveItem')
+$null = $Script:MSGraphAPIClassHash.Add('sharedDriveItem', 'MSGraphAPI_v1_sharedDriveItem')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.sharedDriveItem', 'MSGraphAPI_v1_sharedDriveItem')
 
 
 class MSGraphAPI_v1_sharedDriveItem : MSGraphAPI_v1_baseItem {
@@ -3776,15 +3813,15 @@ class MSGraphAPI_v1_sharedDriveItem : MSGraphAPI_v1_baseItem {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('siteCollection', 'MSGraphAPI_v1_siteCollection')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.siteCollection', 'MSGraphAPI_v1_siteCollection')
+$null = $Script:MSGraphAPIClassHash.Add('siteCollection', 'MSGraphAPI_v1_siteCollection')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.siteCollection', 'MSGraphAPI_v1_siteCollection')
 
 
 class MSGraphAPI_v1_siteCollection : MSGraphAPI_Base {
     [string] $hostname
 }
-$Script:MSGraphAPIClassHash.Add('thumbnail', 'MSGraphAPI_v1_thumbnail')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.thumbnail', 'MSGraphAPI_v1_thumbnail')
+$null = $Script:MSGraphAPIClassHash.Add('thumbnail', 'MSGraphAPI_v1_thumbnail')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.thumbnail', 'MSGraphAPI_v1_thumbnail')
 
 
 class MSGraphAPI_v1_thumbnail : MSGraphAPI_Base {
@@ -3794,8 +3831,8 @@ class MSGraphAPI_v1_thumbnail : MSGraphAPI_Base {
     [string] $url
     [Nullable[int]] $width
 }
-$Script:MSGraphAPIClassHash.Add('driveItemUploadableProperties', 'MSGraphAPI_v1_driveItemUploadableProperties')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.driveItemUploadableProperties', 'MSGraphAPI_v1_driveItemUploadableProperties')
+$null = $Script:MSGraphAPIClassHash.Add('driveItemUploadableProperties', 'MSGraphAPI_v1_driveItemUploadableProperties')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.driveItemUploadableProperties', 'MSGraphAPI_v1_driveItemUploadableProperties')
 
 
 class MSGraphAPI_v1_driveItemUploadableProperties : MSGraphAPI_Base {
@@ -3803,8 +3840,8 @@ class MSGraphAPI_v1_driveItemUploadableProperties : MSGraphAPI_Base {
     [MSGraphAPI_v1_fileSystemInfo] $fileSystemInfo
     [string] $name
 }
-$Script:MSGraphAPIClassHash.Add('driveRecipient', 'MSGraphAPI_v1_driveRecipient')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.driveRecipient', 'MSGraphAPI_v1_driveRecipient')
+$null = $Script:MSGraphAPIClassHash.Add('driveRecipient', 'MSGraphAPI_v1_driveRecipient')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.driveRecipient', 'MSGraphAPI_v1_driveRecipient')
 
 
 class MSGraphAPI_v1_driveRecipient : MSGraphAPI_Base {
@@ -3812,8 +3849,8 @@ class MSGraphAPI_v1_driveRecipient : MSGraphAPI_Base {
     [string] $email
     [string] $objectId
 }
-$Script:MSGraphAPIClassHash.Add('uploadSession', 'MSGraphAPI_v1_uploadSession')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.uploadSession', 'MSGraphAPI_v1_uploadSession')
+$null = $Script:MSGraphAPIClassHash.Add('uploadSession', 'MSGraphAPI_v1_uploadSession')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.uploadSession', 'MSGraphAPI_v1_uploadSession')
 
 
 class MSGraphAPI_v1_uploadSession : MSGraphAPI_Base {
@@ -3821,8 +3858,8 @@ class MSGraphAPI_v1_uploadSession : MSGraphAPI_Base {
     [string[]] $nextExpectedRanges
     [string] $uploadUrl
 }
-$Script:MSGraphAPIClassHash.Add('workbookApplication', 'MSGraphAPI_v1_workbookApplication')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookApplication', 'MSGraphAPI_v1_workbookApplication')
+$null = $Script:MSGraphAPIClassHash.Add('workbookApplication', 'MSGraphAPI_v1_workbookApplication')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookApplication', 'MSGraphAPI_v1_workbookApplication')
 
 
 class MSGraphAPI_v1_workbookApplication : MSGraphAPI_v1_entity {
@@ -3831,8 +3868,8 @@ class MSGraphAPI_v1_workbookApplication : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookNamedItem', 'MSGraphAPI_v1_workbookNamedItem')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookNamedItem', 'MSGraphAPI_v1_workbookNamedItem')
+$null = $Script:MSGraphAPIClassHash.Add('workbookNamedItem', 'MSGraphAPI_v1_workbookNamedItem')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookNamedItem', 'MSGraphAPI_v1_workbookNamedItem')
 
 
 class MSGraphAPI_v1_workbookNamedItem : MSGraphAPI_v1_entity {
@@ -3848,8 +3885,8 @@ class MSGraphAPI_v1_workbookNamedItem : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookTable', 'MSGraphAPI_v1_workbookTable')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookTable', 'MSGraphAPI_v1_workbookTable')
+$null = $Script:MSGraphAPIClassHash.Add('workbookTable', 'MSGraphAPI_v1_workbookTable')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookTable', 'MSGraphAPI_v1_workbookTable')
 
 
 class MSGraphAPI_v1_workbookTable : MSGraphAPI_v1_entity {
@@ -3877,8 +3914,8 @@ class MSGraphAPI_v1_workbookTable : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookWorksheet', 'MSGraphAPI_v1_workbookWorksheet')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookWorksheet', 'MSGraphAPI_v1_workbookWorksheet')
+$null = $Script:MSGraphAPIClassHash.Add('workbookWorksheet', 'MSGraphAPI_v1_workbookWorksheet')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookWorksheet', 'MSGraphAPI_v1_workbookWorksheet')
 
 
 class MSGraphAPI_v1_workbookWorksheet : MSGraphAPI_v1_entity {
@@ -3903,8 +3940,8 @@ class MSGraphAPI_v1_workbookWorksheet : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookFunctions', 'MSGraphAPI_v1_workbookFunctions')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookFunctions', 'MSGraphAPI_v1_workbookFunctions')
+$null = $Script:MSGraphAPIClassHash.Add('workbookFunctions', 'MSGraphAPI_v1_workbookFunctions')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookFunctions', 'MSGraphAPI_v1_workbookFunctions')
 
 
 class MSGraphAPI_v1_workbookFunctions : MSGraphAPI_v1_entity {
@@ -3913,23 +3950,23 @@ class MSGraphAPI_v1_workbookFunctions : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookSessionInfo', 'MSGraphAPI_v1_workbookSessionInfo')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookSessionInfo', 'MSGraphAPI_v1_workbookSessionInfo')
+$null = $Script:MSGraphAPIClassHash.Add('workbookSessionInfo', 'MSGraphAPI_v1_workbookSessionInfo')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookSessionInfo', 'MSGraphAPI_v1_workbookSessionInfo')
 
 
 class MSGraphAPI_v1_workbookSessionInfo : MSGraphAPI_Base {
     [string] $id
     [Nullable[bool]] $persistChanges
 }
-$Script:MSGraphAPIClassHash.Add('Json', 'MSGraphAPI_v1_Json')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.Json', 'MSGraphAPI_v1_Json')
+$null = $Script:MSGraphAPIClassHash.Add('Json', 'MSGraphAPI_v1_Json')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.Json', 'MSGraphAPI_v1_Json')
 
 
 class MSGraphAPI_v1_Json : MSGraphAPI_Base {
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChart', 'MSGraphAPI_v1_workbookChart')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChart', 'MSGraphAPI_v1_workbookChart')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChart', 'MSGraphAPI_v1_workbookChart')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChart', 'MSGraphAPI_v1_workbookChart')
 
 
 class MSGraphAPI_v1_workbookChart : MSGraphAPI_v1_entity {
@@ -3962,8 +3999,8 @@ class MSGraphAPI_v1_workbookChart : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartAxes', 'MSGraphAPI_v1_workbookChartAxes')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartAxes', 'MSGraphAPI_v1_workbookChartAxes')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartAxes', 'MSGraphAPI_v1_workbookChartAxes')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartAxes', 'MSGraphAPI_v1_workbookChartAxes')
 
 
 class MSGraphAPI_v1_workbookChartAxes : MSGraphAPI_v1_entity {
@@ -3980,8 +4017,8 @@ class MSGraphAPI_v1_workbookChartAxes : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartDataLabels', 'MSGraphAPI_v1_workbookChartDataLabels')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartDataLabels', 'MSGraphAPI_v1_workbookChartDataLabels')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartDataLabels', 'MSGraphAPI_v1_workbookChartDataLabels')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartDataLabels', 'MSGraphAPI_v1_workbookChartDataLabels')
 
 
 class MSGraphAPI_v1_workbookChartDataLabels : MSGraphAPI_v1_entity {
@@ -3999,8 +4036,8 @@ class MSGraphAPI_v1_workbookChartDataLabels : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartAreaFormat', 'MSGraphAPI_v1_workbookChartAreaFormat')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartAreaFormat', 'MSGraphAPI_v1_workbookChartAreaFormat')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartAreaFormat', 'MSGraphAPI_v1_workbookChartAreaFormat')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartAreaFormat', 'MSGraphAPI_v1_workbookChartAreaFormat')
 
 
 class MSGraphAPI_v1_workbookChartAreaFormat : MSGraphAPI_v1_entity {
@@ -4014,8 +4051,8 @@ class MSGraphAPI_v1_workbookChartAreaFormat : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartLegend', 'MSGraphAPI_v1_workbookChartLegend')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartLegend', 'MSGraphAPI_v1_workbookChartLegend')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartLegend', 'MSGraphAPI_v1_workbookChartLegend')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartLegend', 'MSGraphAPI_v1_workbookChartLegend')
 
 
 class MSGraphAPI_v1_workbookChartLegend : MSGraphAPI_v1_entity {
@@ -4028,8 +4065,8 @@ class MSGraphAPI_v1_workbookChartLegend : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartSeries', 'MSGraphAPI_v1_workbookChartSeries')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartSeries', 'MSGraphAPI_v1_workbookChartSeries')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartSeries', 'MSGraphAPI_v1_workbookChartSeries')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartSeries', 'MSGraphAPI_v1_workbookChartSeries')
 
 
 class MSGraphAPI_v1_workbookChartSeries : MSGraphAPI_v1_entity {
@@ -4043,8 +4080,8 @@ class MSGraphAPI_v1_workbookChartSeries : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartTitle', 'MSGraphAPI_v1_workbookChartTitle')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartTitle', 'MSGraphAPI_v1_workbookChartTitle')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartTitle', 'MSGraphAPI_v1_workbookChartTitle')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartTitle', 'MSGraphAPI_v1_workbookChartTitle')
 
 
 class MSGraphAPI_v1_workbookChartTitle : MSGraphAPI_v1_entity {
@@ -4057,8 +4094,8 @@ class MSGraphAPI_v1_workbookChartTitle : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartFill', 'MSGraphAPI_v1_workbookChartFill')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartFill', 'MSGraphAPI_v1_workbookChartFill')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartFill', 'MSGraphAPI_v1_workbookChartFill')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartFill', 'MSGraphAPI_v1_workbookChartFill')
 
 
 class MSGraphAPI_v1_workbookChartFill : MSGraphAPI_v1_entity {
@@ -4067,8 +4104,8 @@ class MSGraphAPI_v1_workbookChartFill : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartFont', 'MSGraphAPI_v1_workbookChartFont')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartFont', 'MSGraphAPI_v1_workbookChartFont')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartFont', 'MSGraphAPI_v1_workbookChartFont')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartFont', 'MSGraphAPI_v1_workbookChartFont')
 
 
 class MSGraphAPI_v1_workbookChartFont : MSGraphAPI_v1_entity {
@@ -4082,8 +4119,8 @@ class MSGraphAPI_v1_workbookChartFont : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartAxis', 'MSGraphAPI_v1_workbookChartAxis')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartAxis', 'MSGraphAPI_v1_workbookChartAxis')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartAxis', 'MSGraphAPI_v1_workbookChartAxis')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartAxis', 'MSGraphAPI_v1_workbookChartAxis')
 
 
 class MSGraphAPI_v1_workbookChartAxis : MSGraphAPI_v1_entity {
@@ -4106,8 +4143,8 @@ class MSGraphAPI_v1_workbookChartAxis : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartAxisFormat', 'MSGraphAPI_v1_workbookChartAxisFormat')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartAxisFormat', 'MSGraphAPI_v1_workbookChartAxisFormat')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartAxisFormat', 'MSGraphAPI_v1_workbookChartAxisFormat')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartAxisFormat', 'MSGraphAPI_v1_workbookChartAxisFormat')
 
 
 class MSGraphAPI_v1_workbookChartAxisFormat : MSGraphAPI_v1_entity {
@@ -4121,8 +4158,8 @@ class MSGraphAPI_v1_workbookChartAxisFormat : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartGridlines', 'MSGraphAPI_v1_workbookChartGridlines')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartGridlines', 'MSGraphAPI_v1_workbookChartGridlines')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartGridlines', 'MSGraphAPI_v1_workbookChartGridlines')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartGridlines', 'MSGraphAPI_v1_workbookChartGridlines')
 
 
 class MSGraphAPI_v1_workbookChartGridlines : MSGraphAPI_v1_entity {
@@ -4133,8 +4170,8 @@ class MSGraphAPI_v1_workbookChartGridlines : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartAxisTitle', 'MSGraphAPI_v1_workbookChartAxisTitle')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartAxisTitle', 'MSGraphAPI_v1_workbookChartAxisTitle')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartAxisTitle', 'MSGraphAPI_v1_workbookChartAxisTitle')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartAxisTitle', 'MSGraphAPI_v1_workbookChartAxisTitle')
 
 
 class MSGraphAPI_v1_workbookChartAxisTitle : MSGraphAPI_v1_entity {
@@ -4146,8 +4183,8 @@ class MSGraphAPI_v1_workbookChartAxisTitle : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartLineFormat', 'MSGraphAPI_v1_workbookChartLineFormat')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartLineFormat', 'MSGraphAPI_v1_workbookChartLineFormat')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartLineFormat', 'MSGraphAPI_v1_workbookChartLineFormat')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartLineFormat', 'MSGraphAPI_v1_workbookChartLineFormat')
 
 
 class MSGraphAPI_v1_workbookChartLineFormat : MSGraphAPI_v1_entity {
@@ -4156,8 +4193,8 @@ class MSGraphAPI_v1_workbookChartLineFormat : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartAxisTitleFormat', 'MSGraphAPI_v1_workbookChartAxisTitleFormat')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartAxisTitleFormat', 'MSGraphAPI_v1_workbookChartAxisTitleFormat')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartAxisTitleFormat', 'MSGraphAPI_v1_workbookChartAxisTitleFormat')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartAxisTitleFormat', 'MSGraphAPI_v1_workbookChartAxisTitleFormat')
 
 
 class MSGraphAPI_v1_workbookChartAxisTitleFormat : MSGraphAPI_v1_entity {
@@ -4168,8 +4205,8 @@ class MSGraphAPI_v1_workbookChartAxisTitleFormat : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartDataLabelFormat', 'MSGraphAPI_v1_workbookChartDataLabelFormat')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartDataLabelFormat', 'MSGraphAPI_v1_workbookChartDataLabelFormat')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartDataLabelFormat', 'MSGraphAPI_v1_workbookChartDataLabelFormat')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartDataLabelFormat', 'MSGraphAPI_v1_workbookChartDataLabelFormat')
 
 
 class MSGraphAPI_v1_workbookChartDataLabelFormat : MSGraphAPI_v1_entity {
@@ -4183,8 +4220,8 @@ class MSGraphAPI_v1_workbookChartDataLabelFormat : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartGridlinesFormat', 'MSGraphAPI_v1_workbookChartGridlinesFormat')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartGridlinesFormat', 'MSGraphAPI_v1_workbookChartGridlinesFormat')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartGridlinesFormat', 'MSGraphAPI_v1_workbookChartGridlinesFormat')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartGridlinesFormat', 'MSGraphAPI_v1_workbookChartGridlinesFormat')
 
 
 class MSGraphAPI_v1_workbookChartGridlinesFormat : MSGraphAPI_v1_entity {
@@ -4195,8 +4232,8 @@ class MSGraphAPI_v1_workbookChartGridlinesFormat : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartLegendFormat', 'MSGraphAPI_v1_workbookChartLegendFormat')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartLegendFormat', 'MSGraphAPI_v1_workbookChartLegendFormat')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartLegendFormat', 'MSGraphAPI_v1_workbookChartLegendFormat')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartLegendFormat', 'MSGraphAPI_v1_workbookChartLegendFormat')
 
 
 class MSGraphAPI_v1_workbookChartLegendFormat : MSGraphAPI_v1_entity {
@@ -4210,8 +4247,8 @@ class MSGraphAPI_v1_workbookChartLegendFormat : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartPoint', 'MSGraphAPI_v1_workbookChartPoint')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartPoint', 'MSGraphAPI_v1_workbookChartPoint')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartPoint', 'MSGraphAPI_v1_workbookChartPoint')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartPoint', 'MSGraphAPI_v1_workbookChartPoint')
 
 
 class MSGraphAPI_v1_workbookChartPoint : MSGraphAPI_v1_entity {
@@ -4222,8 +4259,8 @@ class MSGraphAPI_v1_workbookChartPoint : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartPointFormat', 'MSGraphAPI_v1_workbookChartPointFormat')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartPointFormat', 'MSGraphAPI_v1_workbookChartPointFormat')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartPointFormat', 'MSGraphAPI_v1_workbookChartPointFormat')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartPointFormat', 'MSGraphAPI_v1_workbookChartPointFormat')
 
 
 class MSGraphAPI_v1_workbookChartPointFormat : MSGraphAPI_v1_entity {
@@ -4234,8 +4271,8 @@ class MSGraphAPI_v1_workbookChartPointFormat : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartSeriesFormat', 'MSGraphAPI_v1_workbookChartSeriesFormat')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartSeriesFormat', 'MSGraphAPI_v1_workbookChartSeriesFormat')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartSeriesFormat', 'MSGraphAPI_v1_workbookChartSeriesFormat')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartSeriesFormat', 'MSGraphAPI_v1_workbookChartSeriesFormat')
 
 
 class MSGraphAPI_v1_workbookChartSeriesFormat : MSGraphAPI_v1_entity {
@@ -4249,8 +4286,8 @@ class MSGraphAPI_v1_workbookChartSeriesFormat : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookChartTitleFormat', 'MSGraphAPI_v1_workbookChartTitleFormat')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartTitleFormat', 'MSGraphAPI_v1_workbookChartTitleFormat')
+$null = $Script:MSGraphAPIClassHash.Add('workbookChartTitleFormat', 'MSGraphAPI_v1_workbookChartTitleFormat')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookChartTitleFormat', 'MSGraphAPI_v1_workbookChartTitleFormat')
 
 
 class MSGraphAPI_v1_workbookChartTitleFormat : MSGraphAPI_v1_entity {
@@ -4264,8 +4301,8 @@ class MSGraphAPI_v1_workbookChartTitleFormat : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookFilter', 'MSGraphAPI_v1_workbookFilter')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookFilter', 'MSGraphAPI_v1_workbookFilter')
+$null = $Script:MSGraphAPIClassHash.Add('workbookFilter', 'MSGraphAPI_v1_workbookFilter')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookFilter', 'MSGraphAPI_v1_workbookFilter')
 
 
 class MSGraphAPI_v1_workbookFilter : MSGraphAPI_v1_entity {
@@ -4274,8 +4311,8 @@ class MSGraphAPI_v1_workbookFilter : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookFilterCriteria', 'MSGraphAPI_v1_workbookFilterCriteria')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookFilterCriteria', 'MSGraphAPI_v1_workbookFilterCriteria')
+$null = $Script:MSGraphAPIClassHash.Add('workbookFilterCriteria', 'MSGraphAPI_v1_workbookFilterCriteria')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookFilterCriteria', 'MSGraphAPI_v1_workbookFilterCriteria')
 
 
 class MSGraphAPI_v1_workbookFilterCriteria : MSGraphAPI_Base {
@@ -4288,16 +4325,16 @@ class MSGraphAPI_v1_workbookFilterCriteria : MSGraphAPI_Base {
     [string] $operator
     [MSGraphAPI_v1_Json] $values
 }
-$Script:MSGraphAPIClassHash.Add('workbookIcon', 'MSGraphAPI_v1_workbookIcon')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookIcon', 'MSGraphAPI_v1_workbookIcon')
+$null = $Script:MSGraphAPIClassHash.Add('workbookIcon', 'MSGraphAPI_v1_workbookIcon')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookIcon', 'MSGraphAPI_v1_workbookIcon')
 
 
 class MSGraphAPI_v1_workbookIcon : MSGraphAPI_Base {
     [Nullable[int]] $index
     [string] $set
 }
-$Script:MSGraphAPIClassHash.Add('workbookFormatProtection', 'MSGraphAPI_v1_workbookFormatProtection')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookFormatProtection', 'MSGraphAPI_v1_workbookFormatProtection')
+$null = $Script:MSGraphAPIClassHash.Add('workbookFormatProtection', 'MSGraphAPI_v1_workbookFormatProtection')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookFormatProtection', 'MSGraphAPI_v1_workbookFormatProtection')
 
 
 class MSGraphAPI_v1_workbookFormatProtection : MSGraphAPI_v1_entity {
@@ -4307,8 +4344,8 @@ class MSGraphAPI_v1_workbookFormatProtection : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookFunctionResult', 'MSGraphAPI_v1_workbookFunctionResult')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookFunctionResult', 'MSGraphAPI_v1_workbookFunctionResult')
+$null = $Script:MSGraphAPIClassHash.Add('workbookFunctionResult', 'MSGraphAPI_v1_workbookFunctionResult')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookFunctionResult', 'MSGraphAPI_v1_workbookFunctionResult')
 
 
 class MSGraphAPI_v1_workbookFunctionResult : MSGraphAPI_v1_entity {
@@ -4318,8 +4355,8 @@ class MSGraphAPI_v1_workbookFunctionResult : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookPivotTable', 'MSGraphAPI_v1_workbookPivotTable')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookPivotTable', 'MSGraphAPI_v1_workbookPivotTable')
+$null = $Script:MSGraphAPIClassHash.Add('workbookPivotTable', 'MSGraphAPI_v1_workbookPivotTable')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookPivotTable', 'MSGraphAPI_v1_workbookPivotTable')
 
 
 class MSGraphAPI_v1_workbookPivotTable : MSGraphAPI_v1_entity {
@@ -4330,8 +4367,8 @@ class MSGraphAPI_v1_workbookPivotTable : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookRange', 'MSGraphAPI_v1_workbookRange')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookRange', 'MSGraphAPI_v1_workbookRange')
+$null = $Script:MSGraphAPIClassHash.Add('workbookRange', 'MSGraphAPI_v1_workbookRange')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookRange', 'MSGraphAPI_v1_workbookRange')
 
 
 class MSGraphAPI_v1_workbookRange : MSGraphAPI_v1_entity {
@@ -4364,8 +4401,8 @@ class MSGraphAPI_v1_workbookRange : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookRangeFormat', 'MSGraphAPI_v1_workbookRangeFormat')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookRangeFormat', 'MSGraphAPI_v1_workbookRangeFormat')
+$null = $Script:MSGraphAPIClassHash.Add('workbookRangeFormat', 'MSGraphAPI_v1_workbookRangeFormat')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookRangeFormat', 'MSGraphAPI_v1_workbookRangeFormat')
 
 
 class MSGraphAPI_v1_workbookRangeFormat : MSGraphAPI_v1_entity {
@@ -4389,8 +4426,8 @@ class MSGraphAPI_v1_workbookRangeFormat : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookRangeSort', 'MSGraphAPI_v1_workbookRangeSort')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookRangeSort', 'MSGraphAPI_v1_workbookRangeSort')
+$null = $Script:MSGraphAPIClassHash.Add('workbookRangeSort', 'MSGraphAPI_v1_workbookRangeSort')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookRangeSort', 'MSGraphAPI_v1_workbookRangeSort')
 
 
 class MSGraphAPI_v1_workbookRangeSort : MSGraphAPI_v1_entity {
@@ -4399,8 +4436,8 @@ class MSGraphAPI_v1_workbookRangeSort : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookRangeBorder', 'MSGraphAPI_v1_workbookRangeBorder')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookRangeBorder', 'MSGraphAPI_v1_workbookRangeBorder')
+$null = $Script:MSGraphAPIClassHash.Add('workbookRangeBorder', 'MSGraphAPI_v1_workbookRangeBorder')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookRangeBorder', 'MSGraphAPI_v1_workbookRangeBorder')
 
 
 class MSGraphAPI_v1_workbookRangeBorder : MSGraphAPI_v1_entity {
@@ -4412,8 +4449,8 @@ class MSGraphAPI_v1_workbookRangeBorder : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookRangeFill', 'MSGraphAPI_v1_workbookRangeFill')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookRangeFill', 'MSGraphAPI_v1_workbookRangeFill')
+$null = $Script:MSGraphAPIClassHash.Add('workbookRangeFill', 'MSGraphAPI_v1_workbookRangeFill')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookRangeFill', 'MSGraphAPI_v1_workbookRangeFill')
 
 
 class MSGraphAPI_v1_workbookRangeFill : MSGraphAPI_v1_entity {
@@ -4422,8 +4459,8 @@ class MSGraphAPI_v1_workbookRangeFill : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookRangeFont', 'MSGraphAPI_v1_workbookRangeFont')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookRangeFont', 'MSGraphAPI_v1_workbookRangeFont')
+$null = $Script:MSGraphAPIClassHash.Add('workbookRangeFont', 'MSGraphAPI_v1_workbookRangeFont')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookRangeFont', 'MSGraphAPI_v1_workbookRangeFont')
 
 
 class MSGraphAPI_v1_workbookRangeFont : MSGraphAPI_v1_entity {
@@ -4437,8 +4474,8 @@ class MSGraphAPI_v1_workbookRangeFont : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookRangeView', 'MSGraphAPI_v1_workbookRangeView')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookRangeView', 'MSGraphAPI_v1_workbookRangeView')
+$null = $Script:MSGraphAPIClassHash.Add('workbookRangeView', 'MSGraphAPI_v1_workbookRangeView')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookRangeView', 'MSGraphAPI_v1_workbookRangeView')
 
 
 class MSGraphAPI_v1_workbookRangeView : MSGraphAPI_v1_entity {
@@ -4459,8 +4496,8 @@ class MSGraphAPI_v1_workbookRangeView : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookTableColumn', 'MSGraphAPI_v1_workbookTableColumn')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookTableColumn', 'MSGraphAPI_v1_workbookTableColumn')
+$null = $Script:MSGraphAPIClassHash.Add('workbookTableColumn', 'MSGraphAPI_v1_workbookTableColumn')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookTableColumn', 'MSGraphAPI_v1_workbookTableColumn')
 
 
 class MSGraphAPI_v1_workbookTableColumn : MSGraphAPI_v1_entity {
@@ -4473,8 +4510,8 @@ class MSGraphAPI_v1_workbookTableColumn : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookTableRow', 'MSGraphAPI_v1_workbookTableRow')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookTableRow', 'MSGraphAPI_v1_workbookTableRow')
+$null = $Script:MSGraphAPIClassHash.Add('workbookTableRow', 'MSGraphAPI_v1_workbookTableRow')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookTableRow', 'MSGraphAPI_v1_workbookTableRow')
 
 
 class MSGraphAPI_v1_workbookTableRow : MSGraphAPI_v1_entity {
@@ -4484,8 +4521,8 @@ class MSGraphAPI_v1_workbookTableRow : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookTableSort', 'MSGraphAPI_v1_workbookTableSort')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookTableSort', 'MSGraphAPI_v1_workbookTableSort')
+$null = $Script:MSGraphAPIClassHash.Add('workbookTableSort', 'MSGraphAPI_v1_workbookTableSort')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookTableSort', 'MSGraphAPI_v1_workbookTableSort')
 
 
 class MSGraphAPI_v1_workbookTableSort : MSGraphAPI_v1_entity {
@@ -4496,8 +4533,8 @@ class MSGraphAPI_v1_workbookTableSort : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookSortField', 'MSGraphAPI_v1_workbookSortField')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookSortField', 'MSGraphAPI_v1_workbookSortField')
+$null = $Script:MSGraphAPIClassHash.Add('workbookSortField', 'MSGraphAPI_v1_workbookSortField')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookSortField', 'MSGraphAPI_v1_workbookSortField')
 
 
 class MSGraphAPI_v1_workbookSortField : MSGraphAPI_Base {
@@ -4508,8 +4545,8 @@ class MSGraphAPI_v1_workbookSortField : MSGraphAPI_Base {
     [Nullable[int]] $key
     [string] $sortOn
 }
-$Script:MSGraphAPIClassHash.Add('workbookWorksheetProtection', 'MSGraphAPI_v1_workbookWorksheetProtection')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookWorksheetProtection', 'MSGraphAPI_v1_workbookWorksheetProtection')
+$null = $Script:MSGraphAPIClassHash.Add('workbookWorksheetProtection', 'MSGraphAPI_v1_workbookWorksheetProtection')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookWorksheetProtection', 'MSGraphAPI_v1_workbookWorksheetProtection')
 
 
 class MSGraphAPI_v1_workbookWorksheetProtection : MSGraphAPI_v1_entity {
@@ -4519,8 +4556,8 @@ class MSGraphAPI_v1_workbookWorksheetProtection : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('workbookWorksheetProtectionOptions', 'MSGraphAPI_v1_workbookWorksheetProtectionOptions')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookWorksheetProtectionOptions', 'MSGraphAPI_v1_workbookWorksheetProtectionOptions')
+$null = $Script:MSGraphAPIClassHash.Add('workbookWorksheetProtectionOptions', 'MSGraphAPI_v1_workbookWorksheetProtectionOptions')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookWorksheetProtectionOptions', 'MSGraphAPI_v1_workbookWorksheetProtectionOptions')
 
 
 class MSGraphAPI_v1_workbookWorksheetProtectionOptions : MSGraphAPI_Base {
@@ -4536,23 +4573,23 @@ class MSGraphAPI_v1_workbookWorksheetProtectionOptions : MSGraphAPI_Base {
     [Nullable[bool]] $allowPivotTables
     [Nullable[bool]] $allowSort
 }
-$Script:MSGraphAPIClassHash.Add('workbookFilterDatetime', 'MSGraphAPI_v1_workbookFilterDatetime')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookFilterDatetime', 'MSGraphAPI_v1_workbookFilterDatetime')
+$null = $Script:MSGraphAPIClassHash.Add('workbookFilterDatetime', 'MSGraphAPI_v1_workbookFilterDatetime')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookFilterDatetime', 'MSGraphAPI_v1_workbookFilterDatetime')
 
 
 class MSGraphAPI_v1_workbookFilterDatetime : MSGraphAPI_Base {
     [string] $date
     [string] $specificity
 }
-$Script:MSGraphAPIClassHash.Add('workbookRangeReference', 'MSGraphAPI_v1_workbookRangeReference')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookRangeReference', 'MSGraphAPI_v1_workbookRangeReference')
+$null = $Script:MSGraphAPIClassHash.Add('workbookRangeReference', 'MSGraphAPI_v1_workbookRangeReference')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.workbookRangeReference', 'MSGraphAPI_v1_workbookRangeReference')
 
 
 class MSGraphAPI_v1_workbookRangeReference : MSGraphAPI_Base {
     [string] $address
 }
-$Script:MSGraphAPIClassHash.Add('subscription', 'MSGraphAPI_v1_subscription')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.subscription', 'MSGraphAPI_v1_subscription')
+$null = $Script:MSGraphAPIClassHash.Add('subscription', 'MSGraphAPI_v1_subscription')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.subscription', 'MSGraphAPI_v1_subscription')
 
 
 class MSGraphAPI_v1_subscription : MSGraphAPI_v1_entity {
@@ -4565,8 +4602,8 @@ class MSGraphAPI_v1_subscription : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('invitation', 'MSGraphAPI_v1_invitation')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.invitation', 'MSGraphAPI_v1_invitation')
+$null = $Script:MSGraphAPIClassHash.Add('invitation', 'MSGraphAPI_v1_invitation')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.invitation', 'MSGraphAPI_v1_invitation')
 
 
 class MSGraphAPI_v1_invitation : MSGraphAPI_v1_entity {
@@ -4584,8 +4621,8 @@ class MSGraphAPI_v1_invitation : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('invitedUserMessageInfo', 'MSGraphAPI_v1_invitedUserMessageInfo')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.invitedUserMessageInfo', 'MSGraphAPI_v1_invitedUserMessageInfo')
+$null = $Script:MSGraphAPIClassHash.Add('invitedUserMessageInfo', 'MSGraphAPI_v1_invitedUserMessageInfo')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.invitedUserMessageInfo', 'MSGraphAPI_v1_invitedUserMessageInfo')
 
 
 class MSGraphAPI_v1_invitedUserMessageInfo : MSGraphAPI_Base {
@@ -4593,8 +4630,8 @@ class MSGraphAPI_v1_invitedUserMessageInfo : MSGraphAPI_Base {
     [string] $messageLanguage
     [string] $customizedMessageBody
 }
-$Script:MSGraphAPIClassHash.Add('plannerTask', 'MSGraphAPI_v1_plannerTask')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerTask', 'MSGraphAPI_v1_plannerTask')
+$null = $Script:MSGraphAPIClassHash.Add('plannerTask', 'MSGraphAPI_v1_plannerTask')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerTask', 'MSGraphAPI_v1_plannerTask')
 
 
 class MSGraphAPI_v1_plannerTask : MSGraphAPI_v1_entity {
@@ -4633,8 +4670,8 @@ class MSGraphAPI_v1_plannerTask : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('plannerPlan', 'MSGraphAPI_v1_plannerPlan')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerPlan', 'MSGraphAPI_v1_plannerPlan')
+$null = $Script:MSGraphAPIClassHash.Add('plannerPlan', 'MSGraphAPI_v1_plannerPlan')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerPlan', 'MSGraphAPI_v1_plannerPlan')
 
 
 class MSGraphAPI_v1_plannerPlan : MSGraphAPI_v1_entity {
@@ -4654,8 +4691,8 @@ class MSGraphAPI_v1_plannerPlan : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('planner', 'MSGraphAPI_v1_planner')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.planner', 'MSGraphAPI_v1_planner')
+$null = $Script:MSGraphAPIClassHash.Add('planner', 'MSGraphAPI_v1_planner')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.planner', 'MSGraphAPI_v1_planner')
 
 
 class MSGraphAPI_v1_planner : MSGraphAPI_v1_entity {
@@ -4672,8 +4709,8 @@ class MSGraphAPI_v1_planner : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('plannerBucket', 'MSGraphAPI_v1_plannerBucket')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerBucket', 'MSGraphAPI_v1_plannerBucket')
+$null = $Script:MSGraphAPIClassHash.Add('plannerBucket', 'MSGraphAPI_v1_plannerBucket')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerBucket', 'MSGraphAPI_v1_plannerBucket')
 
 
 class MSGraphAPI_v1_plannerBucket : MSGraphAPI_v1_entity {
@@ -4686,22 +4723,22 @@ class MSGraphAPI_v1_plannerBucket : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('plannerAppliedCategories', 'MSGraphAPI_v1_plannerAppliedCategories')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerAppliedCategories', 'MSGraphAPI_v1_plannerAppliedCategories')
+$null = $Script:MSGraphAPIClassHash.Add('plannerAppliedCategories', 'MSGraphAPI_v1_plannerAppliedCategories')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerAppliedCategories', 'MSGraphAPI_v1_plannerAppliedCategories')
 
 
 class MSGraphAPI_v1_plannerAppliedCategories : MSGraphAPI_Base {
 
 }
-$Script:MSGraphAPIClassHash.Add('plannerAssignments', 'MSGraphAPI_v1_plannerAssignments')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerAssignments', 'MSGraphAPI_v1_plannerAssignments')
+$null = $Script:MSGraphAPIClassHash.Add('plannerAssignments', 'MSGraphAPI_v1_plannerAssignments')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerAssignments', 'MSGraphAPI_v1_plannerAssignments')
 
 
 class MSGraphAPI_v1_plannerAssignments : MSGraphAPI_Base {
 
 }
-$Script:MSGraphAPIClassHash.Add('plannerTaskDetails', 'MSGraphAPI_v1_plannerTaskDetails')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerTaskDetails', 'MSGraphAPI_v1_plannerTaskDetails')
+$null = $Script:MSGraphAPIClassHash.Add('plannerTaskDetails', 'MSGraphAPI_v1_plannerTaskDetails')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerTaskDetails', 'MSGraphAPI_v1_plannerTaskDetails')
 
 
 class MSGraphAPI_v1_plannerTaskDetails : MSGraphAPI_v1_entity {
@@ -4713,8 +4750,8 @@ class MSGraphAPI_v1_plannerTaskDetails : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('plannerAssignedToTaskBoardTaskFormat', 'MSGraphAPI_v1_plannerAssignedToTaskBoardTaskFormat')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerAssignedToTaskBoardTaskFormat', 'MSGraphAPI_v1_plannerAssignedToTaskBoardTaskFormat')
+$null = $Script:MSGraphAPIClassHash.Add('plannerAssignedToTaskBoardTaskFormat', 'MSGraphAPI_v1_plannerAssignedToTaskBoardTaskFormat')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerAssignedToTaskBoardTaskFormat', 'MSGraphAPI_v1_plannerAssignedToTaskBoardTaskFormat')
 
 
 class MSGraphAPI_v1_plannerAssignedToTaskBoardTaskFormat : MSGraphAPI_v1_entity {
@@ -4724,8 +4761,8 @@ class MSGraphAPI_v1_plannerAssignedToTaskBoardTaskFormat : MSGraphAPI_v1_entity 
 
 
 }
-$Script:MSGraphAPIClassHash.Add('plannerProgressTaskBoardTaskFormat', 'MSGraphAPI_v1_plannerProgressTaskBoardTaskFormat')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerProgressTaskBoardTaskFormat', 'MSGraphAPI_v1_plannerProgressTaskBoardTaskFormat')
+$null = $Script:MSGraphAPIClassHash.Add('plannerProgressTaskBoardTaskFormat', 'MSGraphAPI_v1_plannerProgressTaskBoardTaskFormat')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerProgressTaskBoardTaskFormat', 'MSGraphAPI_v1_plannerProgressTaskBoardTaskFormat')
 
 
 class MSGraphAPI_v1_plannerProgressTaskBoardTaskFormat : MSGraphAPI_v1_entity {
@@ -4734,8 +4771,8 @@ class MSGraphAPI_v1_plannerProgressTaskBoardTaskFormat : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('plannerBucketTaskBoardTaskFormat', 'MSGraphAPI_v1_plannerBucketTaskBoardTaskFormat')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerBucketTaskBoardTaskFormat', 'MSGraphAPI_v1_plannerBucketTaskBoardTaskFormat')
+$null = $Script:MSGraphAPIClassHash.Add('plannerBucketTaskBoardTaskFormat', 'MSGraphAPI_v1_plannerBucketTaskBoardTaskFormat')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerBucketTaskBoardTaskFormat', 'MSGraphAPI_v1_plannerBucketTaskBoardTaskFormat')
 
 
 class MSGraphAPI_v1_plannerBucketTaskBoardTaskFormat : MSGraphAPI_v1_entity {
@@ -4744,8 +4781,8 @@ class MSGraphAPI_v1_plannerBucketTaskBoardTaskFormat : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('plannerPlanDetails', 'MSGraphAPI_v1_plannerPlanDetails')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerPlanDetails', 'MSGraphAPI_v1_plannerPlanDetails')
+$null = $Script:MSGraphAPIClassHash.Add('plannerPlanDetails', 'MSGraphAPI_v1_plannerPlanDetails')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerPlanDetails', 'MSGraphAPI_v1_plannerPlanDetails')
 
 
 class MSGraphAPI_v1_plannerPlanDetails : MSGraphAPI_v1_entity {
@@ -4755,8 +4792,8 @@ class MSGraphAPI_v1_plannerPlanDetails : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('plannerExternalReference', 'MSGraphAPI_v1_plannerExternalReference')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerExternalReference', 'MSGraphAPI_v1_plannerExternalReference')
+$null = $Script:MSGraphAPIClassHash.Add('plannerExternalReference', 'MSGraphAPI_v1_plannerExternalReference')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerExternalReference', 'MSGraphAPI_v1_plannerExternalReference')
 
 
 class MSGraphAPI_v1_plannerExternalReference : MSGraphAPI_Base {
@@ -4766,8 +4803,8 @@ class MSGraphAPI_v1_plannerExternalReference : MSGraphAPI_Base {
     [MSGraphAPI_v1_identitySet] $lastModifiedBy
     [Nullable[DateTimeOffset]] $lastModifiedDateTime
 }
-$Script:MSGraphAPIClassHash.Add('plannerChecklistItem', 'MSGraphAPI_v1_plannerChecklistItem')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerChecklistItem', 'MSGraphAPI_v1_plannerChecklistItem')
+$null = $Script:MSGraphAPIClassHash.Add('plannerChecklistItem', 'MSGraphAPI_v1_plannerChecklistItem')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerChecklistItem', 'MSGraphAPI_v1_plannerChecklistItem')
 
 
 class MSGraphAPI_v1_plannerChecklistItem : MSGraphAPI_Base {
@@ -4777,8 +4814,8 @@ class MSGraphAPI_v1_plannerChecklistItem : MSGraphAPI_Base {
     [MSGraphAPI_v1_identitySet] $lastModifiedBy
     [Nullable[DateTimeOffset]] $lastModifiedDateTime
 }
-$Script:MSGraphAPIClassHash.Add('plannerAssignment', 'MSGraphAPI_v1_plannerAssignment')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerAssignment', 'MSGraphAPI_v1_plannerAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('plannerAssignment', 'MSGraphAPI_v1_plannerAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerAssignment', 'MSGraphAPI_v1_plannerAssignment')
 
 
 class MSGraphAPI_v1_plannerAssignment : MSGraphAPI_Base {
@@ -4786,36 +4823,36 @@ class MSGraphAPI_v1_plannerAssignment : MSGraphAPI_Base {
     [Nullable[DateTimeOffset]] $assignedDateTime
     [string] $orderHint
 }
-$Script:MSGraphAPIClassHash.Add('plannerExternalReferences', 'MSGraphAPI_v1_plannerExternalReferences')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerExternalReferences', 'MSGraphAPI_v1_plannerExternalReferences')
+$null = $Script:MSGraphAPIClassHash.Add('plannerExternalReferences', 'MSGraphAPI_v1_plannerExternalReferences')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerExternalReferences', 'MSGraphAPI_v1_plannerExternalReferences')
 
 
 class MSGraphAPI_v1_plannerExternalReferences : MSGraphAPI_Base {
 
 }
-$Script:MSGraphAPIClassHash.Add('plannerChecklistItems', 'MSGraphAPI_v1_plannerChecklistItems')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerChecklistItems', 'MSGraphAPI_v1_plannerChecklistItems')
+$null = $Script:MSGraphAPIClassHash.Add('plannerChecklistItems', 'MSGraphAPI_v1_plannerChecklistItems')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerChecklistItems', 'MSGraphAPI_v1_plannerChecklistItems')
 
 
 class MSGraphAPI_v1_plannerChecklistItems : MSGraphAPI_Base {
 
 }
-$Script:MSGraphAPIClassHash.Add('plannerOrderHintsByAssignee', 'MSGraphAPI_v1_plannerOrderHintsByAssignee')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerOrderHintsByAssignee', 'MSGraphAPI_v1_plannerOrderHintsByAssignee')
+$null = $Script:MSGraphAPIClassHash.Add('plannerOrderHintsByAssignee', 'MSGraphAPI_v1_plannerOrderHintsByAssignee')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerOrderHintsByAssignee', 'MSGraphAPI_v1_plannerOrderHintsByAssignee')
 
 
 class MSGraphAPI_v1_plannerOrderHintsByAssignee : MSGraphAPI_Base {
 
 }
-$Script:MSGraphAPIClassHash.Add('plannerUserIds', 'MSGraphAPI_v1_plannerUserIds')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerUserIds', 'MSGraphAPI_v1_plannerUserIds')
+$null = $Script:MSGraphAPIClassHash.Add('plannerUserIds', 'MSGraphAPI_v1_plannerUserIds')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerUserIds', 'MSGraphAPI_v1_plannerUserIds')
 
 
 class MSGraphAPI_v1_plannerUserIds : MSGraphAPI_Base {
 
 }
-$Script:MSGraphAPIClassHash.Add('plannerCategoryDescriptions', 'MSGraphAPI_v1_plannerCategoryDescriptions')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerCategoryDescriptions', 'MSGraphAPI_v1_plannerCategoryDescriptions')
+$null = $Script:MSGraphAPIClassHash.Add('plannerCategoryDescriptions', 'MSGraphAPI_v1_plannerCategoryDescriptions')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.plannerCategoryDescriptions', 'MSGraphAPI_v1_plannerCategoryDescriptions')
 
 
 class MSGraphAPI_v1_plannerCategoryDescriptions : MSGraphAPI_Base {
@@ -4826,8 +4863,8 @@ class MSGraphAPI_v1_plannerCategoryDescriptions : MSGraphAPI_Base {
     [string] $category5
     [string] $category6
 }
-$Script:MSGraphAPIClassHash.Add('onenoteEntityBaseModel', 'MSGraphAPI_v1_onenoteEntityBaseModel')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.onenoteEntityBaseModel', 'MSGraphAPI_v1_onenoteEntityBaseModel')
+$null = $Script:MSGraphAPIClassHash.Add('onenoteEntityBaseModel', 'MSGraphAPI_v1_onenoteEntityBaseModel')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.onenoteEntityBaseModel', 'MSGraphAPI_v1_onenoteEntityBaseModel')
 
 
 class MSGraphAPI_v1_onenoteEntityBaseModel : MSGraphAPI_v1_entity {
@@ -4836,8 +4873,8 @@ class MSGraphAPI_v1_onenoteEntityBaseModel : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('onenoteEntitySchemaObjectModel', 'MSGraphAPI_v1_onenoteEntitySchemaObjectModel')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.onenoteEntitySchemaObjectModel', 'MSGraphAPI_v1_onenoteEntitySchemaObjectModel')
+$null = $Script:MSGraphAPIClassHash.Add('onenoteEntitySchemaObjectModel', 'MSGraphAPI_v1_onenoteEntitySchemaObjectModel')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.onenoteEntitySchemaObjectModel', 'MSGraphAPI_v1_onenoteEntitySchemaObjectModel')
 
 
 class MSGraphAPI_v1_onenoteEntitySchemaObjectModel : MSGraphAPI_v1_onenoteEntityBaseModel {
@@ -4846,8 +4883,8 @@ class MSGraphAPI_v1_onenoteEntitySchemaObjectModel : MSGraphAPI_v1_onenoteEntity
 
 
 }
-$Script:MSGraphAPIClassHash.Add('onenoteEntityHierarchyModel', 'MSGraphAPI_v1_onenoteEntityHierarchyModel')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.onenoteEntityHierarchyModel', 'MSGraphAPI_v1_onenoteEntityHierarchyModel')
+$null = $Script:MSGraphAPIClassHash.Add('onenoteEntityHierarchyModel', 'MSGraphAPI_v1_onenoteEntityHierarchyModel')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.onenoteEntityHierarchyModel', 'MSGraphAPI_v1_onenoteEntityHierarchyModel')
 
 
 class MSGraphAPI_v1_onenoteEntityHierarchyModel : MSGraphAPI_v1_onenoteEntitySchemaObjectModel {
@@ -4859,8 +4896,8 @@ class MSGraphAPI_v1_onenoteEntityHierarchyModel : MSGraphAPI_v1_onenoteEntitySch
 
 
 }
-$Script:MSGraphAPIClassHash.Add('notebook', 'MSGraphAPI_v1_notebook')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.notebook', 'MSGraphAPI_v1_notebook')
+$null = $Script:MSGraphAPIClassHash.Add('notebook', 'MSGraphAPI_v1_notebook')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.notebook', 'MSGraphAPI_v1_notebook')
 
 
 class MSGraphAPI_v1_notebook : MSGraphAPI_v1_onenoteEntityHierarchyModel {
@@ -4888,8 +4925,8 @@ class MSGraphAPI_v1_notebook : MSGraphAPI_v1_onenoteEntityHierarchyModel {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('onenoteSection', 'MSGraphAPI_v1_onenoteSection')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.onenoteSection', 'MSGraphAPI_v1_onenoteSection')
+$null = $Script:MSGraphAPIClassHash.Add('onenoteSection', 'MSGraphAPI_v1_onenoteSection')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.onenoteSection', 'MSGraphAPI_v1_onenoteSection')
 
 
 class MSGraphAPI_v1_onenoteSection : MSGraphAPI_v1_onenoteEntityHierarchyModel {
@@ -4927,8 +4964,8 @@ class MSGraphAPI_v1_onenoteSection : MSGraphAPI_v1_onenoteEntityHierarchyModel {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('sectionGroup', 'MSGraphAPI_v1_sectionGroup')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.sectionGroup', 'MSGraphAPI_v1_sectionGroup')
+$null = $Script:MSGraphAPIClassHash.Add('sectionGroup', 'MSGraphAPI_v1_sectionGroup')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.sectionGroup', 'MSGraphAPI_v1_sectionGroup')
 
 
 class MSGraphAPI_v1_sectionGroup : MSGraphAPI_v1_onenoteEntityHierarchyModel {
@@ -4949,8 +4986,8 @@ class MSGraphAPI_v1_sectionGroup : MSGraphAPI_v1_onenoteEntityHierarchyModel {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('onenotePage', 'MSGraphAPI_v1_onenotePage')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.onenotePage', 'MSGraphAPI_v1_onenotePage')
+$null = $Script:MSGraphAPIClassHash.Add('onenotePage', 'MSGraphAPI_v1_onenotePage')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.onenotePage', 'MSGraphAPI_v1_onenotePage')
 
 
 class MSGraphAPI_v1_onenotePage : MSGraphAPI_v1_onenoteEntitySchemaObjectModel {
@@ -4969,7 +5006,7 @@ class MSGraphAPI_v1_onenotePage : MSGraphAPI_v1_onenoteEntitySchemaObjectModel {
     [object]Get_parentNotebook(){
         return (Invoke-MSGraphMethod -query "$($this.GraphPath)/parentNotebook")
     }
-    [object]onenotePatchContent([MSGraphAPI_v1_onenotePatchContentCommand[]]$commands){
+    [object]onenotePatchContent([object]$commands){
         $ParamHash = @{
             'commands'=$commands
         }
@@ -4988,8 +5025,8 @@ class MSGraphAPI_v1_onenotePage : MSGraphAPI_v1_onenoteEntitySchemaObjectModel {
         return (Start-MSGraphAPIFunction -BaseURI $this.GraphURL -Function 'preview')
     }
 }
-$Script:MSGraphAPIClassHash.Add('onenoteResource', 'MSGraphAPI_v1_onenoteResource')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.onenoteResource', 'MSGraphAPI_v1_onenoteResource')
+$null = $Script:MSGraphAPIClassHash.Add('onenoteResource', 'MSGraphAPI_v1_onenoteResource')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.onenoteResource', 'MSGraphAPI_v1_onenoteResource')
 
 
 class MSGraphAPI_v1_onenoteResource : MSGraphAPI_v1_onenoteEntityBaseModel {
@@ -4999,8 +5036,8 @@ class MSGraphAPI_v1_onenoteResource : MSGraphAPI_v1_onenoteEntityBaseModel {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('operation', 'MSGraphAPI_v1_operation')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.operation', 'MSGraphAPI_v1_operation')
+$null = $Script:MSGraphAPIClassHash.Add('operation', 'MSGraphAPI_v1_operation')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.operation', 'MSGraphAPI_v1_operation')
 
 
 class MSGraphAPI_v1_operation : MSGraphAPI_v1_entity {
@@ -5011,8 +5048,8 @@ class MSGraphAPI_v1_operation : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('onenoteOperation', 'MSGraphAPI_v1_onenoteOperation')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.onenoteOperation', 'MSGraphAPI_v1_onenoteOperation')
+$null = $Script:MSGraphAPIClassHash.Add('onenoteOperation', 'MSGraphAPI_v1_onenoteOperation')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.onenoteOperation', 'MSGraphAPI_v1_onenoteOperation')
 
 
 class MSGraphAPI_v1_onenoteOperation : MSGraphAPI_v1_operation {
@@ -5024,55 +5061,55 @@ class MSGraphAPI_v1_onenoteOperation : MSGraphAPI_v1_operation {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('notebookLinks', 'MSGraphAPI_v1_notebookLinks')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.notebookLinks', 'MSGraphAPI_v1_notebookLinks')
+$null = $Script:MSGraphAPIClassHash.Add('notebookLinks', 'MSGraphAPI_v1_notebookLinks')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.notebookLinks', 'MSGraphAPI_v1_notebookLinks')
 
 
 class MSGraphAPI_v1_notebookLinks : MSGraphAPI_Base {
     [MSGraphAPI_v1_externalLink] $oneNoteClientUrl
     [MSGraphAPI_v1_externalLink] $oneNoteWebUrl
 }
-$Script:MSGraphAPIClassHash.Add('externalLink', 'MSGraphAPI_v1_externalLink')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.externalLink', 'MSGraphAPI_v1_externalLink')
+$null = $Script:MSGraphAPIClassHash.Add('externalLink', 'MSGraphAPI_v1_externalLink')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.externalLink', 'MSGraphAPI_v1_externalLink')
 
 
 class MSGraphAPI_v1_externalLink : MSGraphAPI_Base {
     [string] $href
 }
-$Script:MSGraphAPIClassHash.Add('sectionLinks', 'MSGraphAPI_v1_sectionLinks')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.sectionLinks', 'MSGraphAPI_v1_sectionLinks')
+$null = $Script:MSGraphAPIClassHash.Add('sectionLinks', 'MSGraphAPI_v1_sectionLinks')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.sectionLinks', 'MSGraphAPI_v1_sectionLinks')
 
 
 class MSGraphAPI_v1_sectionLinks : MSGraphAPI_Base {
     [MSGraphAPI_v1_externalLink] $oneNoteClientUrl
     [MSGraphAPI_v1_externalLink] $oneNoteWebUrl
 }
-$Script:MSGraphAPIClassHash.Add('pageLinks', 'MSGraphAPI_v1_pageLinks')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.pageLinks', 'MSGraphAPI_v1_pageLinks')
+$null = $Script:MSGraphAPIClassHash.Add('pageLinks', 'MSGraphAPI_v1_pageLinks')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.pageLinks', 'MSGraphAPI_v1_pageLinks')
 
 
 class MSGraphAPI_v1_pageLinks : MSGraphAPI_Base {
     [MSGraphAPI_v1_externalLink] $oneNoteClientUrl
     [MSGraphAPI_v1_externalLink] $oneNoteWebUrl
 }
-$Script:MSGraphAPIClassHash.Add('onenoteOperationError', 'MSGraphAPI_v1_onenoteOperationError')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.onenoteOperationError', 'MSGraphAPI_v1_onenoteOperationError')
+$null = $Script:MSGraphAPIClassHash.Add('onenoteOperationError', 'MSGraphAPI_v1_onenoteOperationError')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.onenoteOperationError', 'MSGraphAPI_v1_onenoteOperationError')
 
 
 class MSGraphAPI_v1_onenoteOperationError : MSGraphAPI_Base {
     [string] $code
     [string] $message
 }
-$Script:MSGraphAPIClassHash.Add('diagnostic', 'MSGraphAPI_v1_diagnostic')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.diagnostic', 'MSGraphAPI_v1_diagnostic')
+$null = $Script:MSGraphAPIClassHash.Add('diagnostic', 'MSGraphAPI_v1_diagnostic')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.diagnostic', 'MSGraphAPI_v1_diagnostic')
 
 
 class MSGraphAPI_v1_diagnostic : MSGraphAPI_Base {
     [string] $message
     [string] $url
 }
-$Script:MSGraphAPIClassHash.Add('onenotePatchContentCommand', 'MSGraphAPI_v1_onenotePatchContentCommand')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.onenotePatchContentCommand', 'MSGraphAPI_v1_onenotePatchContentCommand')
+$null = $Script:MSGraphAPIClassHash.Add('onenotePatchContentCommand', 'MSGraphAPI_v1_onenotePatchContentCommand')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.onenotePatchContentCommand', 'MSGraphAPI_v1_onenotePatchContentCommand')
 
 
 class MSGraphAPI_v1_onenotePatchContentCommand : MSGraphAPI_Base {
@@ -5081,23 +5118,23 @@ class MSGraphAPI_v1_onenotePatchContentCommand : MSGraphAPI_Base {
     [string] $content
     [MSGraphAPI_v1_onenotePatchInsertPosition] $position
 }
-$Script:MSGraphAPIClassHash.Add('onenotePagePreview', 'MSGraphAPI_v1_onenotePagePreview')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.onenotePagePreview', 'MSGraphAPI_v1_onenotePagePreview')
+$null = $Script:MSGraphAPIClassHash.Add('onenotePagePreview', 'MSGraphAPI_v1_onenotePagePreview')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.onenotePagePreview', 'MSGraphAPI_v1_onenotePagePreview')
 
 
 class MSGraphAPI_v1_onenotePagePreview : MSGraphAPI_Base {
     [string] $previewText
     [MSGraphAPI_v1_onenotePagePreviewLinks] $links
 }
-$Script:MSGraphAPIClassHash.Add('onenotePagePreviewLinks', 'MSGraphAPI_v1_onenotePagePreviewLinks')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.onenotePagePreviewLinks', 'MSGraphAPI_v1_onenotePagePreviewLinks')
+$null = $Script:MSGraphAPIClassHash.Add('onenotePagePreviewLinks', 'MSGraphAPI_v1_onenotePagePreviewLinks')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.onenotePagePreviewLinks', 'MSGraphAPI_v1_onenotePagePreviewLinks')
 
 
 class MSGraphAPI_v1_onenotePagePreviewLinks : MSGraphAPI_Base {
     [MSGraphAPI_v1_externalLink] $previewImageUrl
 }
-$Script:MSGraphAPIClassHash.Add('recentNotebook', 'MSGraphAPI_v1_recentNotebook')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.recentNotebook', 'MSGraphAPI_v1_recentNotebook')
+$null = $Script:MSGraphAPIClassHash.Add('recentNotebook', 'MSGraphAPI_v1_recentNotebook')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.recentNotebook', 'MSGraphAPI_v1_recentNotebook')
 
 
 class MSGraphAPI_v1_recentNotebook : MSGraphAPI_Base {
@@ -5106,16 +5143,16 @@ class MSGraphAPI_v1_recentNotebook : MSGraphAPI_Base {
     [MSGraphAPI_v1_recentNotebookLinks] $links
     [MSGraphAPI_v1_onenoteSourceService] $sourceService
 }
-$Script:MSGraphAPIClassHash.Add('recentNotebookLinks', 'MSGraphAPI_v1_recentNotebookLinks')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.recentNotebookLinks', 'MSGraphAPI_v1_recentNotebookLinks')
+$null = $Script:MSGraphAPIClassHash.Add('recentNotebookLinks', 'MSGraphAPI_v1_recentNotebookLinks')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.recentNotebookLinks', 'MSGraphAPI_v1_recentNotebookLinks')
 
 
 class MSGraphAPI_v1_recentNotebookLinks : MSGraphAPI_Base {
     [MSGraphAPI_v1_externalLink] $oneNoteClientUrl
     [MSGraphAPI_v1_externalLink] $oneNoteWebUrl
 }
-$Script:MSGraphAPIClassHash.Add('reportRoot', 'MSGraphAPI_v1_reportRoot')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.reportRoot', 'MSGraphAPI_v1_reportRoot')
+$null = $Script:MSGraphAPIClassHash.Add('reportRoot', 'MSGraphAPI_v1_reportRoot')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.reportRoot', 'MSGraphAPI_v1_reportRoot')
 
 
 class MSGraphAPI_v1_reportRoot : MSGraphAPI_v1_entity {
@@ -5570,15 +5607,15 @@ class MSGraphAPI_v1_reportRoot : MSGraphAPI_v1_entity {
         return (Start-MSGraphAPIFunction -BaseURI $this.GraphURL -Function 'deviceConfigurationDeviceActivity')
     }
 }
-$Script:MSGraphAPIClassHash.Add('report', 'MSGraphAPI_v1_report')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.report', 'MSGraphAPI_v1_report')
+$null = $Script:MSGraphAPIClassHash.Add('report', 'MSGraphAPI_v1_report')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.report', 'MSGraphAPI_v1_report')
 
 
 class MSGraphAPI_v1_report : MSGraphAPI_Base {
     [object] $content
 }
-$Script:MSGraphAPIClassHash.Add('administrativeUnit', 'MSGraphAPI_v1_administrativeUnit')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.administrativeUnit', 'MSGraphAPI_v1_administrativeUnit')
+$null = $Script:MSGraphAPIClassHash.Add('administrativeUnit', 'MSGraphAPI_v1_administrativeUnit')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.administrativeUnit', 'MSGraphAPI_v1_administrativeUnit')
 
 
 class MSGraphAPI_v1_administrativeUnit : MSGraphAPI_v1_directoryObject {
@@ -5587,8 +5624,8 @@ class MSGraphAPI_v1_administrativeUnit : MSGraphAPI_v1_directoryObject {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('educationRoot', 'MSGraphAPI_v1_educationRoot')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.educationRoot', 'MSGraphAPI_v1_educationRoot')
+$null = $Script:MSGraphAPIClassHash.Add('educationRoot', 'MSGraphAPI_v1_educationRoot')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.educationRoot', 'MSGraphAPI_v1_educationRoot')
 
 
 class MSGraphAPI_v1_educationRoot : MSGraphAPI_v1_entity {
@@ -5608,8 +5645,8 @@ class MSGraphAPI_v1_educationRoot : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('educationClass', 'MSGraphAPI_v1_educationClass')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.educationClass', 'MSGraphAPI_v1_educationClass')
+$null = $Script:MSGraphAPIClassHash.Add('educationClass', 'MSGraphAPI_v1_educationClass')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.educationClass', 'MSGraphAPI_v1_educationClass')
 
 
 class MSGraphAPI_v1_educationClass : MSGraphAPI_v1_entity {
@@ -5639,8 +5676,8 @@ class MSGraphAPI_v1_educationClass : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('educationOrganization', 'MSGraphAPI_v1_educationOrganization')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.educationOrganization', 'MSGraphAPI_v1_educationOrganization')
+$null = $Script:MSGraphAPIClassHash.Add('educationOrganization', 'MSGraphAPI_v1_educationOrganization')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.educationOrganization', 'MSGraphAPI_v1_educationOrganization')
 
 
 class MSGraphAPI_v1_educationOrganization : MSGraphAPI_v1_entity {
@@ -5651,8 +5688,8 @@ class MSGraphAPI_v1_educationOrganization : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('educationSchool', 'MSGraphAPI_v1_educationSchool')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.educationSchool', 'MSGraphAPI_v1_educationSchool')
+$null = $Script:MSGraphAPIClassHash.Add('educationSchool', 'MSGraphAPI_v1_educationSchool')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.educationSchool', 'MSGraphAPI_v1_educationSchool')
 
 
 class MSGraphAPI_v1_educationSchool : MSGraphAPI_v1_educationOrganization {
@@ -5679,8 +5716,8 @@ class MSGraphAPI_v1_educationSchool : MSGraphAPI_v1_educationOrganization {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('educationUser', 'MSGraphAPI_v1_educationUser')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.educationUser', 'MSGraphAPI_v1_educationUser')
+$null = $Script:MSGraphAPIClassHash.Add('educationUser', 'MSGraphAPI_v1_educationUser')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.educationUser', 'MSGraphAPI_v1_educationUser')
 
 
 class MSGraphAPI_v1_educationUser : MSGraphAPI_v1_entity {
@@ -5726,8 +5763,8 @@ class MSGraphAPI_v1_educationUser : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('educationStudent', 'MSGraphAPI_v1_educationStudent')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.educationStudent', 'MSGraphAPI_v1_educationStudent')
+$null = $Script:MSGraphAPIClassHash.Add('educationStudent', 'MSGraphAPI_v1_educationStudent')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.educationStudent', 'MSGraphAPI_v1_educationStudent')
 
 
 class MSGraphAPI_v1_educationStudent : MSGraphAPI_Base {
@@ -5738,8 +5775,8 @@ class MSGraphAPI_v1_educationStudent : MSGraphAPI_Base {
     [string] $studentNumber
     [string] $externalId
 }
-$Script:MSGraphAPIClassHash.Add('educationRelatedContact', 'MSGraphAPI_v1_educationRelatedContact')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.educationRelatedContact', 'MSGraphAPI_v1_educationRelatedContact')
+$null = $Script:MSGraphAPIClassHash.Add('educationRelatedContact', 'MSGraphAPI_v1_educationRelatedContact')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.educationRelatedContact', 'MSGraphAPI_v1_educationRelatedContact')
 
 
 class MSGraphAPI_v1_educationRelatedContact : MSGraphAPI_Base {
@@ -5750,16 +5787,16 @@ class MSGraphAPI_v1_educationRelatedContact : MSGraphAPI_Base {
     [MSGraphAPI_v1_educationContactRelationship] $relationship
     [Nullable[bool]] $accessConsent
 }
-$Script:MSGraphAPIClassHash.Add('educationTeacher', 'MSGraphAPI_v1_educationTeacher')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.educationTeacher', 'MSGraphAPI_v1_educationTeacher')
+$null = $Script:MSGraphAPIClassHash.Add('educationTeacher', 'MSGraphAPI_v1_educationTeacher')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.educationTeacher', 'MSGraphAPI_v1_educationTeacher')
 
 
 class MSGraphAPI_v1_educationTeacher : MSGraphAPI_Base {
     [string] $teacherNumber
     [string] $externalId
 }
-$Script:MSGraphAPIClassHash.Add('educationTerm', 'MSGraphAPI_v1_educationTerm')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.educationTerm', 'MSGraphAPI_v1_educationTerm')
+$null = $Script:MSGraphAPIClassHash.Add('educationTerm', 'MSGraphAPI_v1_educationTerm')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.educationTerm', 'MSGraphAPI_v1_educationTerm')
 
 
 class MSGraphAPI_v1_educationTerm : MSGraphAPI_Base {
@@ -5768,8 +5805,8 @@ class MSGraphAPI_v1_educationTerm : MSGraphAPI_Base {
     [Nullable[DateTime]] $endDate
     [string] $displayName
 }
-$Script:MSGraphAPIClassHash.Add('deviceAppManagement', 'MSGraphAPI_v1_deviceAppManagement')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceAppManagement', 'MSGraphAPI_v1_deviceAppManagement')
+$null = $Script:MSGraphAPIClassHash.Add('deviceAppManagement', 'MSGraphAPI_v1_deviceAppManagement')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceAppManagement', 'MSGraphAPI_v1_deviceAppManagement')
 
 
 class MSGraphAPI_v1_deviceAppManagement : MSGraphAPI_v1_entity {
@@ -5821,8 +5858,8 @@ class MSGraphAPI_v1_deviceAppManagement : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('mobileApp', 'MSGraphAPI_v1_mobileApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileApp', 'MSGraphAPI_v1_mobileApp')
+$null = $Script:MSGraphAPIClassHash.Add('mobileApp', 'MSGraphAPI_v1_mobileApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileApp', 'MSGraphAPI_v1_mobileApp')
 
 
 class MSGraphAPI_v1_mobileApp : MSGraphAPI_v1_entity {
@@ -5845,7 +5882,7 @@ class MSGraphAPI_v1_mobileApp : MSGraphAPI_v1_entity {
     [object]Get_assignments(){
         return (Invoke-MSGraphMethod -query "$($this.GraphPath)/assignments")
     }
-    [object]assign([MSGraphAPI_v1_mobileAppAssignment[]]$mobileAppAssignments){
+    [object]assign([object]$mobileAppAssignments){
         $ParamHash = @{
             'mobileAppAssignments'=$mobileAppAssignments
         }
@@ -5853,8 +5890,8 @@ class MSGraphAPI_v1_mobileApp : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('mobileAppCategory', 'MSGraphAPI_v1_mobileAppCategory')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileAppCategory', 'MSGraphAPI_v1_mobileAppCategory')
+$null = $Script:MSGraphAPIClassHash.Add('mobileAppCategory', 'MSGraphAPI_v1_mobileAppCategory')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileAppCategory', 'MSGraphAPI_v1_mobileAppCategory')
 
 
 class MSGraphAPI_v1_mobileAppCategory : MSGraphAPI_v1_entity {
@@ -5864,8 +5901,8 @@ class MSGraphAPI_v1_mobileAppCategory : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedDeviceMobileAppConfiguration', 'MSGraphAPI_v1_managedDeviceMobileAppConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedDeviceMobileAppConfiguration', 'MSGraphAPI_v1_managedDeviceMobileAppConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('managedDeviceMobileAppConfiguration', 'MSGraphAPI_v1_managedDeviceMobileAppConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedDeviceMobileAppConfiguration', 'MSGraphAPI_v1_managedDeviceMobileAppConfiguration')
 
 
 class MSGraphAPI_v1_managedDeviceMobileAppConfiguration : MSGraphAPI_v1_entity {
@@ -5890,8 +5927,8 @@ class MSGraphAPI_v1_managedDeviceMobileAppConfiguration : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedAppPolicy', 'MSGraphAPI_v1_managedAppPolicy')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppPolicy', 'MSGraphAPI_v1_managedAppPolicy')
+$null = $Script:MSGraphAPIClassHash.Add('managedAppPolicy', 'MSGraphAPI_v1_managedAppPolicy')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppPolicy', 'MSGraphAPI_v1_managedAppPolicy')
 
 
 class MSGraphAPI_v1_managedAppPolicy : MSGraphAPI_v1_entity {
@@ -5901,7 +5938,7 @@ class MSGraphAPI_v1_managedAppPolicy : MSGraphAPI_v1_entity {
     [Nullable[DateTimeOffset]] $lastModifiedDateTime
     [string] $version
 
-    [object]targetApps([MSGraphAPI_v1_managedMobileApp[]]$apps){
+    [object]targetApps([object]$apps){
         $ParamHash = @{
             'apps'=$apps
         }
@@ -5909,8 +5946,8 @@ class MSGraphAPI_v1_managedAppPolicy : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('managedAppProtection', 'MSGraphAPI_v1_managedAppProtection')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppProtection', 'MSGraphAPI_v1_managedAppProtection')
+$null = $Script:MSGraphAPIClassHash.Add('managedAppProtection', 'MSGraphAPI_v1_managedAppProtection')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppProtection', 'MSGraphAPI_v1_managedAppProtection')
 
 
 class MSGraphAPI_v1_managedAppProtection : MSGraphAPI_v1_managedAppPolicy {
@@ -5941,7 +5978,7 @@ class MSGraphAPI_v1_managedAppProtection : MSGraphAPI_v1_managedAppPolicy {
     [string] $minimumRequiredAppVersion
     [string] $minimumWarningAppVersion
 
-    [object]targetApps([MSGraphAPI_v1_managedMobileApp[]]$apps){
+    [object]targetApps([object]$apps){
         $ParamHash = @{
             'apps'=$apps
         }
@@ -5949,8 +5986,8 @@ class MSGraphAPI_v1_managedAppProtection : MSGraphAPI_v1_managedAppPolicy {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('targetedManagedAppProtection', 'MSGraphAPI_v1_targetedManagedAppProtection')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.targetedManagedAppProtection', 'MSGraphAPI_v1_targetedManagedAppProtection')
+$null = $Script:MSGraphAPIClassHash.Add('targetedManagedAppProtection', 'MSGraphAPI_v1_targetedManagedAppProtection')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.targetedManagedAppProtection', 'MSGraphAPI_v1_targetedManagedAppProtection')
 
 
 class MSGraphAPI_v1_targetedManagedAppProtection : MSGraphAPI_v1_managedAppProtection {
@@ -5958,7 +5995,7 @@ class MSGraphAPI_v1_targetedManagedAppProtection : MSGraphAPI_v1_managedAppProte
     [object]Get_assignments(){
         return (Invoke-MSGraphMethod -query "$($this.GraphPath)/assignments")
     }
-    [object]assign([MSGraphAPI_v1_targetedManagedAppPolicyAssignment[]]$assignments){
+    [object]assign([object]$assignments){
         $ParamHash = @{
             'assignments'=$assignments
         }
@@ -5966,8 +6003,8 @@ class MSGraphAPI_v1_targetedManagedAppProtection : MSGraphAPI_v1_managedAppProte
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('iosManagedAppProtection', 'MSGraphAPI_v1_iosManagedAppProtection')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosManagedAppProtection', 'MSGraphAPI_v1_iosManagedAppProtection')
+$null = $Script:MSGraphAPIClassHash.Add('iosManagedAppProtection', 'MSGraphAPI_v1_iosManagedAppProtection')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosManagedAppProtection', 'MSGraphAPI_v1_iosManagedAppProtection')
 
 
 class MSGraphAPI_v1_iosManagedAppProtection : MSGraphAPI_v1_targetedManagedAppProtection {
@@ -5984,8 +6021,8 @@ class MSGraphAPI_v1_iosManagedAppProtection : MSGraphAPI_v1_targetedManagedAppPr
 
 
 }
-$Script:MSGraphAPIClassHash.Add('androidManagedAppProtection', 'MSGraphAPI_v1_androidManagedAppProtection')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.androidManagedAppProtection', 'MSGraphAPI_v1_androidManagedAppProtection')
+$null = $Script:MSGraphAPIClassHash.Add('androidManagedAppProtection', 'MSGraphAPI_v1_androidManagedAppProtection')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.androidManagedAppProtection', 'MSGraphAPI_v1_androidManagedAppProtection')
 
 
 class MSGraphAPI_v1_androidManagedAppProtection : MSGraphAPI_v1_targetedManagedAppProtection {
@@ -6004,8 +6041,8 @@ class MSGraphAPI_v1_androidManagedAppProtection : MSGraphAPI_v1_targetedManagedA
 
 
 }
-$Script:MSGraphAPIClassHash.Add('defaultManagedAppProtection', 'MSGraphAPI_v1_defaultManagedAppProtection')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.defaultManagedAppProtection', 'MSGraphAPI_v1_defaultManagedAppProtection')
+$null = $Script:MSGraphAPIClassHash.Add('defaultManagedAppProtection', 'MSGraphAPI_v1_defaultManagedAppProtection')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.defaultManagedAppProtection', 'MSGraphAPI_v1_defaultManagedAppProtection')
 
 
 class MSGraphAPI_v1_defaultManagedAppProtection : MSGraphAPI_v1_managedAppProtection {
@@ -6028,8 +6065,8 @@ class MSGraphAPI_v1_defaultManagedAppProtection : MSGraphAPI_v1_managedAppProtec
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedAppConfiguration', 'MSGraphAPI_v1_managedAppConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppConfiguration', 'MSGraphAPI_v1_managedAppConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('managedAppConfiguration', 'MSGraphAPI_v1_managedAppConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppConfiguration', 'MSGraphAPI_v1_managedAppConfiguration')
 
 
 class MSGraphAPI_v1_managedAppConfiguration : MSGraphAPI_v1_managedAppPolicy {
@@ -6038,8 +6075,8 @@ class MSGraphAPI_v1_managedAppConfiguration : MSGraphAPI_v1_managedAppPolicy {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('targetedManagedAppConfiguration', 'MSGraphAPI_v1_targetedManagedAppConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.targetedManagedAppConfiguration', 'MSGraphAPI_v1_targetedManagedAppConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('targetedManagedAppConfiguration', 'MSGraphAPI_v1_targetedManagedAppConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.targetedManagedAppConfiguration', 'MSGraphAPI_v1_targetedManagedAppConfiguration')
 
 
 class MSGraphAPI_v1_targetedManagedAppConfiguration : MSGraphAPI_v1_managedAppConfiguration {
@@ -6054,13 +6091,13 @@ class MSGraphAPI_v1_targetedManagedAppConfiguration : MSGraphAPI_v1_managedAppCo
     [object]Get_assignments(){
         return (Invoke-MSGraphMethod -query "$($this.GraphPath)/assignments")
     }
-    [object]assign([MSGraphAPI_v1_targetedManagedAppPolicyAssignment[]]$assignments){
+    [object]assign([object]$assignments){
         $ParamHash = @{
             'assignments'=$assignments
         }
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'assign' -ParamHash $ParamHash)
     }
-    [object]targetApps([MSGraphAPI_v1_managedMobileApp[]]$apps){
+    [object]targetApps([object]$apps){
         $ParamHash = @{
             'apps'=$apps
         }
@@ -6068,8 +6105,8 @@ class MSGraphAPI_v1_targetedManagedAppConfiguration : MSGraphAPI_v1_managedAppCo
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('windowsInformationProtection', 'MSGraphAPI_v1_windowsInformationProtection')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtection', 'MSGraphAPI_v1_windowsInformationProtection')
+$null = $Script:MSGraphAPIClassHash.Add('windowsInformationProtection', 'MSGraphAPI_v1_windowsInformationProtection')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtection', 'MSGraphAPI_v1_windowsInformationProtection')
 
 
 class MSGraphAPI_v1_windowsInformationProtection : MSGraphAPI_v1_managedAppPolicy {
@@ -6104,7 +6141,7 @@ class MSGraphAPI_v1_windowsInformationProtection : MSGraphAPI_v1_managedAppPolic
     [object]Get_assignments(){
         return (Invoke-MSGraphMethod -query "$($this.GraphPath)/assignments")
     }
-    [object]assign([MSGraphAPI_v1_targetedManagedAppPolicyAssignment[]]$assignments){
+    [object]assign([object]$assignments){
         $ParamHash = @{
             'assignments'=$assignments
         }
@@ -6112,8 +6149,8 @@ class MSGraphAPI_v1_windowsInformationProtection : MSGraphAPI_v1_managedAppPolic
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('mdmWindowsInformationProtectionPolicy', 'MSGraphAPI_v1_mdmWindowsInformationProtectionPolicy')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mdmWindowsInformationProtectionPolicy', 'MSGraphAPI_v1_mdmWindowsInformationProtectionPolicy')
+$null = $Script:MSGraphAPIClassHash.Add('mdmWindowsInformationProtectionPolicy', 'MSGraphAPI_v1_mdmWindowsInformationProtectionPolicy')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mdmWindowsInformationProtectionPolicy', 'MSGraphAPI_v1_mdmWindowsInformationProtectionPolicy')
 
 
 class MSGraphAPI_v1_mdmWindowsInformationProtectionPolicy : MSGraphAPI_v1_windowsInformationProtection {
@@ -6122,8 +6159,8 @@ class MSGraphAPI_v1_mdmWindowsInformationProtectionPolicy : MSGraphAPI_v1_window
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windowsInformationProtectionPolicy', 'MSGraphAPI_v1_windowsInformationProtectionPolicy')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionPolicy', 'MSGraphAPI_v1_windowsInformationProtectionPolicy')
+$null = $Script:MSGraphAPIClassHash.Add('windowsInformationProtectionPolicy', 'MSGraphAPI_v1_windowsInformationProtectionPolicy')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionPolicy', 'MSGraphAPI_v1_windowsInformationProtectionPolicy')
 
 
 class MSGraphAPI_v1_windowsInformationProtectionPolicy : MSGraphAPI_v1_windowsInformationProtection {
@@ -6143,8 +6180,8 @@ class MSGraphAPI_v1_windowsInformationProtectionPolicy : MSGraphAPI_v1_windowsIn
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedAppStatus', 'MSGraphAPI_v1_managedAppStatus')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppStatus', 'MSGraphAPI_v1_managedAppStatus')
+$null = $Script:MSGraphAPIClassHash.Add('managedAppStatus', 'MSGraphAPI_v1_managedAppStatus')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppStatus', 'MSGraphAPI_v1_managedAppStatus')
 
 
 class MSGraphAPI_v1_managedAppStatus : MSGraphAPI_v1_entity {
@@ -6154,8 +6191,8 @@ class MSGraphAPI_v1_managedAppStatus : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedEBook', 'MSGraphAPI_v1_managedEBook')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedEBook', 'MSGraphAPI_v1_managedEBook')
+$null = $Script:MSGraphAPIClassHash.Add('managedEBook', 'MSGraphAPI_v1_managedEBook')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedEBook', 'MSGraphAPI_v1_managedEBook')
 
 
 class MSGraphAPI_v1_managedEBook : MSGraphAPI_v1_entity {
@@ -6180,7 +6217,7 @@ class MSGraphAPI_v1_managedEBook : MSGraphAPI_v1_entity {
     [object]Get_userStateSummary(){
         return (Invoke-MSGraphMethod -query "$($this.GraphPath)/userStateSummary")
     }
-    [object]assign([MSGraphAPI_v1_managedEBookAssignment[]]$managedEBookAssignments){
+    [object]assign([object]$managedEBookAssignments){
         $ParamHash = @{
             'managedEBookAssignments'=$managedEBookAssignments
         }
@@ -6188,8 +6225,8 @@ class MSGraphAPI_v1_managedEBook : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('mobileAppAssignment', 'MSGraphAPI_v1_mobileAppAssignment')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileAppAssignment', 'MSGraphAPI_v1_mobileAppAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('mobileAppAssignment', 'MSGraphAPI_v1_mobileAppAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileAppAssignment', 'MSGraphAPI_v1_mobileAppAssignment')
 
 
 class MSGraphAPI_v1_mobileAppAssignment : MSGraphAPI_v1_entity {
@@ -6200,30 +6237,30 @@ class MSGraphAPI_v1_mobileAppAssignment : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceAndAppManagementAssignmentTarget', 'MSGraphAPI_v1_deviceAndAppManagementAssignmentTarget')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceAndAppManagementAssignmentTarget', 'MSGraphAPI_v1_deviceAndAppManagementAssignmentTarget')
+$null = $Script:MSGraphAPIClassHash.Add('deviceAndAppManagementAssignmentTarget', 'MSGraphAPI_v1_deviceAndAppManagementAssignmentTarget')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceAndAppManagementAssignmentTarget', 'MSGraphAPI_v1_deviceAndAppManagementAssignmentTarget')
 
 
 class MSGraphAPI_v1_deviceAndAppManagementAssignmentTarget : MSGraphAPI_Base {
 
 }
-$Script:MSGraphAPIClassHash.Add('mobileAppAssignmentSettings', 'MSGraphAPI_v1_mobileAppAssignmentSettings')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileAppAssignmentSettings', 'MSGraphAPI_v1_mobileAppAssignmentSettings')
+$null = $Script:MSGraphAPIClassHash.Add('mobileAppAssignmentSettings', 'MSGraphAPI_v1_mobileAppAssignmentSettings')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileAppAssignmentSettings', 'MSGraphAPI_v1_mobileAppAssignmentSettings')
 
 
 class MSGraphAPI_v1_mobileAppAssignmentSettings : MSGraphAPI_Base {
 
 }
-$Script:MSGraphAPIClassHash.Add('mimeContent', 'MSGraphAPI_v1_mimeContent')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mimeContent', 'MSGraphAPI_v1_mimeContent')
+$null = $Script:MSGraphAPIClassHash.Add('mimeContent', 'MSGraphAPI_v1_mimeContent')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mimeContent', 'MSGraphAPI_v1_mimeContent')
 
 
 class MSGraphAPI_v1_mimeContent : MSGraphAPI_Base {
     [string] $type
     [object] $value
 }
-$Script:MSGraphAPIClassHash.Add('mobileAppContentFile', 'MSGraphAPI_v1_mobileAppContentFile')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileAppContentFile', 'MSGraphAPI_v1_mobileAppContentFile')
+$null = $Script:MSGraphAPIClassHash.Add('mobileAppContentFile', 'MSGraphAPI_v1_mobileAppContentFile')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileAppContentFile', 'MSGraphAPI_v1_mobileAppContentFile')
 
 
 class MSGraphAPI_v1_mobileAppContentFile : MSGraphAPI_v1_entity {
@@ -6237,7 +6274,7 @@ class MSGraphAPI_v1_mobileAppContentFile : MSGraphAPI_v1_entity {
     [object] $manifest
     [MSGraphAPI_v1_mobileAppContentFileUploadState] $uploadState
 
-    [object]commit([MSGraphAPI_v1_fileEncryptionInfo]$fileEncryptionInfo){
+    [object]commit([object]$fileEncryptionInfo){
         $ParamHash = @{
             'fileEncryptionInfo'=$fileEncryptionInfo
         }
@@ -6248,8 +6285,8 @@ class MSGraphAPI_v1_mobileAppContentFile : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('fileEncryptionInfo', 'MSGraphAPI_v1_fileEncryptionInfo')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.fileEncryptionInfo', 'MSGraphAPI_v1_fileEncryptionInfo')
+$null = $Script:MSGraphAPIClassHash.Add('fileEncryptionInfo', 'MSGraphAPI_v1_fileEncryptionInfo')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.fileEncryptionInfo', 'MSGraphAPI_v1_fileEncryptionInfo')
 
 
 class MSGraphAPI_v1_fileEncryptionInfo : MSGraphAPI_Base {
@@ -6261,65 +6298,65 @@ class MSGraphAPI_v1_fileEncryptionInfo : MSGraphAPI_Base {
     [object] $fileDigest
     [string] $fileDigestAlgorithm
 }
-$Script:MSGraphAPIClassHash.Add('allLicensedUsersAssignmentTarget', 'MSGraphAPI_v1_allLicensedUsersAssignmentTarget')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.allLicensedUsersAssignmentTarget', 'MSGraphAPI_v1_allLicensedUsersAssignmentTarget')
+$null = $Script:MSGraphAPIClassHash.Add('allLicensedUsersAssignmentTarget', 'MSGraphAPI_v1_allLicensedUsersAssignmentTarget')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.allLicensedUsersAssignmentTarget', 'MSGraphAPI_v1_allLicensedUsersAssignmentTarget')
 
 
 class MSGraphAPI_v1_allLicensedUsersAssignmentTarget : MSGraphAPI_v1_deviceAndAppManagementAssignmentTarget {
 
 }
-$Script:MSGraphAPIClassHash.Add('groupAssignmentTarget', 'MSGraphAPI_v1_groupAssignmentTarget')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.groupAssignmentTarget', 'MSGraphAPI_v1_groupAssignmentTarget')
+$null = $Script:MSGraphAPIClassHash.Add('groupAssignmentTarget', 'MSGraphAPI_v1_groupAssignmentTarget')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.groupAssignmentTarget', 'MSGraphAPI_v1_groupAssignmentTarget')
 
 
 class MSGraphAPI_v1_groupAssignmentTarget : MSGraphAPI_v1_deviceAndAppManagementAssignmentTarget {
     [string] $groupId
 }
-$Script:MSGraphAPIClassHash.Add('exclusionGroupAssignmentTarget', 'MSGraphAPI_v1_exclusionGroupAssignmentTarget')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.exclusionGroupAssignmentTarget', 'MSGraphAPI_v1_exclusionGroupAssignmentTarget')
+$null = $Script:MSGraphAPIClassHash.Add('exclusionGroupAssignmentTarget', 'MSGraphAPI_v1_exclusionGroupAssignmentTarget')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.exclusionGroupAssignmentTarget', 'MSGraphAPI_v1_exclusionGroupAssignmentTarget')
 
 
 class MSGraphAPI_v1_exclusionGroupAssignmentTarget : MSGraphAPI_v1_groupAssignmentTarget {
 
 }
-$Script:MSGraphAPIClassHash.Add('allDevicesAssignmentTarget', 'MSGraphAPI_v1_allDevicesAssignmentTarget')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.allDevicesAssignmentTarget', 'MSGraphAPI_v1_allDevicesAssignmentTarget')
+$null = $Script:MSGraphAPIClassHash.Add('allDevicesAssignmentTarget', 'MSGraphAPI_v1_allDevicesAssignmentTarget')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.allDevicesAssignmentTarget', 'MSGraphAPI_v1_allDevicesAssignmentTarget')
 
 
 class MSGraphAPI_v1_allDevicesAssignmentTarget : MSGraphAPI_v1_deviceAndAppManagementAssignmentTarget {
 
 }
-$Script:MSGraphAPIClassHash.Add('iosLobAppAssignmentSettings', 'MSGraphAPI_v1_iosLobAppAssignmentSettings')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosLobAppAssignmentSettings', 'MSGraphAPI_v1_iosLobAppAssignmentSettings')
+$null = $Script:MSGraphAPIClassHash.Add('iosLobAppAssignmentSettings', 'MSGraphAPI_v1_iosLobAppAssignmentSettings')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosLobAppAssignmentSettings', 'MSGraphAPI_v1_iosLobAppAssignmentSettings')
 
 
 class MSGraphAPI_v1_iosLobAppAssignmentSettings : MSGraphAPI_v1_mobileAppAssignmentSettings {
     [string] $vpnConfigurationId
 }
-$Script:MSGraphAPIClassHash.Add('iosStoreAppAssignmentSettings', 'MSGraphAPI_v1_iosStoreAppAssignmentSettings')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosStoreAppAssignmentSettings', 'MSGraphAPI_v1_iosStoreAppAssignmentSettings')
+$null = $Script:MSGraphAPIClassHash.Add('iosStoreAppAssignmentSettings', 'MSGraphAPI_v1_iosStoreAppAssignmentSettings')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosStoreAppAssignmentSettings', 'MSGraphAPI_v1_iosStoreAppAssignmentSettings')
 
 
 class MSGraphAPI_v1_iosStoreAppAssignmentSettings : MSGraphAPI_v1_mobileAppAssignmentSettings {
     [string] $vpnConfigurationId
 }
-$Script:MSGraphAPIClassHash.Add('iosVppAppAssignmentSettings', 'MSGraphAPI_v1_iosVppAppAssignmentSettings')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosVppAppAssignmentSettings', 'MSGraphAPI_v1_iosVppAppAssignmentSettings')
+$null = $Script:MSGraphAPIClassHash.Add('iosVppAppAssignmentSettings', 'MSGraphAPI_v1_iosVppAppAssignmentSettings')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosVppAppAssignmentSettings', 'MSGraphAPI_v1_iosVppAppAssignmentSettings')
 
 
 class MSGraphAPI_v1_iosVppAppAssignmentSettings : MSGraphAPI_v1_mobileAppAssignmentSettings {
     [Nullable[bool]] $useDeviceLicensing
     [string] $vpnConfigurationId
 }
-$Script:MSGraphAPIClassHash.Add('microsoftStoreForBusinessAppAssignmentSettings', 'MSGraphAPI_v1_microsoftStoreForBusinessAppAssignmentSettings')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.microsoftStoreForBusinessAppAssignmentSettings', 'MSGraphAPI_v1_microsoftStoreForBusinessAppAssignmentSettings')
+$null = $Script:MSGraphAPIClassHash.Add('microsoftStoreForBusinessAppAssignmentSettings', 'MSGraphAPI_v1_microsoftStoreForBusinessAppAssignmentSettings')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.microsoftStoreForBusinessAppAssignmentSettings', 'MSGraphAPI_v1_microsoftStoreForBusinessAppAssignmentSettings')
 
 
 class MSGraphAPI_v1_microsoftStoreForBusinessAppAssignmentSettings : MSGraphAPI_v1_mobileAppAssignmentSettings {
     [Nullable[bool]] $useDeviceContext
 }
-$Script:MSGraphAPIClassHash.Add('macOSOfficeSuiteApp', 'MSGraphAPI_v1_macOSOfficeSuiteApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.macOSOfficeSuiteApp', 'MSGraphAPI_v1_macOSOfficeSuiteApp')
+$null = $Script:MSGraphAPIClassHash.Add('macOSOfficeSuiteApp', 'MSGraphAPI_v1_macOSOfficeSuiteApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.macOSOfficeSuiteApp', 'MSGraphAPI_v1_macOSOfficeSuiteApp')
 
 
 class MSGraphAPI_v1_macOSOfficeSuiteApp : MSGraphAPI_v1_mobileApp {
@@ -6328,8 +6365,8 @@ class MSGraphAPI_v1_macOSOfficeSuiteApp : MSGraphAPI_v1_mobileApp {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedApp', 'MSGraphAPI_v1_managedApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedApp', 'MSGraphAPI_v1_managedApp')
+$null = $Script:MSGraphAPIClassHash.Add('managedApp', 'MSGraphAPI_v1_managedApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedApp', 'MSGraphAPI_v1_managedApp')
 
 
 class MSGraphAPI_v1_managedApp : MSGraphAPI_v1_mobileApp {
@@ -6339,8 +6376,8 @@ class MSGraphAPI_v1_managedApp : MSGraphAPI_v1_mobileApp {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedAndroidStoreApp', 'MSGraphAPI_v1_managedAndroidStoreApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAndroidStoreApp', 'MSGraphAPI_v1_managedAndroidStoreApp')
+$null = $Script:MSGraphAPIClassHash.Add('managedAndroidStoreApp', 'MSGraphAPI_v1_managedAndroidStoreApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAndroidStoreApp', 'MSGraphAPI_v1_managedAndroidStoreApp')
 
 
 class MSGraphAPI_v1_managedAndroidStoreApp : MSGraphAPI_v1_managedApp {
@@ -6351,8 +6388,8 @@ class MSGraphAPI_v1_managedAndroidStoreApp : MSGraphAPI_v1_managedApp {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('androidMinimumOperatingSystem', 'MSGraphAPI_v1_androidMinimumOperatingSystem')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.androidMinimumOperatingSystem', 'MSGraphAPI_v1_androidMinimumOperatingSystem')
+$null = $Script:MSGraphAPIClassHash.Add('androidMinimumOperatingSystem', 'MSGraphAPI_v1_androidMinimumOperatingSystem')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.androidMinimumOperatingSystem', 'MSGraphAPI_v1_androidMinimumOperatingSystem')
 
 
 class MSGraphAPI_v1_androidMinimumOperatingSystem : MSGraphAPI_Base {
@@ -6365,8 +6402,8 @@ class MSGraphAPI_v1_androidMinimumOperatingSystem : MSGraphAPI_Base {
     [Nullable[bool]] $v5_0
     [Nullable[bool]] $v5_1
 }
-$Script:MSGraphAPIClassHash.Add('managedIOSStoreApp', 'MSGraphAPI_v1_managedIOSStoreApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedIOSStoreApp', 'MSGraphAPI_v1_managedIOSStoreApp')
+$null = $Script:MSGraphAPIClassHash.Add('managedIOSStoreApp', 'MSGraphAPI_v1_managedIOSStoreApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedIOSStoreApp', 'MSGraphAPI_v1_managedIOSStoreApp')
 
 
 class MSGraphAPI_v1_managedIOSStoreApp : MSGraphAPI_v1_managedApp {
@@ -6378,16 +6415,16 @@ class MSGraphAPI_v1_managedIOSStoreApp : MSGraphAPI_v1_managedApp {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('iosDeviceType', 'MSGraphAPI_v1_iosDeviceType')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosDeviceType', 'MSGraphAPI_v1_iosDeviceType')
+$null = $Script:MSGraphAPIClassHash.Add('iosDeviceType', 'MSGraphAPI_v1_iosDeviceType')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosDeviceType', 'MSGraphAPI_v1_iosDeviceType')
 
 
 class MSGraphAPI_v1_iosDeviceType : MSGraphAPI_Base {
     [Nullable[bool]] $iPad
     [Nullable[bool]] $iPhoneAndIPod
 }
-$Script:MSGraphAPIClassHash.Add('iosMinimumOperatingSystem', 'MSGraphAPI_v1_iosMinimumOperatingSystem')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosMinimumOperatingSystem', 'MSGraphAPI_v1_iosMinimumOperatingSystem')
+$null = $Script:MSGraphAPIClassHash.Add('iosMinimumOperatingSystem', 'MSGraphAPI_v1_iosMinimumOperatingSystem')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosMinimumOperatingSystem', 'MSGraphAPI_v1_iosMinimumOperatingSystem')
 
 
 class MSGraphAPI_v1_iosMinimumOperatingSystem : MSGraphAPI_Base {
@@ -6396,8 +6433,8 @@ class MSGraphAPI_v1_iosMinimumOperatingSystem : MSGraphAPI_Base {
     [Nullable[bool]] $v10_0
     [Nullable[bool]] $v11_0
 }
-$Script:MSGraphAPIClassHash.Add('managedMobileLobApp', 'MSGraphAPI_v1_managedMobileLobApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedMobileLobApp', 'MSGraphAPI_v1_managedMobileLobApp')
+$null = $Script:MSGraphAPIClassHash.Add('managedMobileLobApp', 'MSGraphAPI_v1_managedMobileLobApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedMobileLobApp', 'MSGraphAPI_v1_managedMobileLobApp')
 
 
 class MSGraphAPI_v1_managedMobileLobApp : MSGraphAPI_v1_managedApp {
@@ -6410,8 +6447,8 @@ class MSGraphAPI_v1_managedMobileLobApp : MSGraphAPI_v1_managedApp {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('mobileAppContent', 'MSGraphAPI_v1_mobileAppContent')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileAppContent', 'MSGraphAPI_v1_mobileAppContent')
+$null = $Script:MSGraphAPIClassHash.Add('mobileAppContent', 'MSGraphAPI_v1_mobileAppContent')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileAppContent', 'MSGraphAPI_v1_mobileAppContent')
 
 
 class MSGraphAPI_v1_mobileAppContent : MSGraphAPI_v1_entity {
@@ -6422,8 +6459,8 @@ class MSGraphAPI_v1_mobileAppContent : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedAndroidLobApp', 'MSGraphAPI_v1_managedAndroidLobApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAndroidLobApp', 'MSGraphAPI_v1_managedAndroidLobApp')
+$null = $Script:MSGraphAPIClassHash.Add('managedAndroidLobApp', 'MSGraphAPI_v1_managedAndroidLobApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAndroidLobApp', 'MSGraphAPI_v1_managedAndroidLobApp')
 
 
 class MSGraphAPI_v1_managedAndroidLobApp : MSGraphAPI_v1_managedMobileLobApp {
@@ -6435,8 +6472,8 @@ class MSGraphAPI_v1_managedAndroidLobApp : MSGraphAPI_v1_managedMobileLobApp {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedIOSLobApp', 'MSGraphAPI_v1_managedIOSLobApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedIOSLobApp', 'MSGraphAPI_v1_managedIOSLobApp')
+$null = $Script:MSGraphAPIClassHash.Add('managedIOSLobApp', 'MSGraphAPI_v1_managedIOSLobApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedIOSLobApp', 'MSGraphAPI_v1_managedIOSLobApp')
 
 
 class MSGraphAPI_v1_managedIOSLobApp : MSGraphAPI_v1_managedMobileLobApp {
@@ -6450,8 +6487,8 @@ class MSGraphAPI_v1_managedIOSLobApp : MSGraphAPI_v1_managedMobileLobApp {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('mobileLobApp', 'MSGraphAPI_v1_mobileLobApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileLobApp', 'MSGraphAPI_v1_mobileLobApp')
+$null = $Script:MSGraphAPIClassHash.Add('mobileLobApp', 'MSGraphAPI_v1_mobileLobApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileLobApp', 'MSGraphAPI_v1_mobileLobApp')
 
 
 class MSGraphAPI_v1_mobileLobApp : MSGraphAPI_v1_mobileApp {
@@ -6464,8 +6501,8 @@ class MSGraphAPI_v1_mobileLobApp : MSGraphAPI_v1_mobileApp {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windowsMobileMSI', 'MSGraphAPI_v1_windowsMobileMSI')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsMobileMSI', 'MSGraphAPI_v1_windowsMobileMSI')
+$null = $Script:MSGraphAPIClassHash.Add('windowsMobileMSI', 'MSGraphAPI_v1_windowsMobileMSI')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsMobileMSI', 'MSGraphAPI_v1_windowsMobileMSI')
 
 
 class MSGraphAPI_v1_windowsMobileMSI : MSGraphAPI_v1_mobileLobApp {
@@ -6477,8 +6514,8 @@ class MSGraphAPI_v1_windowsMobileMSI : MSGraphAPI_v1_mobileLobApp {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windowsMinimumOperatingSystem', 'MSGraphAPI_v1_windowsMinimumOperatingSystem')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsMinimumOperatingSystem', 'MSGraphAPI_v1_windowsMinimumOperatingSystem')
+$null = $Script:MSGraphAPIClassHash.Add('windowsMinimumOperatingSystem', 'MSGraphAPI_v1_windowsMinimumOperatingSystem')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsMinimumOperatingSystem', 'MSGraphAPI_v1_windowsMinimumOperatingSystem')
 
 
 class MSGraphAPI_v1_windowsMinimumOperatingSystem : MSGraphAPI_Base {
@@ -6486,8 +6523,8 @@ class MSGraphAPI_v1_windowsMinimumOperatingSystem : MSGraphAPI_Base {
     [Nullable[bool]] $v8_1
     [Nullable[bool]] $v10_0
 }
-$Script:MSGraphAPIClassHash.Add('windowsUniversalAppX', 'MSGraphAPI_v1_windowsUniversalAppX')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsUniversalAppX', 'MSGraphAPI_v1_windowsUniversalAppX')
+$null = $Script:MSGraphAPIClassHash.Add('windowsUniversalAppX', 'MSGraphAPI_v1_windowsUniversalAppX')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsUniversalAppX', 'MSGraphAPI_v1_windowsUniversalAppX')
 
 
 class MSGraphAPI_v1_windowsUniversalAppX : MSGraphAPI_v1_mobileLobApp {
@@ -6503,8 +6540,8 @@ class MSGraphAPI_v1_windowsUniversalAppX : MSGraphAPI_v1_mobileLobApp {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('androidLobApp', 'MSGraphAPI_v1_androidLobApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.androidLobApp', 'MSGraphAPI_v1_androidLobApp')
+$null = $Script:MSGraphAPIClassHash.Add('androidLobApp', 'MSGraphAPI_v1_androidLobApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.androidLobApp', 'MSGraphAPI_v1_androidLobApp')
 
 
 class MSGraphAPI_v1_androidLobApp : MSGraphAPI_v1_mobileLobApp {
@@ -6516,8 +6553,8 @@ class MSGraphAPI_v1_androidLobApp : MSGraphAPI_v1_mobileLobApp {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('iosLobApp', 'MSGraphAPI_v1_iosLobApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosLobApp', 'MSGraphAPI_v1_iosLobApp')
+$null = $Script:MSGraphAPIClassHash.Add('iosLobApp', 'MSGraphAPI_v1_iosLobApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosLobApp', 'MSGraphAPI_v1_iosLobApp')
 
 
 class MSGraphAPI_v1_iosLobApp : MSGraphAPI_v1_mobileLobApp {
@@ -6531,8 +6568,8 @@ class MSGraphAPI_v1_iosLobApp : MSGraphAPI_v1_mobileLobApp {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('microsoftStoreForBusinessApp', 'MSGraphAPI_v1_microsoftStoreForBusinessApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.microsoftStoreForBusinessApp', 'MSGraphAPI_v1_microsoftStoreForBusinessApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoftStoreForBusinessApp', 'MSGraphAPI_v1_microsoftStoreForBusinessApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.microsoftStoreForBusinessApp', 'MSGraphAPI_v1_microsoftStoreForBusinessApp')
 
 
 class MSGraphAPI_v1_microsoftStoreForBusinessApp : MSGraphAPI_v1_mobileApp {
@@ -6545,8 +6582,8 @@ class MSGraphAPI_v1_microsoftStoreForBusinessApp : MSGraphAPI_v1_mobileApp {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('webApp', 'MSGraphAPI_v1_webApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.webApp', 'MSGraphAPI_v1_webApp')
+$null = $Script:MSGraphAPIClassHash.Add('webApp', 'MSGraphAPI_v1_webApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.webApp', 'MSGraphAPI_v1_webApp')
 
 
 class MSGraphAPI_v1_webApp : MSGraphAPI_v1_mobileApp {
@@ -6556,8 +6593,8 @@ class MSGraphAPI_v1_webApp : MSGraphAPI_v1_mobileApp {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('androidStoreApp', 'MSGraphAPI_v1_androidStoreApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.androidStoreApp', 'MSGraphAPI_v1_androidStoreApp')
+$null = $Script:MSGraphAPIClassHash.Add('androidStoreApp', 'MSGraphAPI_v1_androidStoreApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.androidStoreApp', 'MSGraphAPI_v1_androidStoreApp')
 
 
 class MSGraphAPI_v1_androidStoreApp : MSGraphAPI_v1_mobileApp {
@@ -6568,8 +6605,8 @@ class MSGraphAPI_v1_androidStoreApp : MSGraphAPI_v1_mobileApp {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('iosVppApp', 'MSGraphAPI_v1_iosVppApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosVppApp', 'MSGraphAPI_v1_iosVppApp')
+$null = $Script:MSGraphAPIClassHash.Add('iosVppApp', 'MSGraphAPI_v1_iosVppApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosVppApp', 'MSGraphAPI_v1_iosVppApp')
 
 
 class MSGraphAPI_v1_iosVppApp : MSGraphAPI_v1_mobileApp {
@@ -6587,16 +6624,16 @@ class MSGraphAPI_v1_iosVppApp : MSGraphAPI_v1_mobileApp {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('vppLicensingType', 'MSGraphAPI_v1_vppLicensingType')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.vppLicensingType', 'MSGraphAPI_v1_vppLicensingType')
+$null = $Script:MSGraphAPIClassHash.Add('vppLicensingType', 'MSGraphAPI_v1_vppLicensingType')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.vppLicensingType', 'MSGraphAPI_v1_vppLicensingType')
 
 
 class MSGraphAPI_v1_vppLicensingType : MSGraphAPI_Base {
     [Nullable[bool]] $supportsUserLicensing
     [Nullable[bool]] $supportsDeviceLicensing
 }
-$Script:MSGraphAPIClassHash.Add('iosStoreApp', 'MSGraphAPI_v1_iosStoreApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosStoreApp', 'MSGraphAPI_v1_iosStoreApp')
+$null = $Script:MSGraphAPIClassHash.Add('iosStoreApp', 'MSGraphAPI_v1_iosStoreApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosStoreApp', 'MSGraphAPI_v1_iosStoreApp')
 
 
 class MSGraphAPI_v1_iosStoreApp : MSGraphAPI_v1_mobileApp {
@@ -6608,8 +6645,8 @@ class MSGraphAPI_v1_iosStoreApp : MSGraphAPI_v1_mobileApp {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedDeviceMobileAppConfigurationUserStatus', 'MSGraphAPI_v1_managedDeviceMobileAppConfigurationUserStatus')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedDeviceMobileAppConfigurationUserStatus', 'MSGraphAPI_v1_managedDeviceMobileAppConfigurationUserStatus')
+$null = $Script:MSGraphAPIClassHash.Add('managedDeviceMobileAppConfigurationUserStatus', 'MSGraphAPI_v1_managedDeviceMobileAppConfigurationUserStatus')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedDeviceMobileAppConfigurationUserStatus', 'MSGraphAPI_v1_managedDeviceMobileAppConfigurationUserStatus')
 
 
 class MSGraphAPI_v1_managedDeviceMobileAppConfigurationUserStatus : MSGraphAPI_v1_entity {
@@ -6622,8 +6659,8 @@ class MSGraphAPI_v1_managedDeviceMobileAppConfigurationUserStatus : MSGraphAPI_v
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedDeviceMobileAppConfigurationAssignment', 'MSGraphAPI_v1_managedDeviceMobileAppConfigurationAssignment')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedDeviceMobileAppConfigurationAssignment', 'MSGraphAPI_v1_managedDeviceMobileAppConfigurationAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('managedDeviceMobileAppConfigurationAssignment', 'MSGraphAPI_v1_managedDeviceMobileAppConfigurationAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedDeviceMobileAppConfigurationAssignment', 'MSGraphAPI_v1_managedDeviceMobileAppConfigurationAssignment')
 
 
 class MSGraphAPI_v1_managedDeviceMobileAppConfigurationAssignment : MSGraphAPI_v1_entity {
@@ -6632,8 +6669,8 @@ class MSGraphAPI_v1_managedDeviceMobileAppConfigurationAssignment : MSGraphAPI_v
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedDeviceMobileAppConfigurationDeviceSummary', 'MSGraphAPI_v1_managedDeviceMobileAppConfigurationDeviceSummary')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedDeviceMobileAppConfigurationDeviceSummary', 'MSGraphAPI_v1_managedDeviceMobileAppConfigurationDeviceSummary')
+$null = $Script:MSGraphAPIClassHash.Add('managedDeviceMobileAppConfigurationDeviceSummary', 'MSGraphAPI_v1_managedDeviceMobileAppConfigurationDeviceSummary')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedDeviceMobileAppConfigurationDeviceSummary', 'MSGraphAPI_v1_managedDeviceMobileAppConfigurationDeviceSummary')
 
 
 class MSGraphAPI_v1_managedDeviceMobileAppConfigurationDeviceSummary : MSGraphAPI_v1_entity {
@@ -6648,8 +6685,8 @@ class MSGraphAPI_v1_managedDeviceMobileAppConfigurationDeviceSummary : MSGraphAP
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedDeviceMobileAppConfigurationUserSummary', 'MSGraphAPI_v1_managedDeviceMobileAppConfigurationUserSummary')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedDeviceMobileAppConfigurationUserSummary', 'MSGraphAPI_v1_managedDeviceMobileAppConfigurationUserSummary')
+$null = $Script:MSGraphAPIClassHash.Add('managedDeviceMobileAppConfigurationUserSummary', 'MSGraphAPI_v1_managedDeviceMobileAppConfigurationUserSummary')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedDeviceMobileAppConfigurationUserSummary', 'MSGraphAPI_v1_managedDeviceMobileAppConfigurationUserSummary')
 
 
 class MSGraphAPI_v1_managedDeviceMobileAppConfigurationUserSummary : MSGraphAPI_v1_entity {
@@ -6664,8 +6701,8 @@ class MSGraphAPI_v1_managedDeviceMobileAppConfigurationUserSummary : MSGraphAPI_
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceManagement', 'MSGraphAPI_v1_deviceManagement')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceManagement', 'MSGraphAPI_v1_deviceManagement')
+$null = $Script:MSGraphAPIClassHash.Add('deviceManagement', 'MSGraphAPI_v1_deviceManagement')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceManagement', 'MSGraphAPI_v1_deviceManagement')
 
 
 class MSGraphAPI_v1_deviceManagement : MSGraphAPI_v1_entity {
@@ -6767,8 +6804,8 @@ class MSGraphAPI_v1_deviceManagement : MSGraphAPI_v1_entity {
         return (Start-MSGraphAPIFunction -BaseURI $this.GraphURL -Function 'getEffectivePermissions' -ParamHash $ParamHash)
     }
 }
-$Script:MSGraphAPIClassHash.Add('termsAndConditions', 'MSGraphAPI_v1_termsAndConditions')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.termsAndConditions', 'MSGraphAPI_v1_termsAndConditions')
+$null = $Script:MSGraphAPIClassHash.Add('termsAndConditions', 'MSGraphAPI_v1_termsAndConditions')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.termsAndConditions', 'MSGraphAPI_v1_termsAndConditions')
 
 
 class MSGraphAPI_v1_termsAndConditions : MSGraphAPI_v1_entity {
@@ -6789,8 +6826,8 @@ class MSGraphAPI_v1_termsAndConditions : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('applePushNotificationCertificate', 'MSGraphAPI_v1_applePushNotificationCertificate')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.applePushNotificationCertificate', 'MSGraphAPI_v1_applePushNotificationCertificate')
+$null = $Script:MSGraphAPIClassHash.Add('applePushNotificationCertificate', 'MSGraphAPI_v1_applePushNotificationCertificate')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.applePushNotificationCertificate', 'MSGraphAPI_v1_applePushNotificationCertificate')
 
 
 class MSGraphAPI_v1_applePushNotificationCertificate : MSGraphAPI_v1_entity {
@@ -6805,8 +6842,8 @@ class MSGraphAPI_v1_applePushNotificationCertificate : MSGraphAPI_v1_entity {
         return (Start-MSGraphAPIFunction -BaseURI $this.GraphURL -Function 'downloadApplePushNotificationCertificateSigningRequest')
     }
 }
-$Script:MSGraphAPIClassHash.Add('managedDeviceOverview', 'MSGraphAPI_v1_managedDeviceOverview')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedDeviceOverview', 'MSGraphAPI_v1_managedDeviceOverview')
+$null = $Script:MSGraphAPIClassHash.Add('managedDeviceOverview', 'MSGraphAPI_v1_managedDeviceOverview')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedDeviceOverview', 'MSGraphAPI_v1_managedDeviceOverview')
 
 
 class MSGraphAPI_v1_managedDeviceOverview : MSGraphAPI_v1_entity {
@@ -6819,8 +6856,8 @@ class MSGraphAPI_v1_managedDeviceOverview : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('detectedApp', 'MSGraphAPI_v1_detectedApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.detectedApp', 'MSGraphAPI_v1_detectedApp')
+$null = $Script:MSGraphAPIClassHash.Add('detectedApp', 'MSGraphAPI_v1_detectedApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.detectedApp', 'MSGraphAPI_v1_detectedApp')
 
 
 class MSGraphAPI_v1_detectedApp : MSGraphAPI_v1_entity {
@@ -6834,8 +6871,8 @@ class MSGraphAPI_v1_detectedApp : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceManagementSettings', 'MSGraphAPI_v1_deviceManagementSettings')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceManagementSettings', 'MSGraphAPI_v1_deviceManagementSettings')
+$null = $Script:MSGraphAPIClassHash.Add('deviceManagementSettings', 'MSGraphAPI_v1_deviceManagementSettings')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceManagementSettings', 'MSGraphAPI_v1_deviceManagementSettings')
 
 
 class MSGraphAPI_v1_deviceManagementSettings : MSGraphAPI_Base {
@@ -6843,8 +6880,8 @@ class MSGraphAPI_v1_deviceManagementSettings : MSGraphAPI_Base {
     [Nullable[bool]] $isScheduledActionEnabled
     [Nullable[bool]] $secureByDefault
 }
-$Script:MSGraphAPIClassHash.Add('deviceConfiguration', 'MSGraphAPI_v1_deviceConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfiguration', 'MSGraphAPI_v1_deviceConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('deviceConfiguration', 'MSGraphAPI_v1_deviceConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfiguration', 'MSGraphAPI_v1_deviceConfiguration')
 
 
 class MSGraphAPI_v1_deviceConfiguration : MSGraphAPI_v1_entity {
@@ -6871,7 +6908,7 @@ class MSGraphAPI_v1_deviceConfiguration : MSGraphAPI_v1_entity {
     [object]Get_deviceSettingStateSummaries(){
         return (Invoke-MSGraphMethod -query "$($this.GraphPath)/deviceSettingStateSummaries")
     }
-    [object]assign([MSGraphAPI_v1_deviceConfigurationAssignment[]]$assignments){
+    [object]assign([object]$assignments){
         $ParamHash = @{
             'assignments'=$assignments
         }
@@ -6879,8 +6916,8 @@ class MSGraphAPI_v1_deviceConfiguration : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceCompliancePolicy', 'MSGraphAPI_v1_deviceCompliancePolicy')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceCompliancePolicy', 'MSGraphAPI_v1_deviceCompliancePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('deviceCompliancePolicy', 'MSGraphAPI_v1_deviceCompliancePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceCompliancePolicy', 'MSGraphAPI_v1_deviceCompliancePolicy')
 
 
 class MSGraphAPI_v1_deviceCompliancePolicy : MSGraphAPI_v1_entity {
@@ -6910,13 +6947,13 @@ class MSGraphAPI_v1_deviceCompliancePolicy : MSGraphAPI_v1_entity {
     [object]Get_assignments(){
         return (Invoke-MSGraphMethod -query "$($this.GraphPath)/assignments")
     }
-    [object]assign([MSGraphAPI_v1_deviceCompliancePolicyAssignment[]]$assignments){
+    [object]assign([object]$assignments){
         $ParamHash = @{
             'assignments'=$assignments
         }
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'assign' -ParamHash $ParamHash)
     }
-    [object]scheduleActionsForRules([MSGraphAPI_v1_deviceComplianceScheduledActionForRule[]]$deviceComplianceScheduledActionForRules){
+    [object]scheduleActionsForRules([object]$deviceComplianceScheduledActionForRules){
         $ParamHash = @{
             'deviceComplianceScheduledActionForRules'=$deviceComplianceScheduledActionForRules
         }
@@ -6924,8 +6961,8 @@ class MSGraphAPI_v1_deviceCompliancePolicy : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('softwareUpdateStatusSummary', 'MSGraphAPI_v1_softwareUpdateStatusSummary')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.softwareUpdateStatusSummary', 'MSGraphAPI_v1_softwareUpdateStatusSummary')
+$null = $Script:MSGraphAPIClassHash.Add('softwareUpdateStatusSummary', 'MSGraphAPI_v1_softwareUpdateStatusSummary')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.softwareUpdateStatusSummary', 'MSGraphAPI_v1_softwareUpdateStatusSummary')
 
 
 class MSGraphAPI_v1_softwareUpdateStatusSummary : MSGraphAPI_v1_entity {
@@ -6948,8 +6985,8 @@ class MSGraphAPI_v1_softwareUpdateStatusSummary : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceCompliancePolicyDeviceStateSummary', 'MSGraphAPI_v1_deviceCompliancePolicyDeviceStateSummary')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceCompliancePolicyDeviceStateSummary', 'MSGraphAPI_v1_deviceCompliancePolicyDeviceStateSummary')
+$null = $Script:MSGraphAPIClassHash.Add('deviceCompliancePolicyDeviceStateSummary', 'MSGraphAPI_v1_deviceCompliancePolicyDeviceStateSummary')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceCompliancePolicyDeviceStateSummary', 'MSGraphAPI_v1_deviceCompliancePolicyDeviceStateSummary')
 
 
 class MSGraphAPI_v1_deviceCompliancePolicyDeviceStateSummary : MSGraphAPI_v1_entity {
@@ -6966,8 +7003,8 @@ class MSGraphAPI_v1_deviceCompliancePolicyDeviceStateSummary : MSGraphAPI_v1_ent
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceCompliancePolicySettingStateSummary', 'MSGraphAPI_v1_deviceCompliancePolicySettingStateSummary')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceCompliancePolicySettingStateSummary', 'MSGraphAPI_v1_deviceCompliancePolicySettingStateSummary')
+$null = $Script:MSGraphAPIClassHash.Add('deviceCompliancePolicySettingStateSummary', 'MSGraphAPI_v1_deviceCompliancePolicySettingStateSummary')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceCompliancePolicySettingStateSummary', 'MSGraphAPI_v1_deviceCompliancePolicySettingStateSummary')
 
 
 class MSGraphAPI_v1_deviceCompliancePolicySettingStateSummary : MSGraphAPI_v1_entity {
@@ -6987,8 +7024,8 @@ class MSGraphAPI_v1_deviceCompliancePolicySettingStateSummary : MSGraphAPI_v1_en
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceConfigurationDeviceStateSummary', 'MSGraphAPI_v1_deviceConfigurationDeviceStateSummary')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfigurationDeviceStateSummary', 'MSGraphAPI_v1_deviceConfigurationDeviceStateSummary')
+$null = $Script:MSGraphAPIClassHash.Add('deviceConfigurationDeviceStateSummary', 'MSGraphAPI_v1_deviceConfigurationDeviceStateSummary')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfigurationDeviceStateSummary', 'MSGraphAPI_v1_deviceConfigurationDeviceStateSummary')
 
 
 class MSGraphAPI_v1_deviceConfigurationDeviceStateSummary : MSGraphAPI_v1_entity {
@@ -7003,8 +7040,8 @@ class MSGraphAPI_v1_deviceConfigurationDeviceStateSummary : MSGraphAPI_v1_entity
 
 
 }
-$Script:MSGraphAPIClassHash.Add('iosUpdateDeviceStatus', 'MSGraphAPI_v1_iosUpdateDeviceStatus')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosUpdateDeviceStatus', 'MSGraphAPI_v1_iosUpdateDeviceStatus')
+$null = $Script:MSGraphAPIClassHash.Add('iosUpdateDeviceStatus', 'MSGraphAPI_v1_iosUpdateDeviceStatus')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosUpdateDeviceStatus', 'MSGraphAPI_v1_iosUpdateDeviceStatus')
 
 
 class MSGraphAPI_v1_iosUpdateDeviceStatus : MSGraphAPI_v1_entity {
@@ -7023,8 +7060,8 @@ class MSGraphAPI_v1_iosUpdateDeviceStatus : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('intuneBrand', 'MSGraphAPI_v1_intuneBrand')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.intuneBrand', 'MSGraphAPI_v1_intuneBrand')
+$null = $Script:MSGraphAPIClassHash.Add('intuneBrand', 'MSGraphAPI_v1_intuneBrand')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.intuneBrand', 'MSGraphAPI_v1_intuneBrand')
 
 
 class MSGraphAPI_v1_intuneBrand : MSGraphAPI_Base {
@@ -7043,8 +7080,8 @@ class MSGraphAPI_v1_intuneBrand : MSGraphAPI_Base {
     [Nullable[bool]] $showNameNextToLogo
     [Nullable[bool]] $showDisplayNameNextToLogo
 }
-$Script:MSGraphAPIClassHash.Add('rgbColor', 'MSGraphAPI_v1_rgbColor')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.rgbColor', 'MSGraphAPI_v1_rgbColor')
+$null = $Script:MSGraphAPIClassHash.Add('rgbColor', 'MSGraphAPI_v1_rgbColor')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.rgbColor', 'MSGraphAPI_v1_rgbColor')
 
 
 class MSGraphAPI_v1_rgbColor : MSGraphAPI_Base {
@@ -7052,8 +7089,8 @@ class MSGraphAPI_v1_rgbColor : MSGraphAPI_Base {
     [object] $g
     [object] $b
 }
-$Script:MSGraphAPIClassHash.Add('deviceCategory', 'MSGraphAPI_v1_deviceCategory')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceCategory', 'MSGraphAPI_v1_deviceCategory')
+$null = $Script:MSGraphAPIClassHash.Add('deviceCategory', 'MSGraphAPI_v1_deviceCategory')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceCategory', 'MSGraphAPI_v1_deviceCategory')
 
 
 class MSGraphAPI_v1_deviceCategory : MSGraphAPI_v1_entity {
@@ -7063,8 +7100,8 @@ class MSGraphAPI_v1_deviceCategory : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceManagementExchangeConnector', 'MSGraphAPI_v1_deviceManagementExchangeConnector')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceManagementExchangeConnector', 'MSGraphAPI_v1_deviceManagementExchangeConnector')
+$null = $Script:MSGraphAPIClassHash.Add('deviceManagementExchangeConnector', 'MSGraphAPI_v1_deviceManagementExchangeConnector')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceManagementExchangeConnector', 'MSGraphAPI_v1_deviceManagementExchangeConnector')
 
 
 class MSGraphAPI_v1_deviceManagementExchangeConnector : MSGraphAPI_v1_entity {
@@ -7077,7 +7114,7 @@ class MSGraphAPI_v1_deviceManagementExchangeConnector : MSGraphAPI_v1_entity {
     [string] $exchangeAlias
     [string] $exchangeOrganization
 
-    [object]sync([MSGraphAPI_v1_deviceManagementExchangeConnectorSyncType]$syncType){
+    [object]sync([object]$syncType){
         $ParamHash = @{
             'syncType'=$syncType
         }
@@ -7085,8 +7122,8 @@ class MSGraphAPI_v1_deviceManagementExchangeConnector : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceEnrollmentConfiguration', 'MSGraphAPI_v1_deviceEnrollmentConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceEnrollmentConfiguration', 'MSGraphAPI_v1_deviceEnrollmentConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('deviceEnrollmentConfiguration', 'MSGraphAPI_v1_deviceEnrollmentConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceEnrollmentConfiguration', 'MSGraphAPI_v1_deviceEnrollmentConfiguration')
 
 
 class MSGraphAPI_v1_deviceEnrollmentConfiguration : MSGraphAPI_v1_entity {
@@ -7105,7 +7142,7 @@ class MSGraphAPI_v1_deviceEnrollmentConfiguration : MSGraphAPI_v1_entity {
         }
         return (Start-MSGraphAPIAction -BaseURI $this.GraphURL -Action 'setPriority' -ParamHash $ParamHash)
     }
-    [object]assign([MSGraphAPI_v1_enrollmentConfigurationAssignment[]]$enrollmentConfigurationAssignments){
+    [object]assign([object]$enrollmentConfigurationAssignments){
         $ParamHash = @{
             'enrollmentConfigurationAssignments'=$enrollmentConfigurationAssignments
         }
@@ -7113,8 +7150,8 @@ class MSGraphAPI_v1_deviceEnrollmentConfiguration : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('onPremisesConditionalAccessSettings', 'MSGraphAPI_v1_onPremisesConditionalAccessSettings')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.onPremisesConditionalAccessSettings', 'MSGraphAPI_v1_onPremisesConditionalAccessSettings')
+$null = $Script:MSGraphAPIClassHash.Add('onPremisesConditionalAccessSettings', 'MSGraphAPI_v1_onPremisesConditionalAccessSettings')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.onPremisesConditionalAccessSettings', 'MSGraphAPI_v1_onPremisesConditionalAccessSettings')
 
 
 class MSGraphAPI_v1_onPremisesConditionalAccessSettings : MSGraphAPI_v1_entity {
@@ -7126,8 +7163,8 @@ class MSGraphAPI_v1_onPremisesConditionalAccessSettings : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('mobileThreatDefenseConnector', 'MSGraphAPI_v1_mobileThreatDefenseConnector')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileThreatDefenseConnector', 'MSGraphAPI_v1_mobileThreatDefenseConnector')
+$null = $Script:MSGraphAPIClassHash.Add('mobileThreatDefenseConnector', 'MSGraphAPI_v1_mobileThreatDefenseConnector')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileThreatDefenseConnector', 'MSGraphAPI_v1_mobileThreatDefenseConnector')
 
 
 class MSGraphAPI_v1_mobileThreatDefenseConnector : MSGraphAPI_v1_entity {
@@ -7143,8 +7180,8 @@ class MSGraphAPI_v1_mobileThreatDefenseConnector : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceManagementPartner', 'MSGraphAPI_v1_deviceManagementPartner')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceManagementPartner', 'MSGraphAPI_v1_deviceManagementPartner')
+$null = $Script:MSGraphAPIClassHash.Add('deviceManagementPartner', 'MSGraphAPI_v1_deviceManagementPartner')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceManagementPartner', 'MSGraphAPI_v1_deviceManagementPartner')
 
 
 class MSGraphAPI_v1_deviceManagementPartner : MSGraphAPI_v1_entity {
@@ -7160,8 +7197,8 @@ class MSGraphAPI_v1_deviceManagementPartner : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('notificationMessageTemplate', 'MSGraphAPI_v1_notificationMessageTemplate')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.notificationMessageTemplate', 'MSGraphAPI_v1_notificationMessageTemplate')
+$null = $Script:MSGraphAPIClassHash.Add('notificationMessageTemplate', 'MSGraphAPI_v1_notificationMessageTemplate')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.notificationMessageTemplate', 'MSGraphAPI_v1_notificationMessageTemplate')
 
 
 class MSGraphAPI_v1_notificationMessageTemplate : MSGraphAPI_v1_entity {
@@ -7177,8 +7214,8 @@ class MSGraphAPI_v1_notificationMessageTemplate : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('roleDefinition', 'MSGraphAPI_v1_roleDefinition')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.roleDefinition', 'MSGraphAPI_v1_roleDefinition')
+$null = $Script:MSGraphAPIClassHash.Add('roleDefinition', 'MSGraphAPI_v1_roleDefinition')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.roleDefinition', 'MSGraphAPI_v1_roleDefinition')
 
 
 class MSGraphAPI_v1_roleDefinition : MSGraphAPI_v1_entity {
@@ -7192,8 +7229,8 @@ class MSGraphAPI_v1_roleDefinition : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('roleAssignment', 'MSGraphAPI_v1_roleAssignment')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.roleAssignment', 'MSGraphAPI_v1_roleAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('roleAssignment', 'MSGraphAPI_v1_roleAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.roleAssignment', 'MSGraphAPI_v1_roleAssignment')
 
 
 class MSGraphAPI_v1_roleAssignment : MSGraphAPI_v1_entity {
@@ -7206,8 +7243,8 @@ class MSGraphAPI_v1_roleAssignment : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceAndAppManagementRoleAssignment', 'MSGraphAPI_v1_deviceAndAppManagementRoleAssignment')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceAndAppManagementRoleAssignment', 'MSGraphAPI_v1_deviceAndAppManagementRoleAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('deviceAndAppManagementRoleAssignment', 'MSGraphAPI_v1_deviceAndAppManagementRoleAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceAndAppManagementRoleAssignment', 'MSGraphAPI_v1_deviceAndAppManagementRoleAssignment')
 
 
 class MSGraphAPI_v1_deviceAndAppManagementRoleAssignment : MSGraphAPI_v1_roleAssignment {
@@ -7216,8 +7253,8 @@ class MSGraphAPI_v1_deviceAndAppManagementRoleAssignment : MSGraphAPI_v1_roleAss
 
 
 }
-$Script:MSGraphAPIClassHash.Add('resourceOperation', 'MSGraphAPI_v1_resourceOperation')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.resourceOperation', 'MSGraphAPI_v1_resourceOperation')
+$null = $Script:MSGraphAPIClassHash.Add('resourceOperation', 'MSGraphAPI_v1_resourceOperation')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.resourceOperation', 'MSGraphAPI_v1_resourceOperation')
 
 
 class MSGraphAPI_v1_resourceOperation : MSGraphAPI_v1_entity {
@@ -7228,8 +7265,8 @@ class MSGraphAPI_v1_resourceOperation : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('telecomExpenseManagementPartner', 'MSGraphAPI_v1_telecomExpenseManagementPartner')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.telecomExpenseManagementPartner', 'MSGraphAPI_v1_telecomExpenseManagementPartner')
+$null = $Script:MSGraphAPIClassHash.Add('telecomExpenseManagementPartner', 'MSGraphAPI_v1_telecomExpenseManagementPartner')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.telecomExpenseManagementPartner', 'MSGraphAPI_v1_telecomExpenseManagementPartner')
 
 
 class MSGraphAPI_v1_telecomExpenseManagementPartner : MSGraphAPI_v1_entity {
@@ -7242,8 +7279,8 @@ class MSGraphAPI_v1_telecomExpenseManagementPartner : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('remoteAssistancePartner', 'MSGraphAPI_v1_remoteAssistancePartner')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.remoteAssistancePartner', 'MSGraphAPI_v1_remoteAssistancePartner')
+$null = $Script:MSGraphAPIClassHash.Add('remoteAssistancePartner', 'MSGraphAPI_v1_remoteAssistancePartner')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.remoteAssistancePartner', 'MSGraphAPI_v1_remoteAssistancePartner')
 
 
 class MSGraphAPI_v1_remoteAssistancePartner : MSGraphAPI_v1_entity {
@@ -7260,8 +7297,8 @@ class MSGraphAPI_v1_remoteAssistancePartner : MSGraphAPI_v1_entity {
     }
 
 }
-$Script:MSGraphAPIClassHash.Add('windowsInformationProtectionAppLearningSummary', 'MSGraphAPI_v1_windowsInformationProtectionAppLearningSummary')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionAppLearningSummary', 'MSGraphAPI_v1_windowsInformationProtectionAppLearningSummary')
+$null = $Script:MSGraphAPIClassHash.Add('windowsInformationProtectionAppLearningSummary', 'MSGraphAPI_v1_windowsInformationProtectionAppLearningSummary')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionAppLearningSummary', 'MSGraphAPI_v1_windowsInformationProtectionAppLearningSummary')
 
 
 class MSGraphAPI_v1_windowsInformationProtectionAppLearningSummary : MSGraphAPI_v1_entity {
@@ -7272,8 +7309,8 @@ class MSGraphAPI_v1_windowsInformationProtectionAppLearningSummary : MSGraphAPI_
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windowsInformationProtectionNetworkLearningSummary', 'MSGraphAPI_v1_windowsInformationProtectionNetworkLearningSummary')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionNetworkLearningSummary', 'MSGraphAPI_v1_windowsInformationProtectionNetworkLearningSummary')
+$null = $Script:MSGraphAPIClassHash.Add('windowsInformationProtectionNetworkLearningSummary', 'MSGraphAPI_v1_windowsInformationProtectionNetworkLearningSummary')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionNetworkLearningSummary', 'MSGraphAPI_v1_windowsInformationProtectionNetworkLearningSummary')
 
 
 class MSGraphAPI_v1_windowsInformationProtectionNetworkLearningSummary : MSGraphAPI_v1_entity {
@@ -7283,8 +7320,8 @@ class MSGraphAPI_v1_windowsInformationProtectionNetworkLearningSummary : MSGraph
 
 
 }
-$Script:MSGraphAPIClassHash.Add('termsAndConditionsAssignment', 'MSGraphAPI_v1_termsAndConditionsAssignment')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.termsAndConditionsAssignment', 'MSGraphAPI_v1_termsAndConditionsAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('termsAndConditionsAssignment', 'MSGraphAPI_v1_termsAndConditionsAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.termsAndConditionsAssignment', 'MSGraphAPI_v1_termsAndConditionsAssignment')
 
 
 class MSGraphAPI_v1_termsAndConditionsAssignment : MSGraphAPI_v1_entity {
@@ -7293,8 +7330,8 @@ class MSGraphAPI_v1_termsAndConditionsAssignment : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('termsAndConditionsAcceptanceStatus', 'MSGraphAPI_v1_termsAndConditionsAcceptanceStatus')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.termsAndConditionsAcceptanceStatus', 'MSGraphAPI_v1_termsAndConditionsAcceptanceStatus')
+$null = $Script:MSGraphAPIClassHash.Add('termsAndConditionsAcceptanceStatus', 'MSGraphAPI_v1_termsAndConditionsAcceptanceStatus')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.termsAndConditionsAcceptanceStatus', 'MSGraphAPI_v1_termsAndConditionsAcceptanceStatus')
 
 
 class MSGraphAPI_v1_termsAndConditionsAcceptanceStatus : MSGraphAPI_v1_entity {
@@ -7307,8 +7344,8 @@ class MSGraphAPI_v1_termsAndConditionsAcceptanceStatus : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceConfigurationState', 'MSGraphAPI_v1_deviceConfigurationState')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfigurationState', 'MSGraphAPI_v1_deviceConfigurationState')
+$null = $Script:MSGraphAPIClassHash.Add('deviceConfigurationState', 'MSGraphAPI_v1_deviceConfigurationState')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfigurationState', 'MSGraphAPI_v1_deviceConfigurationState')
 
 
 class MSGraphAPI_v1_deviceConfigurationState : MSGraphAPI_v1_entity {
@@ -7322,8 +7359,8 @@ class MSGraphAPI_v1_deviceConfigurationState : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceActionResult', 'MSGraphAPI_v1_deviceActionResult')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceActionResult', 'MSGraphAPI_v1_deviceActionResult')
+$null = $Script:MSGraphAPIClassHash.Add('deviceActionResult', 'MSGraphAPI_v1_deviceActionResult')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceActionResult', 'MSGraphAPI_v1_deviceActionResult')
 
 
 class MSGraphAPI_v1_deviceActionResult : MSGraphAPI_Base {
@@ -7332,8 +7369,8 @@ class MSGraphAPI_v1_deviceActionResult : MSGraphAPI_Base {
     [Nullable[DateTimeOffset]] $startDateTime
     [Nullable[DateTimeOffset]] $lastUpdatedDateTime
 }
-$Script:MSGraphAPIClassHash.Add('configurationManagerClientEnabledFeatures', 'MSGraphAPI_v1_configurationManagerClientEnabledFeatures')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.configurationManagerClientEnabledFeatures', 'MSGraphAPI_v1_configurationManagerClientEnabledFeatures')
+$null = $Script:MSGraphAPIClassHash.Add('configurationManagerClientEnabledFeatures', 'MSGraphAPI_v1_configurationManagerClientEnabledFeatures')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.configurationManagerClientEnabledFeatures', 'MSGraphAPI_v1_configurationManagerClientEnabledFeatures')
 
 
 class MSGraphAPI_v1_configurationManagerClientEnabledFeatures : MSGraphAPI_Base {
@@ -7344,8 +7381,8 @@ class MSGraphAPI_v1_configurationManagerClientEnabledFeatures : MSGraphAPI_Base 
     [Nullable[bool]] $compliancePolicy
     [Nullable[bool]] $windowsUpdateForBusiness
 }
-$Script:MSGraphAPIClassHash.Add('deviceHealthAttestationState', 'MSGraphAPI_v1_deviceHealthAttestationState')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceHealthAttestationState', 'MSGraphAPI_v1_deviceHealthAttestationState')
+$null = $Script:MSGraphAPIClassHash.Add('deviceHealthAttestationState', 'MSGraphAPI_v1_deviceHealthAttestationState')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceHealthAttestationState', 'MSGraphAPI_v1_deviceHealthAttestationState')
 
 
 class MSGraphAPI_v1_deviceHealthAttestationState : MSGraphAPI_Base {
@@ -7382,8 +7419,8 @@ class MSGraphAPI_v1_deviceHealthAttestationState : MSGraphAPI_Base {
     [string] $healthStatusMismatchInfo
     [string] $healthAttestationSupportedStatus
 }
-$Script:MSGraphAPIClassHash.Add('deviceCompliancePolicyState', 'MSGraphAPI_v1_deviceCompliancePolicyState')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceCompliancePolicyState', 'MSGraphAPI_v1_deviceCompliancePolicyState')
+$null = $Script:MSGraphAPIClassHash.Add('deviceCompliancePolicyState', 'MSGraphAPI_v1_deviceCompliancePolicyState')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceCompliancePolicyState', 'MSGraphAPI_v1_deviceCompliancePolicyState')
 
 
 class MSGraphAPI_v1_deviceCompliancePolicyState : MSGraphAPI_v1_entity {
@@ -7397,8 +7434,8 @@ class MSGraphAPI_v1_deviceCompliancePolicyState : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('updateWindowsDeviceAccountActionParameter', 'MSGraphAPI_v1_updateWindowsDeviceAccountActionParameter')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.updateWindowsDeviceAccountActionParameter', 'MSGraphAPI_v1_updateWindowsDeviceAccountActionParameter')
+$null = $Script:MSGraphAPIClassHash.Add('updateWindowsDeviceAccountActionParameter', 'MSGraphAPI_v1_updateWindowsDeviceAccountActionParameter')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.updateWindowsDeviceAccountActionParameter', 'MSGraphAPI_v1_updateWindowsDeviceAccountActionParameter')
 
 
 class MSGraphAPI_v1_updateWindowsDeviceAccountActionParameter : MSGraphAPI_Base {
@@ -7409,29 +7446,29 @@ class MSGraphAPI_v1_updateWindowsDeviceAccountActionParameter : MSGraphAPI_Base 
     [string] $exchangeServer
     [string] $sessionInitiationProtocalAddress
 }
-$Script:MSGraphAPIClassHash.Add('windowsDeviceAccount', 'MSGraphAPI_v1_windowsDeviceAccount')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsDeviceAccount', 'MSGraphAPI_v1_windowsDeviceAccount')
+$null = $Script:MSGraphAPIClassHash.Add('windowsDeviceAccount', 'MSGraphAPI_v1_windowsDeviceAccount')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsDeviceAccount', 'MSGraphAPI_v1_windowsDeviceAccount')
 
 
 class MSGraphAPI_v1_windowsDeviceAccount : MSGraphAPI_Base {
     [string] $password
 }
-$Script:MSGraphAPIClassHash.Add('windowsDefenderScanActionResult', 'MSGraphAPI_v1_windowsDefenderScanActionResult')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsDefenderScanActionResult', 'MSGraphAPI_v1_windowsDefenderScanActionResult')
+$null = $Script:MSGraphAPIClassHash.Add('windowsDefenderScanActionResult', 'MSGraphAPI_v1_windowsDefenderScanActionResult')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsDefenderScanActionResult', 'MSGraphAPI_v1_windowsDefenderScanActionResult')
 
 
 class MSGraphAPI_v1_windowsDefenderScanActionResult : MSGraphAPI_v1_deviceActionResult {
     [string] $scanType
 }
-$Script:MSGraphAPIClassHash.Add('deleteUserFromSharedAppleDeviceActionResult', 'MSGraphAPI_v1_deleteUserFromSharedAppleDeviceActionResult')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deleteUserFromSharedAppleDeviceActionResult', 'MSGraphAPI_v1_deleteUserFromSharedAppleDeviceActionResult')
+$null = $Script:MSGraphAPIClassHash.Add('deleteUserFromSharedAppleDeviceActionResult', 'MSGraphAPI_v1_deleteUserFromSharedAppleDeviceActionResult')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deleteUserFromSharedAppleDeviceActionResult', 'MSGraphAPI_v1_deleteUserFromSharedAppleDeviceActionResult')
 
 
 class MSGraphAPI_v1_deleteUserFromSharedAppleDeviceActionResult : MSGraphAPI_v1_deviceActionResult {
     [string] $userPrincipalName
 }
-$Script:MSGraphAPIClassHash.Add('deviceGeoLocation', 'MSGraphAPI_v1_deviceGeoLocation')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceGeoLocation', 'MSGraphAPI_v1_deviceGeoLocation')
+$null = $Script:MSGraphAPIClassHash.Add('deviceGeoLocation', 'MSGraphAPI_v1_deviceGeoLocation')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceGeoLocation', 'MSGraphAPI_v1_deviceGeoLocation')
 
 
 class MSGraphAPI_v1_deviceGeoLocation : MSGraphAPI_Base {
@@ -7444,29 +7481,29 @@ class MSGraphAPI_v1_deviceGeoLocation : MSGraphAPI_Base {
     [Nullable[Double]] $heading
     [Nullable[Double]] $speed
 }
-$Script:MSGraphAPIClassHash.Add('locateDeviceActionResult', 'MSGraphAPI_v1_locateDeviceActionResult')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.locateDeviceActionResult', 'MSGraphAPI_v1_locateDeviceActionResult')
+$null = $Script:MSGraphAPIClassHash.Add('locateDeviceActionResult', 'MSGraphAPI_v1_locateDeviceActionResult')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.locateDeviceActionResult', 'MSGraphAPI_v1_locateDeviceActionResult')
 
 
 class MSGraphAPI_v1_locateDeviceActionResult : MSGraphAPI_v1_deviceActionResult {
     [MSGraphAPI_v1_deviceGeoLocation] $deviceLocation
 }
-$Script:MSGraphAPIClassHash.Add('remoteLockActionResult', 'MSGraphAPI_v1_remoteLockActionResult')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.remoteLockActionResult', 'MSGraphAPI_v1_remoteLockActionResult')
+$null = $Script:MSGraphAPIClassHash.Add('remoteLockActionResult', 'MSGraphAPI_v1_remoteLockActionResult')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.remoteLockActionResult', 'MSGraphAPI_v1_remoteLockActionResult')
 
 
 class MSGraphAPI_v1_remoteLockActionResult : MSGraphAPI_v1_deviceActionResult {
     [string] $unlockPin
 }
-$Script:MSGraphAPIClassHash.Add('resetPasscodeActionResult', 'MSGraphAPI_v1_resetPasscodeActionResult')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.resetPasscodeActionResult', 'MSGraphAPI_v1_resetPasscodeActionResult')
+$null = $Script:MSGraphAPIClassHash.Add('resetPasscodeActionResult', 'MSGraphAPI_v1_resetPasscodeActionResult')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.resetPasscodeActionResult', 'MSGraphAPI_v1_resetPasscodeActionResult')
 
 
 class MSGraphAPI_v1_resetPasscodeActionResult : MSGraphAPI_v1_deviceActionResult {
     [string] $passcode
 }
-$Script:MSGraphAPIClassHash.Add('deviceOperatingSystemSummary', 'MSGraphAPI_v1_deviceOperatingSystemSummary')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceOperatingSystemSummary', 'MSGraphAPI_v1_deviceOperatingSystemSummary')
+$null = $Script:MSGraphAPIClassHash.Add('deviceOperatingSystemSummary', 'MSGraphAPI_v1_deviceOperatingSystemSummary')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceOperatingSystemSummary', 'MSGraphAPI_v1_deviceOperatingSystemSummary')
 
 
 class MSGraphAPI_v1_deviceOperatingSystemSummary : MSGraphAPI_Base {
@@ -7477,8 +7514,8 @@ class MSGraphAPI_v1_deviceOperatingSystemSummary : MSGraphAPI_Base {
     [Nullable[int]] $windowsCount
     [Nullable[int]] $unknownCount
 }
-$Script:MSGraphAPIClassHash.Add('deviceExchangeAccessStateSummary', 'MSGraphAPI_v1_deviceExchangeAccessStateSummary')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceExchangeAccessStateSummary', 'MSGraphAPI_v1_deviceExchangeAccessStateSummary')
+$null = $Script:MSGraphAPIClassHash.Add('deviceExchangeAccessStateSummary', 'MSGraphAPI_v1_deviceExchangeAccessStateSummary')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceExchangeAccessStateSummary', 'MSGraphAPI_v1_deviceExchangeAccessStateSummary')
 
 
 class MSGraphAPI_v1_deviceExchangeAccessStateSummary : MSGraphAPI_Base {
@@ -7488,23 +7525,23 @@ class MSGraphAPI_v1_deviceExchangeAccessStateSummary : MSGraphAPI_Base {
     [Nullable[int]] $unknownDeviceCount
     [Nullable[int]] $unavailableDeviceCount
 }
-$Script:MSGraphAPIClassHash.Add('windowsDeviceADAccount', 'MSGraphAPI_v1_windowsDeviceADAccount')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsDeviceADAccount', 'MSGraphAPI_v1_windowsDeviceADAccount')
+$null = $Script:MSGraphAPIClassHash.Add('windowsDeviceADAccount', 'MSGraphAPI_v1_windowsDeviceADAccount')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsDeviceADAccount', 'MSGraphAPI_v1_windowsDeviceADAccount')
 
 
 class MSGraphAPI_v1_windowsDeviceADAccount : MSGraphAPI_v1_windowsDeviceAccount {
     [string] $domainName
     [string] $userName
 }
-$Script:MSGraphAPIClassHash.Add('windowsDeviceAzureADAccount', 'MSGraphAPI_v1_windowsDeviceAzureADAccount')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsDeviceAzureADAccount', 'MSGraphAPI_v1_windowsDeviceAzureADAccount')
+$null = $Script:MSGraphAPIClassHash.Add('windowsDeviceAzureADAccount', 'MSGraphAPI_v1_windowsDeviceAzureADAccount')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsDeviceAzureADAccount', 'MSGraphAPI_v1_windowsDeviceAzureADAccount')
 
 
 class MSGraphAPI_v1_windowsDeviceAzureADAccount : MSGraphAPI_v1_windowsDeviceAccount {
     [string] $userPrincipalName
 }
-$Script:MSGraphAPIClassHash.Add('deviceConfigurationAssignment', 'MSGraphAPI_v1_deviceConfigurationAssignment')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfigurationAssignment', 'MSGraphAPI_v1_deviceConfigurationAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('deviceConfigurationAssignment', 'MSGraphAPI_v1_deviceConfigurationAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfigurationAssignment', 'MSGraphAPI_v1_deviceConfigurationAssignment')
 
 
 class MSGraphAPI_v1_deviceConfigurationAssignment : MSGraphAPI_v1_entity {
@@ -7513,8 +7550,8 @@ class MSGraphAPI_v1_deviceConfigurationAssignment : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceConfigurationDeviceStatus', 'MSGraphAPI_v1_deviceConfigurationDeviceStatus')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfigurationDeviceStatus', 'MSGraphAPI_v1_deviceConfigurationDeviceStatus')
+$null = $Script:MSGraphAPIClassHash.Add('deviceConfigurationDeviceStatus', 'MSGraphAPI_v1_deviceConfigurationDeviceStatus')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfigurationDeviceStatus', 'MSGraphAPI_v1_deviceConfigurationDeviceStatus')
 
 
 class MSGraphAPI_v1_deviceConfigurationDeviceStatus : MSGraphAPI_v1_entity {
@@ -7529,8 +7566,8 @@ class MSGraphAPI_v1_deviceConfigurationDeviceStatus : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceConfigurationUserStatus', 'MSGraphAPI_v1_deviceConfigurationUserStatus')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfigurationUserStatus', 'MSGraphAPI_v1_deviceConfigurationUserStatus')
+$null = $Script:MSGraphAPIClassHash.Add('deviceConfigurationUserStatus', 'MSGraphAPI_v1_deviceConfigurationUserStatus')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfigurationUserStatus', 'MSGraphAPI_v1_deviceConfigurationUserStatus')
 
 
 class MSGraphAPI_v1_deviceConfigurationUserStatus : MSGraphAPI_v1_entity {
@@ -7543,8 +7580,8 @@ class MSGraphAPI_v1_deviceConfigurationUserStatus : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceConfigurationDeviceOverview', 'MSGraphAPI_v1_deviceConfigurationDeviceOverview')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfigurationDeviceOverview', 'MSGraphAPI_v1_deviceConfigurationDeviceOverview')
+$null = $Script:MSGraphAPIClassHash.Add('deviceConfigurationDeviceOverview', 'MSGraphAPI_v1_deviceConfigurationDeviceOverview')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfigurationDeviceOverview', 'MSGraphAPI_v1_deviceConfigurationDeviceOverview')
 
 
 class MSGraphAPI_v1_deviceConfigurationDeviceOverview : MSGraphAPI_v1_entity {
@@ -7559,8 +7596,8 @@ class MSGraphAPI_v1_deviceConfigurationDeviceOverview : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceConfigurationUserOverview', 'MSGraphAPI_v1_deviceConfigurationUserOverview')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfigurationUserOverview', 'MSGraphAPI_v1_deviceConfigurationUserOverview')
+$null = $Script:MSGraphAPIClassHash.Add('deviceConfigurationUserOverview', 'MSGraphAPI_v1_deviceConfigurationUserOverview')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfigurationUserOverview', 'MSGraphAPI_v1_deviceConfigurationUserOverview')
 
 
 class MSGraphAPI_v1_deviceConfigurationUserOverview : MSGraphAPI_v1_entity {
@@ -7575,8 +7612,8 @@ class MSGraphAPI_v1_deviceConfigurationUserOverview : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('settingStateDeviceSummary', 'MSGraphAPI_v1_settingStateDeviceSummary')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.settingStateDeviceSummary', 'MSGraphAPI_v1_settingStateDeviceSummary')
+$null = $Script:MSGraphAPIClassHash.Add('settingStateDeviceSummary', 'MSGraphAPI_v1_settingStateDeviceSummary')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.settingStateDeviceSummary', 'MSGraphAPI_v1_settingStateDeviceSummary')
 
 
 class MSGraphAPI_v1_settingStateDeviceSummary : MSGraphAPI_v1_entity {
@@ -7593,8 +7630,8 @@ class MSGraphAPI_v1_settingStateDeviceSummary : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceCompliancePolicyAssignment', 'MSGraphAPI_v1_deviceCompliancePolicyAssignment')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceCompliancePolicyAssignment', 'MSGraphAPI_v1_deviceCompliancePolicyAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('deviceCompliancePolicyAssignment', 'MSGraphAPI_v1_deviceCompliancePolicyAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceCompliancePolicyAssignment', 'MSGraphAPI_v1_deviceCompliancePolicyAssignment')
 
 
 class MSGraphAPI_v1_deviceCompliancePolicyAssignment : MSGraphAPI_v1_entity {
@@ -7603,8 +7640,8 @@ class MSGraphAPI_v1_deviceCompliancePolicyAssignment : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceComplianceScheduledActionForRule', 'MSGraphAPI_v1_deviceComplianceScheduledActionForRule')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceComplianceScheduledActionForRule', 'MSGraphAPI_v1_deviceComplianceScheduledActionForRule')
+$null = $Script:MSGraphAPIClassHash.Add('deviceComplianceScheduledActionForRule', 'MSGraphAPI_v1_deviceComplianceScheduledActionForRule')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceComplianceScheduledActionForRule', 'MSGraphAPI_v1_deviceComplianceScheduledActionForRule')
 
 
 class MSGraphAPI_v1_deviceComplianceScheduledActionForRule : MSGraphAPI_v1_entity {
@@ -7615,8 +7652,8 @@ class MSGraphAPI_v1_deviceComplianceScheduledActionForRule : MSGraphAPI_v1_entit
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceComplianceDeviceStatus', 'MSGraphAPI_v1_deviceComplianceDeviceStatus')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceComplianceDeviceStatus', 'MSGraphAPI_v1_deviceComplianceDeviceStatus')
+$null = $Script:MSGraphAPIClassHash.Add('deviceComplianceDeviceStatus', 'MSGraphAPI_v1_deviceComplianceDeviceStatus')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceComplianceDeviceStatus', 'MSGraphAPI_v1_deviceComplianceDeviceStatus')
 
 
 class MSGraphAPI_v1_deviceComplianceDeviceStatus : MSGraphAPI_v1_entity {
@@ -7631,8 +7668,8 @@ class MSGraphAPI_v1_deviceComplianceDeviceStatus : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceComplianceUserStatus', 'MSGraphAPI_v1_deviceComplianceUserStatus')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceComplianceUserStatus', 'MSGraphAPI_v1_deviceComplianceUserStatus')
+$null = $Script:MSGraphAPIClassHash.Add('deviceComplianceUserStatus', 'MSGraphAPI_v1_deviceComplianceUserStatus')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceComplianceUserStatus', 'MSGraphAPI_v1_deviceComplianceUserStatus')
 
 
 class MSGraphAPI_v1_deviceComplianceUserStatus : MSGraphAPI_v1_entity {
@@ -7645,8 +7682,8 @@ class MSGraphAPI_v1_deviceComplianceUserStatus : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceComplianceDeviceOverview', 'MSGraphAPI_v1_deviceComplianceDeviceOverview')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceComplianceDeviceOverview', 'MSGraphAPI_v1_deviceComplianceDeviceOverview')
+$null = $Script:MSGraphAPIClassHash.Add('deviceComplianceDeviceOverview', 'MSGraphAPI_v1_deviceComplianceDeviceOverview')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceComplianceDeviceOverview', 'MSGraphAPI_v1_deviceComplianceDeviceOverview')
 
 
 class MSGraphAPI_v1_deviceComplianceDeviceOverview : MSGraphAPI_v1_entity {
@@ -7661,8 +7698,8 @@ class MSGraphAPI_v1_deviceComplianceDeviceOverview : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceComplianceUserOverview', 'MSGraphAPI_v1_deviceComplianceUserOverview')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceComplianceUserOverview', 'MSGraphAPI_v1_deviceComplianceUserOverview')
+$null = $Script:MSGraphAPIClassHash.Add('deviceComplianceUserOverview', 'MSGraphAPI_v1_deviceComplianceUserOverview')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceComplianceUserOverview', 'MSGraphAPI_v1_deviceComplianceUserOverview')
 
 
 class MSGraphAPI_v1_deviceComplianceUserOverview : MSGraphAPI_v1_entity {
@@ -7677,8 +7714,8 @@ class MSGraphAPI_v1_deviceComplianceUserOverview : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceComplianceActionItem', 'MSGraphAPI_v1_deviceComplianceActionItem')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceComplianceActionItem', 'MSGraphAPI_v1_deviceComplianceActionItem')
+$null = $Script:MSGraphAPIClassHash.Add('deviceComplianceActionItem', 'MSGraphAPI_v1_deviceComplianceActionItem')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceComplianceActionItem', 'MSGraphAPI_v1_deviceComplianceActionItem')
 
 
 class MSGraphAPI_v1_deviceComplianceActionItem : MSGraphAPI_v1_entity {
@@ -7690,8 +7727,8 @@ class MSGraphAPI_v1_deviceComplianceActionItem : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('androidCustomConfiguration', 'MSGraphAPI_v1_androidCustomConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.androidCustomConfiguration', 'MSGraphAPI_v1_androidCustomConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('androidCustomConfiguration', 'MSGraphAPI_v1_androidCustomConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.androidCustomConfiguration', 'MSGraphAPI_v1_androidCustomConfiguration')
 
 
 class MSGraphAPI_v1_androidCustomConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -7700,8 +7737,8 @@ class MSGraphAPI_v1_androidCustomConfiguration : MSGraphAPI_v1_deviceConfigurati
 
 
 }
-$Script:MSGraphAPIClassHash.Add('omaSetting', 'MSGraphAPI_v1_omaSetting')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.omaSetting', 'MSGraphAPI_v1_omaSetting')
+$null = $Script:MSGraphAPIClassHash.Add('omaSetting', 'MSGraphAPI_v1_omaSetting')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.omaSetting', 'MSGraphAPI_v1_omaSetting')
 
 
 class MSGraphAPI_v1_omaSetting : MSGraphAPI_Base {
@@ -7709,59 +7746,59 @@ class MSGraphAPI_v1_omaSetting : MSGraphAPI_Base {
     [string] $description
     [string] $omaUri
 }
-$Script:MSGraphAPIClassHash.Add('omaSettingInteger', 'MSGraphAPI_v1_omaSettingInteger')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.omaSettingInteger', 'MSGraphAPI_v1_omaSettingInteger')
+$null = $Script:MSGraphAPIClassHash.Add('omaSettingInteger', 'MSGraphAPI_v1_omaSettingInteger')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.omaSettingInteger', 'MSGraphAPI_v1_omaSettingInteger')
 
 
 class MSGraphAPI_v1_omaSettingInteger : MSGraphAPI_v1_omaSetting {
     [Nullable[int]] $value
 }
-$Script:MSGraphAPIClassHash.Add('omaSettingFloatingPoint', 'MSGraphAPI_v1_omaSettingFloatingPoint')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.omaSettingFloatingPoint', 'MSGraphAPI_v1_omaSettingFloatingPoint')
+$null = $Script:MSGraphAPIClassHash.Add('omaSettingFloatingPoint', 'MSGraphAPI_v1_omaSettingFloatingPoint')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.omaSettingFloatingPoint', 'MSGraphAPI_v1_omaSettingFloatingPoint')
 
 
 class MSGraphAPI_v1_omaSettingFloatingPoint : MSGraphAPI_v1_omaSetting {
     [object] $value
 }
-$Script:MSGraphAPIClassHash.Add('omaSettingString', 'MSGraphAPI_v1_omaSettingString')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.omaSettingString', 'MSGraphAPI_v1_omaSettingString')
+$null = $Script:MSGraphAPIClassHash.Add('omaSettingString', 'MSGraphAPI_v1_omaSettingString')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.omaSettingString', 'MSGraphAPI_v1_omaSettingString')
 
 
 class MSGraphAPI_v1_omaSettingString : MSGraphAPI_v1_omaSetting {
     [string] $value
 }
-$Script:MSGraphAPIClassHash.Add('omaSettingDateTime', 'MSGraphAPI_v1_omaSettingDateTime')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.omaSettingDateTime', 'MSGraphAPI_v1_omaSettingDateTime')
+$null = $Script:MSGraphAPIClassHash.Add('omaSettingDateTime', 'MSGraphAPI_v1_omaSettingDateTime')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.omaSettingDateTime', 'MSGraphAPI_v1_omaSettingDateTime')
 
 
 class MSGraphAPI_v1_omaSettingDateTime : MSGraphAPI_v1_omaSetting {
     [Nullable[DateTimeOffset]] $value
 }
-$Script:MSGraphAPIClassHash.Add('omaSettingStringXml', 'MSGraphAPI_v1_omaSettingStringXml')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.omaSettingStringXml', 'MSGraphAPI_v1_omaSettingStringXml')
+$null = $Script:MSGraphAPIClassHash.Add('omaSettingStringXml', 'MSGraphAPI_v1_omaSettingStringXml')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.omaSettingStringXml', 'MSGraphAPI_v1_omaSettingStringXml')
 
 
 class MSGraphAPI_v1_omaSettingStringXml : MSGraphAPI_v1_omaSetting {
     [string] $fileName
     [object] $value
 }
-$Script:MSGraphAPIClassHash.Add('omaSettingBoolean', 'MSGraphAPI_v1_omaSettingBoolean')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.omaSettingBoolean', 'MSGraphAPI_v1_omaSettingBoolean')
+$null = $Script:MSGraphAPIClassHash.Add('omaSettingBoolean', 'MSGraphAPI_v1_omaSettingBoolean')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.omaSettingBoolean', 'MSGraphAPI_v1_omaSettingBoolean')
 
 
 class MSGraphAPI_v1_omaSettingBoolean : MSGraphAPI_v1_omaSetting {
     [Nullable[bool]] $value
 }
-$Script:MSGraphAPIClassHash.Add('omaSettingBase64', 'MSGraphAPI_v1_omaSettingBase64')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.omaSettingBase64', 'MSGraphAPI_v1_omaSettingBase64')
+$null = $Script:MSGraphAPIClassHash.Add('omaSettingBase64', 'MSGraphAPI_v1_omaSettingBase64')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.omaSettingBase64', 'MSGraphAPI_v1_omaSettingBase64')
 
 
 class MSGraphAPI_v1_omaSettingBase64 : MSGraphAPI_v1_omaSetting {
     [string] $fileName
     [string] $value
 }
-$Script:MSGraphAPIClassHash.Add('androidGeneralDeviceConfiguration', 'MSGraphAPI_v1_androidGeneralDeviceConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.androidGeneralDeviceConfiguration', 'MSGraphAPI_v1_androidGeneralDeviceConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('androidGeneralDeviceConfiguration', 'MSGraphAPI_v1_androidGeneralDeviceConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.androidGeneralDeviceConfiguration', 'MSGraphAPI_v1_androidGeneralDeviceConfiguration')
 
 
 class MSGraphAPI_v1_androidGeneralDeviceConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -7817,8 +7854,8 @@ class MSGraphAPI_v1_androidGeneralDeviceConfiguration : MSGraphAPI_v1_deviceConf
 
 
 }
-$Script:MSGraphAPIClassHash.Add('appListItem', 'MSGraphAPI_v1_appListItem')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.appListItem', 'MSGraphAPI_v1_appListItem')
+$null = $Script:MSGraphAPIClassHash.Add('appListItem', 'MSGraphAPI_v1_appListItem')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.appListItem', 'MSGraphAPI_v1_appListItem')
 
 
 class MSGraphAPI_v1_appListItem : MSGraphAPI_Base {
@@ -7827,8 +7864,8 @@ class MSGraphAPI_v1_appListItem : MSGraphAPI_Base {
     [string] $appStoreUrl
     [string] $appId
 }
-$Script:MSGraphAPIClassHash.Add('iosCertificateProfile', 'MSGraphAPI_v1_iosCertificateProfile')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosCertificateProfile', 'MSGraphAPI_v1_iosCertificateProfile')
+$null = $Script:MSGraphAPIClassHash.Add('iosCertificateProfile', 'MSGraphAPI_v1_iosCertificateProfile')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosCertificateProfile', 'MSGraphAPI_v1_iosCertificateProfile')
 
 
 class MSGraphAPI_v1_iosCertificateProfile : MSGraphAPI_v1_deviceConfiguration {
@@ -7837,8 +7874,8 @@ class MSGraphAPI_v1_iosCertificateProfile : MSGraphAPI_v1_deviceConfiguration {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('iosCustomConfiguration', 'MSGraphAPI_v1_iosCustomConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosCustomConfiguration', 'MSGraphAPI_v1_iosCustomConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('iosCustomConfiguration', 'MSGraphAPI_v1_iosCustomConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosCustomConfiguration', 'MSGraphAPI_v1_iosCustomConfiguration')
 
 
 class MSGraphAPI_v1_iosCustomConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -7849,8 +7886,8 @@ class MSGraphAPI_v1_iosCustomConfiguration : MSGraphAPI_v1_deviceConfiguration {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('iosGeneralDeviceConfiguration', 'MSGraphAPI_v1_iosGeneralDeviceConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosGeneralDeviceConfiguration', 'MSGraphAPI_v1_iosGeneralDeviceConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('iosGeneralDeviceConfiguration', 'MSGraphAPI_v1_iosGeneralDeviceConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosGeneralDeviceConfiguration', 'MSGraphAPI_v1_iosGeneralDeviceConfiguration')
 
 
 class MSGraphAPI_v1_iosGeneralDeviceConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -7988,80 +8025,80 @@ class MSGraphAPI_v1_iosGeneralDeviceConfiguration : MSGraphAPI_v1_deviceConfigur
 
 
 }
-$Script:MSGraphAPIClassHash.Add('mediaContentRatingAustralia', 'MSGraphAPI_v1_mediaContentRatingAustralia')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingAustralia', 'MSGraphAPI_v1_mediaContentRatingAustralia')
+$null = $Script:MSGraphAPIClassHash.Add('mediaContentRatingAustralia', 'MSGraphAPI_v1_mediaContentRatingAustralia')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingAustralia', 'MSGraphAPI_v1_mediaContentRatingAustralia')
 
 
 class MSGraphAPI_v1_mediaContentRatingAustralia : MSGraphAPI_Base {
     [MSGraphAPI_v1_ratingAustraliaMoviesType] $movieRating
     [MSGraphAPI_v1_ratingAustraliaTelevisionType] $tvRating
 }
-$Script:MSGraphAPIClassHash.Add('mediaContentRatingCanada', 'MSGraphAPI_v1_mediaContentRatingCanada')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingCanada', 'MSGraphAPI_v1_mediaContentRatingCanada')
+$null = $Script:MSGraphAPIClassHash.Add('mediaContentRatingCanada', 'MSGraphAPI_v1_mediaContentRatingCanada')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingCanada', 'MSGraphAPI_v1_mediaContentRatingCanada')
 
 
 class MSGraphAPI_v1_mediaContentRatingCanada : MSGraphAPI_Base {
     [MSGraphAPI_v1_ratingCanadaMoviesType] $movieRating
     [MSGraphAPI_v1_ratingCanadaTelevisionType] $tvRating
 }
-$Script:MSGraphAPIClassHash.Add('mediaContentRatingFrance', 'MSGraphAPI_v1_mediaContentRatingFrance')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingFrance', 'MSGraphAPI_v1_mediaContentRatingFrance')
+$null = $Script:MSGraphAPIClassHash.Add('mediaContentRatingFrance', 'MSGraphAPI_v1_mediaContentRatingFrance')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingFrance', 'MSGraphAPI_v1_mediaContentRatingFrance')
 
 
 class MSGraphAPI_v1_mediaContentRatingFrance : MSGraphAPI_Base {
     [MSGraphAPI_v1_ratingFranceMoviesType] $movieRating
     [MSGraphAPI_v1_ratingFranceTelevisionType] $tvRating
 }
-$Script:MSGraphAPIClassHash.Add('mediaContentRatingGermany', 'MSGraphAPI_v1_mediaContentRatingGermany')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingGermany', 'MSGraphAPI_v1_mediaContentRatingGermany')
+$null = $Script:MSGraphAPIClassHash.Add('mediaContentRatingGermany', 'MSGraphAPI_v1_mediaContentRatingGermany')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingGermany', 'MSGraphAPI_v1_mediaContentRatingGermany')
 
 
 class MSGraphAPI_v1_mediaContentRatingGermany : MSGraphAPI_Base {
     [MSGraphAPI_v1_ratingGermanyMoviesType] $movieRating
     [MSGraphAPI_v1_ratingGermanyTelevisionType] $tvRating
 }
-$Script:MSGraphAPIClassHash.Add('mediaContentRatingIreland', 'MSGraphAPI_v1_mediaContentRatingIreland')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingIreland', 'MSGraphAPI_v1_mediaContentRatingIreland')
+$null = $Script:MSGraphAPIClassHash.Add('mediaContentRatingIreland', 'MSGraphAPI_v1_mediaContentRatingIreland')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingIreland', 'MSGraphAPI_v1_mediaContentRatingIreland')
 
 
 class MSGraphAPI_v1_mediaContentRatingIreland : MSGraphAPI_Base {
     [MSGraphAPI_v1_ratingIrelandMoviesType] $movieRating
     [MSGraphAPI_v1_ratingIrelandTelevisionType] $tvRating
 }
-$Script:MSGraphAPIClassHash.Add('mediaContentRatingJapan', 'MSGraphAPI_v1_mediaContentRatingJapan')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingJapan', 'MSGraphAPI_v1_mediaContentRatingJapan')
+$null = $Script:MSGraphAPIClassHash.Add('mediaContentRatingJapan', 'MSGraphAPI_v1_mediaContentRatingJapan')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingJapan', 'MSGraphAPI_v1_mediaContentRatingJapan')
 
 
 class MSGraphAPI_v1_mediaContentRatingJapan : MSGraphAPI_Base {
     [MSGraphAPI_v1_ratingJapanMoviesType] $movieRating
     [MSGraphAPI_v1_ratingJapanTelevisionType] $tvRating
 }
-$Script:MSGraphAPIClassHash.Add('mediaContentRatingNewZealand', 'MSGraphAPI_v1_mediaContentRatingNewZealand')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingNewZealand', 'MSGraphAPI_v1_mediaContentRatingNewZealand')
+$null = $Script:MSGraphAPIClassHash.Add('mediaContentRatingNewZealand', 'MSGraphAPI_v1_mediaContentRatingNewZealand')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingNewZealand', 'MSGraphAPI_v1_mediaContentRatingNewZealand')
 
 
 class MSGraphAPI_v1_mediaContentRatingNewZealand : MSGraphAPI_Base {
     [MSGraphAPI_v1_ratingNewZealandMoviesType] $movieRating
     [MSGraphAPI_v1_ratingNewZealandTelevisionType] $tvRating
 }
-$Script:MSGraphAPIClassHash.Add('mediaContentRatingUnitedKingdom', 'MSGraphAPI_v1_mediaContentRatingUnitedKingdom')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingUnitedKingdom', 'MSGraphAPI_v1_mediaContentRatingUnitedKingdom')
+$null = $Script:MSGraphAPIClassHash.Add('mediaContentRatingUnitedKingdom', 'MSGraphAPI_v1_mediaContentRatingUnitedKingdom')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingUnitedKingdom', 'MSGraphAPI_v1_mediaContentRatingUnitedKingdom')
 
 
 class MSGraphAPI_v1_mediaContentRatingUnitedKingdom : MSGraphAPI_Base {
     [MSGraphAPI_v1_ratingUnitedKingdomMoviesType] $movieRating
     [MSGraphAPI_v1_ratingUnitedKingdomTelevisionType] $tvRating
 }
-$Script:MSGraphAPIClassHash.Add('mediaContentRatingUnitedStates', 'MSGraphAPI_v1_mediaContentRatingUnitedStates')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingUnitedStates', 'MSGraphAPI_v1_mediaContentRatingUnitedStates')
+$null = $Script:MSGraphAPIClassHash.Add('mediaContentRatingUnitedStates', 'MSGraphAPI_v1_mediaContentRatingUnitedStates')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mediaContentRatingUnitedStates', 'MSGraphAPI_v1_mediaContentRatingUnitedStates')
 
 
 class MSGraphAPI_v1_mediaContentRatingUnitedStates : MSGraphAPI_Base {
     [MSGraphAPI_v1_ratingUnitedStatesMoviesType] $movieRating
     [MSGraphAPI_v1_ratingUnitedStatesTelevisionType] $tvRating
 }
-$Script:MSGraphAPIClassHash.Add('iosNetworkUsageRule', 'MSGraphAPI_v1_iosNetworkUsageRule')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosNetworkUsageRule', 'MSGraphAPI_v1_iosNetworkUsageRule')
+$null = $Script:MSGraphAPIClassHash.Add('iosNetworkUsageRule', 'MSGraphAPI_v1_iosNetworkUsageRule')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosNetworkUsageRule', 'MSGraphAPI_v1_iosNetworkUsageRule')
 
 
 class MSGraphAPI_v1_iosNetworkUsageRule : MSGraphAPI_Base {
@@ -8069,8 +8106,8 @@ class MSGraphAPI_v1_iosNetworkUsageRule : MSGraphAPI_Base {
     [Nullable[bool]] $cellularDataBlockWhenRoaming
     [Nullable[bool]] $cellularDataBlocked
 }
-$Script:MSGraphAPIClassHash.Add('iosUpdateConfiguration', 'MSGraphAPI_v1_iosUpdateConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosUpdateConfiguration', 'MSGraphAPI_v1_iosUpdateConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('iosUpdateConfiguration', 'MSGraphAPI_v1_iosUpdateConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosUpdateConfiguration', 'MSGraphAPI_v1_iosUpdateConfiguration')
 
 
 class MSGraphAPI_v1_iosUpdateConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -8082,8 +8119,8 @@ class MSGraphAPI_v1_iosUpdateConfiguration : MSGraphAPI_v1_deviceConfiguration {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('macOSCustomConfiguration', 'MSGraphAPI_v1_macOSCustomConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.macOSCustomConfiguration', 'MSGraphAPI_v1_macOSCustomConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('macOSCustomConfiguration', 'MSGraphAPI_v1_macOSCustomConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.macOSCustomConfiguration', 'MSGraphAPI_v1_macOSCustomConfiguration')
 
 
 class MSGraphAPI_v1_macOSCustomConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -8094,8 +8131,8 @@ class MSGraphAPI_v1_macOSCustomConfiguration : MSGraphAPI_v1_deviceConfiguration
 
 
 }
-$Script:MSGraphAPIClassHash.Add('macOSGeneralDeviceConfiguration', 'MSGraphAPI_v1_macOSGeneralDeviceConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.macOSGeneralDeviceConfiguration', 'MSGraphAPI_v1_macOSGeneralDeviceConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('macOSGeneralDeviceConfiguration', 'MSGraphAPI_v1_macOSGeneralDeviceConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.macOSGeneralDeviceConfiguration', 'MSGraphAPI_v1_macOSGeneralDeviceConfiguration')
 
 
 class MSGraphAPI_v1_macOSGeneralDeviceConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -8115,8 +8152,8 @@ class MSGraphAPI_v1_macOSGeneralDeviceConfiguration : MSGraphAPI_v1_deviceConfig
 
 
 }
-$Script:MSGraphAPIClassHash.Add('appleDeviceFeaturesConfigurationBase', 'MSGraphAPI_v1_appleDeviceFeaturesConfigurationBase')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.appleDeviceFeaturesConfigurationBase', 'MSGraphAPI_v1_appleDeviceFeaturesConfigurationBase')
+$null = $Script:MSGraphAPIClassHash.Add('appleDeviceFeaturesConfigurationBase', 'MSGraphAPI_v1_appleDeviceFeaturesConfigurationBase')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.appleDeviceFeaturesConfigurationBase', 'MSGraphAPI_v1_appleDeviceFeaturesConfigurationBase')
 
 
 class MSGraphAPI_v1_appleDeviceFeaturesConfigurationBase : MSGraphAPI_v1_deviceConfiguration {
@@ -8125,8 +8162,8 @@ class MSGraphAPI_v1_appleDeviceFeaturesConfigurationBase : MSGraphAPI_v1_deviceC
 
 
 }
-$Script:MSGraphAPIClassHash.Add('iosDeviceFeaturesConfiguration', 'MSGraphAPI_v1_iosDeviceFeaturesConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosDeviceFeaturesConfiguration', 'MSGraphAPI_v1_iosDeviceFeaturesConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('iosDeviceFeaturesConfiguration', 'MSGraphAPI_v1_iosDeviceFeaturesConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosDeviceFeaturesConfiguration', 'MSGraphAPI_v1_iosDeviceFeaturesConfiguration')
 
 
 class MSGraphAPI_v1_iosDeviceFeaturesConfiguration : MSGraphAPI_v1_appleDeviceFeaturesConfigurationBase {
@@ -8139,23 +8176,23 @@ class MSGraphAPI_v1_iosDeviceFeaturesConfiguration : MSGraphAPI_v1_appleDeviceFe
 
 
 }
-$Script:MSGraphAPIClassHash.Add('iosHomeScreenItem', 'MSGraphAPI_v1_iosHomeScreenItem')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosHomeScreenItem', 'MSGraphAPI_v1_iosHomeScreenItem')
+$null = $Script:MSGraphAPIClassHash.Add('iosHomeScreenItem', 'MSGraphAPI_v1_iosHomeScreenItem')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosHomeScreenItem', 'MSGraphAPI_v1_iosHomeScreenItem')
 
 
 class MSGraphAPI_v1_iosHomeScreenItem : MSGraphAPI_Base {
     [string] $displayName
 }
-$Script:MSGraphAPIClassHash.Add('iosHomeScreenPage', 'MSGraphAPI_v1_iosHomeScreenPage')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosHomeScreenPage', 'MSGraphAPI_v1_iosHomeScreenPage')
+$null = $Script:MSGraphAPIClassHash.Add('iosHomeScreenPage', 'MSGraphAPI_v1_iosHomeScreenPage')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosHomeScreenPage', 'MSGraphAPI_v1_iosHomeScreenPage')
 
 
 class MSGraphAPI_v1_iosHomeScreenPage : MSGraphAPI_Base {
     [string] $displayName
     [MSGraphAPI_v1_iosHomeScreenItem[]] $icons
 }
-$Script:MSGraphAPIClassHash.Add('iosNotificationSettings', 'MSGraphAPI_v1_iosNotificationSettings')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosNotificationSettings', 'MSGraphAPI_v1_iosNotificationSettings')
+$null = $Script:MSGraphAPIClassHash.Add('iosNotificationSettings', 'MSGraphAPI_v1_iosNotificationSettings')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosNotificationSettings', 'MSGraphAPI_v1_iosNotificationSettings')
 
 
 class MSGraphAPI_v1_iosNotificationSettings : MSGraphAPI_Base {
@@ -8169,30 +8206,30 @@ class MSGraphAPI_v1_iosNotificationSettings : MSGraphAPI_Base {
     [Nullable[bool]] $badgesEnabled
     [Nullable[bool]] $soundsEnabled
 }
-$Script:MSGraphAPIClassHash.Add('iosHomeScreenFolder', 'MSGraphAPI_v1_iosHomeScreenFolder')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosHomeScreenFolder', 'MSGraphAPI_v1_iosHomeScreenFolder')
+$null = $Script:MSGraphAPIClassHash.Add('iosHomeScreenFolder', 'MSGraphAPI_v1_iosHomeScreenFolder')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosHomeScreenFolder', 'MSGraphAPI_v1_iosHomeScreenFolder')
 
 
 class MSGraphAPI_v1_iosHomeScreenFolder : MSGraphAPI_v1_iosHomeScreenItem {
     [MSGraphAPI_v1_iosHomeScreenFolderPage[]] $pages
 }
-$Script:MSGraphAPIClassHash.Add('iosHomeScreenFolderPage', 'MSGraphAPI_v1_iosHomeScreenFolderPage')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosHomeScreenFolderPage', 'MSGraphAPI_v1_iosHomeScreenFolderPage')
+$null = $Script:MSGraphAPIClassHash.Add('iosHomeScreenFolderPage', 'MSGraphAPI_v1_iosHomeScreenFolderPage')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosHomeScreenFolderPage', 'MSGraphAPI_v1_iosHomeScreenFolderPage')
 
 
 class MSGraphAPI_v1_iosHomeScreenFolderPage : MSGraphAPI_Base {
     [string] $displayName
     [MSGraphAPI_v1_iosHomeScreenApp[]] $apps
 }
-$Script:MSGraphAPIClassHash.Add('iosHomeScreenApp', 'MSGraphAPI_v1_iosHomeScreenApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosHomeScreenApp', 'MSGraphAPI_v1_iosHomeScreenApp')
+$null = $Script:MSGraphAPIClassHash.Add('iosHomeScreenApp', 'MSGraphAPI_v1_iosHomeScreenApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosHomeScreenApp', 'MSGraphAPI_v1_iosHomeScreenApp')
 
 
 class MSGraphAPI_v1_iosHomeScreenApp : MSGraphAPI_v1_iosHomeScreenItem {
     [string] $bundleID
 }
-$Script:MSGraphAPIClassHash.Add('macOSDeviceFeaturesConfiguration', 'MSGraphAPI_v1_macOSDeviceFeaturesConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.macOSDeviceFeaturesConfiguration', 'MSGraphAPI_v1_macOSDeviceFeaturesConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('macOSDeviceFeaturesConfiguration', 'MSGraphAPI_v1_macOSDeviceFeaturesConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.macOSDeviceFeaturesConfiguration', 'MSGraphAPI_v1_macOSDeviceFeaturesConfiguration')
 
 
 class MSGraphAPI_v1_macOSDeviceFeaturesConfiguration : MSGraphAPI_v1_appleDeviceFeaturesConfigurationBase {
@@ -8201,8 +8238,8 @@ class MSGraphAPI_v1_macOSDeviceFeaturesConfiguration : MSGraphAPI_v1_appleDevice
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windowsDefenderAdvancedThreatProtectionConfiguration', 'MSGraphAPI_v1_windowsDefenderAdvancedThreatProtectionConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsDefenderAdvancedThreatProtectionConfiguration', 'MSGraphAPI_v1_windowsDefenderAdvancedThreatProtectionConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('windowsDefenderAdvancedThreatProtectionConfiguration', 'MSGraphAPI_v1_windowsDefenderAdvancedThreatProtectionConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsDefenderAdvancedThreatProtectionConfiguration', 'MSGraphAPI_v1_windowsDefenderAdvancedThreatProtectionConfiguration')
 
 
 class MSGraphAPI_v1_windowsDefenderAdvancedThreatProtectionConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -8212,8 +8249,8 @@ class MSGraphAPI_v1_windowsDefenderAdvancedThreatProtectionConfiguration : MSGra
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windows10EndpointProtectionConfiguration', 'MSGraphAPI_v1_windows10EndpointProtectionConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10EndpointProtectionConfiguration', 'MSGraphAPI_v1_windows10EndpointProtectionConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('windows10EndpointProtectionConfiguration', 'MSGraphAPI_v1_windows10EndpointProtectionConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10EndpointProtectionConfiguration', 'MSGraphAPI_v1_windows10EndpointProtectionConfiguration')
 
 
 class MSGraphAPI_v1_windows10EndpointProtectionConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -8257,8 +8294,8 @@ class MSGraphAPI_v1_windows10EndpointProtectionConfiguration : MSGraphAPI_v1_dev
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windowsFirewallNetworkProfile', 'MSGraphAPI_v1_windowsFirewallNetworkProfile')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsFirewallNetworkProfile', 'MSGraphAPI_v1_windowsFirewallNetworkProfile')
+$null = $Script:MSGraphAPIClassHash.Add('windowsFirewallNetworkProfile', 'MSGraphAPI_v1_windowsFirewallNetworkProfile')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsFirewallNetworkProfile', 'MSGraphAPI_v1_windowsFirewallNetworkProfile')
 
 
 class MSGraphAPI_v1_windowsFirewallNetworkProfile : MSGraphAPI_Base {
@@ -8275,8 +8312,8 @@ class MSGraphAPI_v1_windowsFirewallNetworkProfile : MSGraphAPI_Base {
     [Nullable[bool]] $securedPacketExemptionAllowed
     [Nullable[bool]] $policyRulesFromGroupPolicyMerged
 }
-$Script:MSGraphAPIClassHash.Add('bitLockerRemovableDrivePolicy', 'MSGraphAPI_v1_bitLockerRemovableDrivePolicy')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.bitLockerRemovableDrivePolicy', 'MSGraphAPI_v1_bitLockerRemovableDrivePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('bitLockerRemovableDrivePolicy', 'MSGraphAPI_v1_bitLockerRemovableDrivePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.bitLockerRemovableDrivePolicy', 'MSGraphAPI_v1_bitLockerRemovableDrivePolicy')
 
 
 class MSGraphAPI_v1_bitLockerRemovableDrivePolicy : MSGraphAPI_Base {
@@ -8284,8 +8321,8 @@ class MSGraphAPI_v1_bitLockerRemovableDrivePolicy : MSGraphAPI_Base {
     [Nullable[bool]] $requireEncryptionForWriteAccess
     [Nullable[bool]] $blockCrossOrganizationWriteAccess
 }
-$Script:MSGraphAPIClassHash.Add('windows10GeneralConfiguration', 'MSGraphAPI_v1_windows10GeneralConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10GeneralConfiguration', 'MSGraphAPI_v1_windows10GeneralConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('windows10GeneralConfiguration', 'MSGraphAPI_v1_windows10GeneralConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10GeneralConfiguration', 'MSGraphAPI_v1_windows10GeneralConfiguration')
 
 
 class MSGraphAPI_v1_windows10GeneralConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -8492,8 +8529,8 @@ class MSGraphAPI_v1_windows10GeneralConfiguration : MSGraphAPI_v1_deviceConfigur
 
 
 }
-$Script:MSGraphAPIClassHash.Add('defenderDetectedMalwareActions', 'MSGraphAPI_v1_defenderDetectedMalwareActions')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.defenderDetectedMalwareActions', 'MSGraphAPI_v1_defenderDetectedMalwareActions')
+$null = $Script:MSGraphAPIClassHash.Add('defenderDetectedMalwareActions', 'MSGraphAPI_v1_defenderDetectedMalwareActions')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.defenderDetectedMalwareActions', 'MSGraphAPI_v1_defenderDetectedMalwareActions')
 
 
 class MSGraphAPI_v1_defenderDetectedMalwareActions : MSGraphAPI_Base {
@@ -8502,8 +8539,8 @@ class MSGraphAPI_v1_defenderDetectedMalwareActions : MSGraphAPI_Base {
     [MSGraphAPI_v1_defenderThreatAction] $highSeverity
     [MSGraphAPI_v1_defenderThreatAction] $severeSeverity
 }
-$Script:MSGraphAPIClassHash.Add('windows10NetworkProxyServer', 'MSGraphAPI_v1_windows10NetworkProxyServer')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10NetworkProxyServer', 'MSGraphAPI_v1_windows10NetworkProxyServer')
+$null = $Script:MSGraphAPIClassHash.Add('windows10NetworkProxyServer', 'MSGraphAPI_v1_windows10NetworkProxyServer')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10NetworkProxyServer', 'MSGraphAPI_v1_windows10NetworkProxyServer')
 
 
 class MSGraphAPI_v1_windows10NetworkProxyServer : MSGraphAPI_Base {
@@ -8511,29 +8548,29 @@ class MSGraphAPI_v1_windows10NetworkProxyServer : MSGraphAPI_Base {
     [string[]] $exceptions
     [Nullable[bool]] $useForLocalAddresses
 }
-$Script:MSGraphAPIClassHash.Add('edgeSearchEngineBase', 'MSGraphAPI_v1_edgeSearchEngineBase')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.edgeSearchEngineBase', 'MSGraphAPI_v1_edgeSearchEngineBase')
+$null = $Script:MSGraphAPIClassHash.Add('edgeSearchEngineBase', 'MSGraphAPI_v1_edgeSearchEngineBase')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.edgeSearchEngineBase', 'MSGraphAPI_v1_edgeSearchEngineBase')
 
 
 class MSGraphAPI_v1_edgeSearchEngineBase : MSGraphAPI_Base {
 
 }
-$Script:MSGraphAPIClassHash.Add('edgeSearchEngineCustom', 'MSGraphAPI_v1_edgeSearchEngineCustom')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.edgeSearchEngineCustom', 'MSGraphAPI_v1_edgeSearchEngineCustom')
+$null = $Script:MSGraphAPIClassHash.Add('edgeSearchEngineCustom', 'MSGraphAPI_v1_edgeSearchEngineCustom')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.edgeSearchEngineCustom', 'MSGraphAPI_v1_edgeSearchEngineCustom')
 
 
 class MSGraphAPI_v1_edgeSearchEngineCustom : MSGraphAPI_v1_edgeSearchEngineBase {
     [string] $edgeSearchEngineOpenSearchXmlUrl
 }
-$Script:MSGraphAPIClassHash.Add('edgeSearchEngine', 'MSGraphAPI_v1_edgeSearchEngine')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.edgeSearchEngine', 'MSGraphAPI_v1_edgeSearchEngine')
+$null = $Script:MSGraphAPIClassHash.Add('edgeSearchEngine', 'MSGraphAPI_v1_edgeSearchEngine')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.edgeSearchEngine', 'MSGraphAPI_v1_edgeSearchEngine')
 
 
 class MSGraphAPI_v1_edgeSearchEngine : MSGraphAPI_v1_edgeSearchEngineBase {
     [MSGraphAPI_v1_edgeSearchEngineType] $edgeSearchEngineType
 }
-$Script:MSGraphAPIClassHash.Add('windows10CustomConfiguration', 'MSGraphAPI_v1_windows10CustomConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10CustomConfiguration', 'MSGraphAPI_v1_windows10CustomConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('windows10CustomConfiguration', 'MSGraphAPI_v1_windows10CustomConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10CustomConfiguration', 'MSGraphAPI_v1_windows10CustomConfiguration')
 
 
 class MSGraphAPI_v1_windows10CustomConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -8542,8 +8579,8 @@ class MSGraphAPI_v1_windows10CustomConfiguration : MSGraphAPI_v1_deviceConfigura
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windows10EnterpriseModernAppManagementConfiguration', 'MSGraphAPI_v1_windows10EnterpriseModernAppManagementConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10EnterpriseModernAppManagementConfiguration', 'MSGraphAPI_v1_windows10EnterpriseModernAppManagementConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('windows10EnterpriseModernAppManagementConfiguration', 'MSGraphAPI_v1_windows10EnterpriseModernAppManagementConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10EnterpriseModernAppManagementConfiguration', 'MSGraphAPI_v1_windows10EnterpriseModernAppManagementConfiguration')
 
 
 class MSGraphAPI_v1_windows10EnterpriseModernAppManagementConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -8552,8 +8589,8 @@ class MSGraphAPI_v1_windows10EnterpriseModernAppManagementConfiguration : MSGrap
 
 
 }
-$Script:MSGraphAPIClassHash.Add('sharedPCConfiguration', 'MSGraphAPI_v1_sharedPCConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.sharedPCConfiguration', 'MSGraphAPI_v1_sharedPCConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('sharedPCConfiguration', 'MSGraphAPI_v1_sharedPCConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.sharedPCConfiguration', 'MSGraphAPI_v1_sharedPCConfiguration')
 
 
 class MSGraphAPI_v1_sharedPCConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -8573,8 +8610,8 @@ class MSGraphAPI_v1_sharedPCConfiguration : MSGraphAPI_v1_deviceConfiguration {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('sharedPCAccountManagerPolicy', 'MSGraphAPI_v1_sharedPCAccountManagerPolicy')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.sharedPCAccountManagerPolicy', 'MSGraphAPI_v1_sharedPCAccountManagerPolicy')
+$null = $Script:MSGraphAPIClassHash.Add('sharedPCAccountManagerPolicy', 'MSGraphAPI_v1_sharedPCAccountManagerPolicy')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.sharedPCAccountManagerPolicy', 'MSGraphAPI_v1_sharedPCAccountManagerPolicy')
 
 
 class MSGraphAPI_v1_sharedPCAccountManagerPolicy : MSGraphAPI_Base {
@@ -8583,8 +8620,8 @@ class MSGraphAPI_v1_sharedPCAccountManagerPolicy : MSGraphAPI_Base {
     [Nullable[int]] $inactiveThresholdDays
     [Nullable[int]] $removeAccountsBelowDiskFreePercentage
 }
-$Script:MSGraphAPIClassHash.Add('windows10SecureAssessmentConfiguration', 'MSGraphAPI_v1_windows10SecureAssessmentConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10SecureAssessmentConfiguration', 'MSGraphAPI_v1_windows10SecureAssessmentConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('windows10SecureAssessmentConfiguration', 'MSGraphAPI_v1_windows10SecureAssessmentConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10SecureAssessmentConfiguration', 'MSGraphAPI_v1_windows10SecureAssessmentConfiguration')
 
 
 class MSGraphAPI_v1_windows10SecureAssessmentConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -8597,8 +8634,8 @@ class MSGraphAPI_v1_windows10SecureAssessmentConfiguration : MSGraphAPI_v1_devic
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windowsPhone81CustomConfiguration', 'MSGraphAPI_v1_windowsPhone81CustomConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsPhone81CustomConfiguration', 'MSGraphAPI_v1_windowsPhone81CustomConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('windowsPhone81CustomConfiguration', 'MSGraphAPI_v1_windowsPhone81CustomConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsPhone81CustomConfiguration', 'MSGraphAPI_v1_windowsPhone81CustomConfiguration')
 
 
 class MSGraphAPI_v1_windowsPhone81CustomConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -8607,8 +8644,8 @@ class MSGraphAPI_v1_windowsPhone81CustomConfiguration : MSGraphAPI_v1_deviceConf
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windowsUpdateForBusinessConfiguration', 'MSGraphAPI_v1_windowsUpdateForBusinessConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsUpdateForBusinessConfiguration', 'MSGraphAPI_v1_windowsUpdateForBusinessConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('windowsUpdateForBusinessConfiguration', 'MSGraphAPI_v1_windowsUpdateForBusinessConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsUpdateForBusinessConfiguration', 'MSGraphAPI_v1_windowsUpdateForBusinessConfiguration')
 
 
 class MSGraphAPI_v1_windowsUpdateForBusinessConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -8629,31 +8666,31 @@ class MSGraphAPI_v1_windowsUpdateForBusinessConfiguration : MSGraphAPI_v1_device
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windowsUpdateInstallScheduleType', 'MSGraphAPI_v1_windowsUpdateInstallScheduleType')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsUpdateInstallScheduleType', 'MSGraphAPI_v1_windowsUpdateInstallScheduleType')
+$null = $Script:MSGraphAPIClassHash.Add('windowsUpdateInstallScheduleType', 'MSGraphAPI_v1_windowsUpdateInstallScheduleType')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsUpdateInstallScheduleType', 'MSGraphAPI_v1_windowsUpdateInstallScheduleType')
 
 
 class MSGraphAPI_v1_windowsUpdateInstallScheduleType : MSGraphAPI_Base {
 
 }
-$Script:MSGraphAPIClassHash.Add('windowsUpdateScheduledInstall', 'MSGraphAPI_v1_windowsUpdateScheduledInstall')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsUpdateScheduledInstall', 'MSGraphAPI_v1_windowsUpdateScheduledInstall')
+$null = $Script:MSGraphAPIClassHash.Add('windowsUpdateScheduledInstall', 'MSGraphAPI_v1_windowsUpdateScheduledInstall')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsUpdateScheduledInstall', 'MSGraphAPI_v1_windowsUpdateScheduledInstall')
 
 
 class MSGraphAPI_v1_windowsUpdateScheduledInstall : MSGraphAPI_v1_windowsUpdateInstallScheduleType {
     [MSGraphAPI_v1_weeklySchedule] $scheduledInstallDay
     [object] $scheduledInstallTime
 }
-$Script:MSGraphAPIClassHash.Add('windowsUpdateActiveHoursInstall', 'MSGraphAPI_v1_windowsUpdateActiveHoursInstall')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsUpdateActiveHoursInstall', 'MSGraphAPI_v1_windowsUpdateActiveHoursInstall')
+$null = $Script:MSGraphAPIClassHash.Add('windowsUpdateActiveHoursInstall', 'MSGraphAPI_v1_windowsUpdateActiveHoursInstall')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsUpdateActiveHoursInstall', 'MSGraphAPI_v1_windowsUpdateActiveHoursInstall')
 
 
 class MSGraphAPI_v1_windowsUpdateActiveHoursInstall : MSGraphAPI_v1_windowsUpdateInstallScheduleType {
     [object] $activeHoursStart
     [object] $activeHoursEnd
 }
-$Script:MSGraphAPIClassHash.Add('windows81GeneralConfiguration', 'MSGraphAPI_v1_windows81GeneralConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windows81GeneralConfiguration', 'MSGraphAPI_v1_windows81GeneralConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('windows81GeneralConfiguration', 'MSGraphAPI_v1_windows81GeneralConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windows81GeneralConfiguration', 'MSGraphAPI_v1_windows81GeneralConfiguration')
 
 
 class MSGraphAPI_v1_windows81GeneralConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -8694,8 +8731,8 @@ class MSGraphAPI_v1_windows81GeneralConfiguration : MSGraphAPI_v1_deviceConfigur
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windowsPhone81GeneralConfiguration', 'MSGraphAPI_v1_windowsPhone81GeneralConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsPhone81GeneralConfiguration', 'MSGraphAPI_v1_windowsPhone81GeneralConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('windowsPhone81GeneralConfiguration', 'MSGraphAPI_v1_windowsPhone81GeneralConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsPhone81GeneralConfiguration', 'MSGraphAPI_v1_windowsPhone81GeneralConfiguration')
 
 
 class MSGraphAPI_v1_windowsPhone81GeneralConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -8732,8 +8769,8 @@ class MSGraphAPI_v1_windowsPhone81GeneralConfiguration : MSGraphAPI_v1_deviceCon
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windows10TeamGeneralConfiguration', 'MSGraphAPI_v1_windows10TeamGeneralConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10TeamGeneralConfiguration', 'MSGraphAPI_v1_windows10TeamGeneralConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('windows10TeamGeneralConfiguration', 'MSGraphAPI_v1_windows10TeamGeneralConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10TeamGeneralConfiguration', 'MSGraphAPI_v1_windows10TeamGeneralConfiguration')
 
 
 class MSGraphAPI_v1_windows10TeamGeneralConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -8761,8 +8798,8 @@ class MSGraphAPI_v1_windows10TeamGeneralConfiguration : MSGraphAPI_v1_deviceConf
 
 
 }
-$Script:MSGraphAPIClassHash.Add('editionUpgradeConfiguration', 'MSGraphAPI_v1_editionUpgradeConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.editionUpgradeConfiguration', 'MSGraphAPI_v1_editionUpgradeConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('editionUpgradeConfiguration', 'MSGraphAPI_v1_editionUpgradeConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.editionUpgradeConfiguration', 'MSGraphAPI_v1_editionUpgradeConfiguration')
 
 
 class MSGraphAPI_v1_editionUpgradeConfiguration : MSGraphAPI_v1_deviceConfiguration {
@@ -8774,8 +8811,8 @@ class MSGraphAPI_v1_editionUpgradeConfiguration : MSGraphAPI_v1_deviceConfigurat
 
 
 }
-$Script:MSGraphAPIClassHash.Add('androidCompliancePolicy', 'MSGraphAPI_v1_androidCompliancePolicy')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.androidCompliancePolicy', 'MSGraphAPI_v1_androidCompliancePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('androidCompliancePolicy', 'MSGraphAPI_v1_androidCompliancePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.androidCompliancePolicy', 'MSGraphAPI_v1_androidCompliancePolicy')
 
 
 class MSGraphAPI_v1_androidCompliancePolicy : MSGraphAPI_v1_deviceCompliancePolicy {
@@ -8804,8 +8841,8 @@ class MSGraphAPI_v1_androidCompliancePolicy : MSGraphAPI_v1_deviceCompliancePoli
 
 
 }
-$Script:MSGraphAPIClassHash.Add('iosCompliancePolicy', 'MSGraphAPI_v1_iosCompliancePolicy')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosCompliancePolicy', 'MSGraphAPI_v1_iosCompliancePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('iosCompliancePolicy', 'MSGraphAPI_v1_iosCompliancePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosCompliancePolicy', 'MSGraphAPI_v1_iosCompliancePolicy')
 
 
 class MSGraphAPI_v1_iosCompliancePolicy : MSGraphAPI_v1_deviceCompliancePolicy {
@@ -8827,8 +8864,8 @@ class MSGraphAPI_v1_iosCompliancePolicy : MSGraphAPI_v1_deviceCompliancePolicy {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('macOSCompliancePolicy', 'MSGraphAPI_v1_macOSCompliancePolicy')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.macOSCompliancePolicy', 'MSGraphAPI_v1_macOSCompliancePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('macOSCompliancePolicy', 'MSGraphAPI_v1_macOSCompliancePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.macOSCompliancePolicy', 'MSGraphAPI_v1_macOSCompliancePolicy')
 
 
 class MSGraphAPI_v1_macOSCompliancePolicy : MSGraphAPI_v1_deviceCompliancePolicy {
@@ -8850,8 +8887,8 @@ class MSGraphAPI_v1_macOSCompliancePolicy : MSGraphAPI_v1_deviceCompliancePolicy
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windows10CompliancePolicy', 'MSGraphAPI_v1_windows10CompliancePolicy')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10CompliancePolicy', 'MSGraphAPI_v1_windows10CompliancePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('windows10CompliancePolicy', 'MSGraphAPI_v1_windows10CompliancePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10CompliancePolicy', 'MSGraphAPI_v1_windows10CompliancePolicy')
 
 
 class MSGraphAPI_v1_windows10CompliancePolicy : MSGraphAPI_v1_deviceCompliancePolicy {
@@ -8878,8 +8915,8 @@ class MSGraphAPI_v1_windows10CompliancePolicy : MSGraphAPI_v1_deviceCompliancePo
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windows10MobileCompliancePolicy', 'MSGraphAPI_v1_windows10MobileCompliancePolicy')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10MobileCompliancePolicy', 'MSGraphAPI_v1_windows10MobileCompliancePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('windows10MobileCompliancePolicy', 'MSGraphAPI_v1_windows10MobileCompliancePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windows10MobileCompliancePolicy', 'MSGraphAPI_v1_windows10MobileCompliancePolicy')
 
 
 class MSGraphAPI_v1_windows10MobileCompliancePolicy : MSGraphAPI_v1_deviceCompliancePolicy {
@@ -8903,8 +8940,8 @@ class MSGraphAPI_v1_windows10MobileCompliancePolicy : MSGraphAPI_v1_deviceCompli
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windows81CompliancePolicy', 'MSGraphAPI_v1_windows81CompliancePolicy')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windows81CompliancePolicy', 'MSGraphAPI_v1_windows81CompliancePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('windows81CompliancePolicy', 'MSGraphAPI_v1_windows81CompliancePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windows81CompliancePolicy', 'MSGraphAPI_v1_windows81CompliancePolicy')
 
 
 class MSGraphAPI_v1_windows81CompliancePolicy : MSGraphAPI_v1_deviceCompliancePolicy {
@@ -8923,8 +8960,8 @@ class MSGraphAPI_v1_windows81CompliancePolicy : MSGraphAPI_v1_deviceCompliancePo
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windowsPhone81CompliancePolicy', 'MSGraphAPI_v1_windowsPhone81CompliancePolicy')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsPhone81CompliancePolicy', 'MSGraphAPI_v1_windowsPhone81CompliancePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('windowsPhone81CompliancePolicy', 'MSGraphAPI_v1_windowsPhone81CompliancePolicy')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsPhone81CompliancePolicy', 'MSGraphAPI_v1_windowsPhone81CompliancePolicy')
 
 
 class MSGraphAPI_v1_windowsPhone81CompliancePolicy : MSGraphAPI_v1_deviceCompliancePolicy {
@@ -8943,8 +8980,8 @@ class MSGraphAPI_v1_windowsPhone81CompliancePolicy : MSGraphAPI_v1_deviceComplia
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceComplianceSettingState', 'MSGraphAPI_v1_deviceComplianceSettingState')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceComplianceSettingState', 'MSGraphAPI_v1_deviceComplianceSettingState')
+$null = $Script:MSGraphAPIClassHash.Add('deviceComplianceSettingState', 'MSGraphAPI_v1_deviceComplianceSettingState')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceComplianceSettingState', 'MSGraphAPI_v1_deviceComplianceSettingState')
 
 
 class MSGraphAPI_v1_deviceComplianceSettingState : MSGraphAPI_v1_entity {
@@ -8963,8 +9000,8 @@ class MSGraphAPI_v1_deviceComplianceSettingState : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceConfigurationSettingState', 'MSGraphAPI_v1_deviceConfigurationSettingState')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfigurationSettingState', 'MSGraphAPI_v1_deviceConfigurationSettingState')
+$null = $Script:MSGraphAPIClassHash.Add('deviceConfigurationSettingState', 'MSGraphAPI_v1_deviceConfigurationSettingState')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceConfigurationSettingState', 'MSGraphAPI_v1_deviceConfigurationSettingState')
 
 
 class MSGraphAPI_v1_deviceConfigurationSettingState : MSGraphAPI_Base {
@@ -8981,16 +9018,16 @@ class MSGraphAPI_v1_deviceConfigurationSettingState : MSGraphAPI_Base {
     [MSGraphAPI_v1_settingSource[]] $sources
     [string] $currentValue
 }
-$Script:MSGraphAPIClassHash.Add('settingSource', 'MSGraphAPI_v1_settingSource')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.settingSource', 'MSGraphAPI_v1_settingSource')
+$null = $Script:MSGraphAPIClassHash.Add('settingSource', 'MSGraphAPI_v1_settingSource')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.settingSource', 'MSGraphAPI_v1_settingSource')
 
 
 class MSGraphAPI_v1_settingSource : MSGraphAPI_Base {
     [string] $id
     [string] $displayName
 }
-$Script:MSGraphAPIClassHash.Add('deviceCompliancePolicySettingState', 'MSGraphAPI_v1_deviceCompliancePolicySettingState')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceCompliancePolicySettingState', 'MSGraphAPI_v1_deviceCompliancePolicySettingState')
+$null = $Script:MSGraphAPIClassHash.Add('deviceCompliancePolicySettingState', 'MSGraphAPI_v1_deviceCompliancePolicySettingState')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceCompliancePolicySettingState', 'MSGraphAPI_v1_deviceCompliancePolicySettingState')
 
 
 class MSGraphAPI_v1_deviceCompliancePolicySettingState : MSGraphAPI_Base {
@@ -9007,8 +9044,8 @@ class MSGraphAPI_v1_deviceCompliancePolicySettingState : MSGraphAPI_Base {
     [MSGraphAPI_v1_settingSource[]] $sources
     [string] $currentValue
 }
-$Script:MSGraphAPIClassHash.Add('enrollmentConfigurationAssignment', 'MSGraphAPI_v1_enrollmentConfigurationAssignment')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.enrollmentConfigurationAssignment', 'MSGraphAPI_v1_enrollmentConfigurationAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('enrollmentConfigurationAssignment', 'MSGraphAPI_v1_enrollmentConfigurationAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.enrollmentConfigurationAssignment', 'MSGraphAPI_v1_enrollmentConfigurationAssignment')
 
 
 class MSGraphAPI_v1_enrollmentConfigurationAssignment : MSGraphAPI_v1_entity {
@@ -9017,8 +9054,8 @@ class MSGraphAPI_v1_enrollmentConfigurationAssignment : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceEnrollmentLimitConfiguration', 'MSGraphAPI_v1_deviceEnrollmentLimitConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceEnrollmentLimitConfiguration', 'MSGraphAPI_v1_deviceEnrollmentLimitConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('deviceEnrollmentLimitConfiguration', 'MSGraphAPI_v1_deviceEnrollmentLimitConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceEnrollmentLimitConfiguration', 'MSGraphAPI_v1_deviceEnrollmentLimitConfiguration')
 
 
 class MSGraphAPI_v1_deviceEnrollmentLimitConfiguration : MSGraphAPI_v1_deviceEnrollmentConfiguration {
@@ -9027,8 +9064,8 @@ class MSGraphAPI_v1_deviceEnrollmentLimitConfiguration : MSGraphAPI_v1_deviceEnr
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceEnrollmentPlatformRestrictionsConfiguration', 'MSGraphAPI_v1_deviceEnrollmentPlatformRestrictionsConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceEnrollmentPlatformRestrictionsConfiguration', 'MSGraphAPI_v1_deviceEnrollmentPlatformRestrictionsConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('deviceEnrollmentPlatformRestrictionsConfiguration', 'MSGraphAPI_v1_deviceEnrollmentPlatformRestrictionsConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceEnrollmentPlatformRestrictionsConfiguration', 'MSGraphAPI_v1_deviceEnrollmentPlatformRestrictionsConfiguration')
 
 
 class MSGraphAPI_v1_deviceEnrollmentPlatformRestrictionsConfiguration : MSGraphAPI_v1_deviceEnrollmentConfiguration {
@@ -9041,8 +9078,8 @@ class MSGraphAPI_v1_deviceEnrollmentPlatformRestrictionsConfiguration : MSGraphA
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceEnrollmentPlatformRestriction', 'MSGraphAPI_v1_deviceEnrollmentPlatformRestriction')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceEnrollmentPlatformRestriction', 'MSGraphAPI_v1_deviceEnrollmentPlatformRestriction')
+$null = $Script:MSGraphAPIClassHash.Add('deviceEnrollmentPlatformRestriction', 'MSGraphAPI_v1_deviceEnrollmentPlatformRestriction')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceEnrollmentPlatformRestriction', 'MSGraphAPI_v1_deviceEnrollmentPlatformRestriction')
 
 
 class MSGraphAPI_v1_deviceEnrollmentPlatformRestriction : MSGraphAPI_Base {
@@ -9051,8 +9088,8 @@ class MSGraphAPI_v1_deviceEnrollmentPlatformRestriction : MSGraphAPI_Base {
     [string] $osMinimumVersion
     [string] $osMaximumVersion
 }
-$Script:MSGraphAPIClassHash.Add('deviceEnrollmentWindowsHelloForBusinessConfiguration', 'MSGraphAPI_v1_deviceEnrollmentWindowsHelloForBusinessConfiguration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceEnrollmentWindowsHelloForBusinessConfiguration', 'MSGraphAPI_v1_deviceEnrollmentWindowsHelloForBusinessConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('deviceEnrollmentWindowsHelloForBusinessConfiguration', 'MSGraphAPI_v1_deviceEnrollmentWindowsHelloForBusinessConfiguration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceEnrollmentWindowsHelloForBusinessConfiguration', 'MSGraphAPI_v1_deviceEnrollmentWindowsHelloForBusinessConfiguration')
 
 
 class MSGraphAPI_v1_deviceEnrollmentWindowsHelloForBusinessConfiguration : MSGraphAPI_v1_deviceEnrollmentConfiguration {
@@ -9072,8 +9109,8 @@ class MSGraphAPI_v1_deviceEnrollmentWindowsHelloForBusinessConfiguration : MSGra
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedMobileApp', 'MSGraphAPI_v1_managedMobileApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedMobileApp', 'MSGraphAPI_v1_managedMobileApp')
+$null = $Script:MSGraphAPIClassHash.Add('managedMobileApp', 'MSGraphAPI_v1_managedMobileApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedMobileApp', 'MSGraphAPI_v1_managedMobileApp')
 
 
 class MSGraphAPI_v1_managedMobileApp : MSGraphAPI_v1_entity {
@@ -9083,15 +9120,15 @@ class MSGraphAPI_v1_managedMobileApp : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('mobileAppIdentifier', 'MSGraphAPI_v1_mobileAppIdentifier')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileAppIdentifier', 'MSGraphAPI_v1_mobileAppIdentifier')
+$null = $Script:MSGraphAPIClassHash.Add('mobileAppIdentifier', 'MSGraphAPI_v1_mobileAppIdentifier')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.mobileAppIdentifier', 'MSGraphAPI_v1_mobileAppIdentifier')
 
 
 class MSGraphAPI_v1_mobileAppIdentifier : MSGraphAPI_Base {
 
 }
-$Script:MSGraphAPIClassHash.Add('targetedManagedAppPolicyAssignment', 'MSGraphAPI_v1_targetedManagedAppPolicyAssignment')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.targetedManagedAppPolicyAssignment', 'MSGraphAPI_v1_targetedManagedAppPolicyAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('targetedManagedAppPolicyAssignment', 'MSGraphAPI_v1_targetedManagedAppPolicyAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.targetedManagedAppPolicyAssignment', 'MSGraphAPI_v1_targetedManagedAppPolicyAssignment')
 
 
 class MSGraphAPI_v1_targetedManagedAppPolicyAssignment : MSGraphAPI_v1_entity {
@@ -9100,8 +9137,8 @@ class MSGraphAPI_v1_targetedManagedAppPolicyAssignment : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedAppDiagnosticStatus', 'MSGraphAPI_v1_managedAppDiagnosticStatus')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppDiagnosticStatus', 'MSGraphAPI_v1_managedAppDiagnosticStatus')
+$null = $Script:MSGraphAPIClassHash.Add('managedAppDiagnosticStatus', 'MSGraphAPI_v1_managedAppDiagnosticStatus')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppDiagnosticStatus', 'MSGraphAPI_v1_managedAppDiagnosticStatus')
 
 
 class MSGraphAPI_v1_managedAppDiagnosticStatus : MSGraphAPI_Base {
@@ -9109,8 +9146,8 @@ class MSGraphAPI_v1_managedAppDiagnosticStatus : MSGraphAPI_Base {
     [string] $state
     [string] $mitigationInstruction
 }
-$Script:MSGraphAPIClassHash.Add('managedAppOperation', 'MSGraphAPI_v1_managedAppOperation')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppOperation', 'MSGraphAPI_v1_managedAppOperation')
+$null = $Script:MSGraphAPIClassHash.Add('managedAppOperation', 'MSGraphAPI_v1_managedAppOperation')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppOperation', 'MSGraphAPI_v1_managedAppOperation')
 
 
 class MSGraphAPI_v1_managedAppOperation : MSGraphAPI_v1_entity {
@@ -9122,16 +9159,16 @@ class MSGraphAPI_v1_managedAppOperation : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('keyValuePair', 'MSGraphAPI_v1_keyValuePair')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.keyValuePair', 'MSGraphAPI_v1_keyValuePair')
+$null = $Script:MSGraphAPIClassHash.Add('keyValuePair', 'MSGraphAPI_v1_keyValuePair')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.keyValuePair', 'MSGraphAPI_v1_keyValuePair')
 
 
 class MSGraphAPI_v1_keyValuePair : MSGraphAPI_Base {
     [string] $name
     [string] $value
 }
-$Script:MSGraphAPIClassHash.Add('managedAppPolicyDeploymentSummary', 'MSGraphAPI_v1_managedAppPolicyDeploymentSummary')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppPolicyDeploymentSummary', 'MSGraphAPI_v1_managedAppPolicyDeploymentSummary')
+$null = $Script:MSGraphAPIClassHash.Add('managedAppPolicyDeploymentSummary', 'MSGraphAPI_v1_managedAppPolicyDeploymentSummary')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppPolicyDeploymentSummary', 'MSGraphAPI_v1_managedAppPolicyDeploymentSummary')
 
 
 class MSGraphAPI_v1_managedAppPolicyDeploymentSummary : MSGraphAPI_v1_entity {
@@ -9144,16 +9181,16 @@ class MSGraphAPI_v1_managedAppPolicyDeploymentSummary : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('windowsInformationProtectionResourceCollection', 'MSGraphAPI_v1_windowsInformationProtectionResourceCollection')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionResourceCollection', 'MSGraphAPI_v1_windowsInformationProtectionResourceCollection')
+$null = $Script:MSGraphAPIClassHash.Add('windowsInformationProtectionResourceCollection', 'MSGraphAPI_v1_windowsInformationProtectionResourceCollection')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionResourceCollection', 'MSGraphAPI_v1_windowsInformationProtectionResourceCollection')
 
 
 class MSGraphAPI_v1_windowsInformationProtectionResourceCollection : MSGraphAPI_Base {
     [string] $displayName
     [string[]] $resources
 }
-$Script:MSGraphAPIClassHash.Add('windowsInformationProtectionDataRecoveryCertificate', 'MSGraphAPI_v1_windowsInformationProtectionDataRecoveryCertificate')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionDataRecoveryCertificate', 'MSGraphAPI_v1_windowsInformationProtectionDataRecoveryCertificate')
+$null = $Script:MSGraphAPIClassHash.Add('windowsInformationProtectionDataRecoveryCertificate', 'MSGraphAPI_v1_windowsInformationProtectionDataRecoveryCertificate')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionDataRecoveryCertificate', 'MSGraphAPI_v1_windowsInformationProtectionDataRecoveryCertificate')
 
 
 class MSGraphAPI_v1_windowsInformationProtectionDataRecoveryCertificate : MSGraphAPI_Base {
@@ -9162,8 +9199,8 @@ class MSGraphAPI_v1_windowsInformationProtectionDataRecoveryCertificate : MSGrap
     [Nullable[DateTimeOffset]] $expirationDateTime
     [object] $certificate
 }
-$Script:MSGraphAPIClassHash.Add('windowsInformationProtectionApp', 'MSGraphAPI_v1_windowsInformationProtectionApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionApp', 'MSGraphAPI_v1_windowsInformationProtectionApp')
+$null = $Script:MSGraphAPIClassHash.Add('windowsInformationProtectionApp', 'MSGraphAPI_v1_windowsInformationProtectionApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionApp', 'MSGraphAPI_v1_windowsInformationProtectionApp')
 
 
 class MSGraphAPI_v1_windowsInformationProtectionApp : MSGraphAPI_Base {
@@ -9173,39 +9210,39 @@ class MSGraphAPI_v1_windowsInformationProtectionApp : MSGraphAPI_Base {
     [string] $productName
     [Nullable[bool]] $denied
 }
-$Script:MSGraphAPIClassHash.Add('windowsInformationProtectionProxiedDomainCollection', 'MSGraphAPI_v1_windowsInformationProtectionProxiedDomainCollection')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionProxiedDomainCollection', 'MSGraphAPI_v1_windowsInformationProtectionProxiedDomainCollection')
+$null = $Script:MSGraphAPIClassHash.Add('windowsInformationProtectionProxiedDomainCollection', 'MSGraphAPI_v1_windowsInformationProtectionProxiedDomainCollection')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionProxiedDomainCollection', 'MSGraphAPI_v1_windowsInformationProtectionProxiedDomainCollection')
 
 
 class MSGraphAPI_v1_windowsInformationProtectionProxiedDomainCollection : MSGraphAPI_Base {
     [string] $displayName
     [MSGraphAPI_v1_proxiedDomain[]] $proxiedDomains
 }
-$Script:MSGraphAPIClassHash.Add('proxiedDomain', 'MSGraphAPI_v1_proxiedDomain')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.proxiedDomain', 'MSGraphAPI_v1_proxiedDomain')
+$null = $Script:MSGraphAPIClassHash.Add('proxiedDomain', 'MSGraphAPI_v1_proxiedDomain')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.proxiedDomain', 'MSGraphAPI_v1_proxiedDomain')
 
 
 class MSGraphAPI_v1_proxiedDomain : MSGraphAPI_Base {
     [string] $ipAddressOrFQDN
     [string] $proxy
 }
-$Script:MSGraphAPIClassHash.Add('windowsInformationProtectionIPRangeCollection', 'MSGraphAPI_v1_windowsInformationProtectionIPRangeCollection')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionIPRangeCollection', 'MSGraphAPI_v1_windowsInformationProtectionIPRangeCollection')
+$null = $Script:MSGraphAPIClassHash.Add('windowsInformationProtectionIPRangeCollection', 'MSGraphAPI_v1_windowsInformationProtectionIPRangeCollection')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionIPRangeCollection', 'MSGraphAPI_v1_windowsInformationProtectionIPRangeCollection')
 
 
 class MSGraphAPI_v1_windowsInformationProtectionIPRangeCollection : MSGraphAPI_Base {
     [string] $displayName
     [MSGraphAPI_v1_ipRange[]] $ranges
 }
-$Script:MSGraphAPIClassHash.Add('ipRange', 'MSGraphAPI_v1_ipRange')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.ipRange', 'MSGraphAPI_v1_ipRange')
+$null = $Script:MSGraphAPIClassHash.Add('ipRange', 'MSGraphAPI_v1_ipRange')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.ipRange', 'MSGraphAPI_v1_ipRange')
 
 
 class MSGraphAPI_v1_ipRange : MSGraphAPI_Base {
 
 }
-$Script:MSGraphAPIClassHash.Add('windowsInformationProtectionAppLockerFile', 'MSGraphAPI_v1_windowsInformationProtectionAppLockerFile')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionAppLockerFile', 'MSGraphAPI_v1_windowsInformationProtectionAppLockerFile')
+$null = $Script:MSGraphAPIClassHash.Add('windowsInformationProtectionAppLockerFile', 'MSGraphAPI_v1_windowsInformationProtectionAppLockerFile')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionAppLockerFile', 'MSGraphAPI_v1_windowsInformationProtectionAppLockerFile')
 
 
 class MSGraphAPI_v1_windowsInformationProtectionAppLockerFile : MSGraphAPI_v1_entity {
@@ -9217,37 +9254,37 @@ class MSGraphAPI_v1_windowsInformationProtectionAppLockerFile : MSGraphAPI_v1_en
 
 
 }
-$Script:MSGraphAPIClassHash.Add('androidMobileAppIdentifier', 'MSGraphAPI_v1_androidMobileAppIdentifier')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.androidMobileAppIdentifier', 'MSGraphAPI_v1_androidMobileAppIdentifier')
+$null = $Script:MSGraphAPIClassHash.Add('androidMobileAppIdentifier', 'MSGraphAPI_v1_androidMobileAppIdentifier')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.androidMobileAppIdentifier', 'MSGraphAPI_v1_androidMobileAppIdentifier')
 
 
 class MSGraphAPI_v1_androidMobileAppIdentifier : MSGraphAPI_v1_mobileAppIdentifier {
     [string] $packageId
 }
-$Script:MSGraphAPIClassHash.Add('iosMobileAppIdentifier', 'MSGraphAPI_v1_iosMobileAppIdentifier')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosMobileAppIdentifier', 'MSGraphAPI_v1_iosMobileAppIdentifier')
+$null = $Script:MSGraphAPIClassHash.Add('iosMobileAppIdentifier', 'MSGraphAPI_v1_iosMobileAppIdentifier')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosMobileAppIdentifier', 'MSGraphAPI_v1_iosMobileAppIdentifier')
 
 
 class MSGraphAPI_v1_iosMobileAppIdentifier : MSGraphAPI_v1_mobileAppIdentifier {
     [string] $bundleId
 }
-$Script:MSGraphAPIClassHash.Add('managedAppPolicyDeploymentSummaryPerApp', 'MSGraphAPI_v1_managedAppPolicyDeploymentSummaryPerApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppPolicyDeploymentSummaryPerApp', 'MSGraphAPI_v1_managedAppPolicyDeploymentSummaryPerApp')
+$null = $Script:MSGraphAPIClassHash.Add('managedAppPolicyDeploymentSummaryPerApp', 'MSGraphAPI_v1_managedAppPolicyDeploymentSummaryPerApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppPolicyDeploymentSummaryPerApp', 'MSGraphAPI_v1_managedAppPolicyDeploymentSummaryPerApp')
 
 
 class MSGraphAPI_v1_managedAppPolicyDeploymentSummaryPerApp : MSGraphAPI_Base {
     [MSGraphAPI_v1_mobileAppIdentifier] $mobileAppIdentifier
     [Nullable[int]] $configurationAppliedUserCount
 }
-$Script:MSGraphAPIClassHash.Add('windowsInformationProtectionStoreApp', 'MSGraphAPI_v1_windowsInformationProtectionStoreApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionStoreApp', 'MSGraphAPI_v1_windowsInformationProtectionStoreApp')
+$null = $Script:MSGraphAPIClassHash.Add('windowsInformationProtectionStoreApp', 'MSGraphAPI_v1_windowsInformationProtectionStoreApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionStoreApp', 'MSGraphAPI_v1_windowsInformationProtectionStoreApp')
 
 
 class MSGraphAPI_v1_windowsInformationProtectionStoreApp : MSGraphAPI_v1_windowsInformationProtectionApp {
 
 }
-$Script:MSGraphAPIClassHash.Add('windowsInformationProtectionDesktopApp', 'MSGraphAPI_v1_windowsInformationProtectionDesktopApp')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionDesktopApp', 'MSGraphAPI_v1_windowsInformationProtectionDesktopApp')
+$null = $Script:MSGraphAPIClassHash.Add('windowsInformationProtectionDesktopApp', 'MSGraphAPI_v1_windowsInformationProtectionDesktopApp')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.windowsInformationProtectionDesktopApp', 'MSGraphAPI_v1_windowsInformationProtectionDesktopApp')
 
 
 class MSGraphAPI_v1_windowsInformationProtectionDesktopApp : MSGraphAPI_v1_windowsInformationProtectionApp {
@@ -9255,24 +9292,24 @@ class MSGraphAPI_v1_windowsInformationProtectionDesktopApp : MSGraphAPI_v1_windo
     [string] $binaryVersionLow
     [string] $binaryVersionHigh
 }
-$Script:MSGraphAPIClassHash.Add('iPv6Range', 'MSGraphAPI_v1_iPv6Range')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iPv6Range', 'MSGraphAPI_v1_iPv6Range')
+$null = $Script:MSGraphAPIClassHash.Add('iPv6Range', 'MSGraphAPI_v1_iPv6Range')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iPv6Range', 'MSGraphAPI_v1_iPv6Range')
 
 
 class MSGraphAPI_v1_iPv6Range : MSGraphAPI_v1_ipRange {
     [string] $lowerAddress
     [string] $upperAddress
 }
-$Script:MSGraphAPIClassHash.Add('iPv4Range', 'MSGraphAPI_v1_iPv4Range')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iPv4Range', 'MSGraphAPI_v1_iPv4Range')
+$null = $Script:MSGraphAPIClassHash.Add('iPv4Range', 'MSGraphAPI_v1_iPv4Range')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iPv4Range', 'MSGraphAPI_v1_iPv4Range')
 
 
 class MSGraphAPI_v1_iPv4Range : MSGraphAPI_v1_ipRange {
     [string] $lowerAddress
     [string] $upperAddress
 }
-$Script:MSGraphAPIClassHash.Add('iosManagedAppRegistration', 'MSGraphAPI_v1_iosManagedAppRegistration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosManagedAppRegistration', 'MSGraphAPI_v1_iosManagedAppRegistration')
+$null = $Script:MSGraphAPIClassHash.Add('iosManagedAppRegistration', 'MSGraphAPI_v1_iosManagedAppRegistration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosManagedAppRegistration', 'MSGraphAPI_v1_iosManagedAppRegistration')
 
 
 class MSGraphAPI_v1_iosManagedAppRegistration : MSGraphAPI_v1_managedAppRegistration {
@@ -9281,8 +9318,8 @@ class MSGraphAPI_v1_iosManagedAppRegistration : MSGraphAPI_v1_managedAppRegistra
 
 
 }
-$Script:MSGraphAPIClassHash.Add('androidManagedAppRegistration', 'MSGraphAPI_v1_androidManagedAppRegistration')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.androidManagedAppRegistration', 'MSGraphAPI_v1_androidManagedAppRegistration')
+$null = $Script:MSGraphAPIClassHash.Add('androidManagedAppRegistration', 'MSGraphAPI_v1_androidManagedAppRegistration')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.androidManagedAppRegistration', 'MSGraphAPI_v1_androidManagedAppRegistration')
 
 
 class MSGraphAPI_v1_androidManagedAppRegistration : MSGraphAPI_v1_managedAppRegistration {
@@ -9291,8 +9328,8 @@ class MSGraphAPI_v1_androidManagedAppRegistration : MSGraphAPI_v1_managedAppRegi
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedAppStatusRaw', 'MSGraphAPI_v1_managedAppStatusRaw')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppStatusRaw', 'MSGraphAPI_v1_managedAppStatusRaw')
+$null = $Script:MSGraphAPIClassHash.Add('managedAppStatusRaw', 'MSGraphAPI_v1_managedAppStatusRaw')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedAppStatusRaw', 'MSGraphAPI_v1_managedAppStatusRaw')
 
 
 class MSGraphAPI_v1_managedAppStatusRaw : MSGraphAPI_v1_managedAppStatus {
@@ -9301,8 +9338,8 @@ class MSGraphAPI_v1_managedAppStatusRaw : MSGraphAPI_v1_managedAppStatus {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('localizedNotificationMessage', 'MSGraphAPI_v1_localizedNotificationMessage')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.localizedNotificationMessage', 'MSGraphAPI_v1_localizedNotificationMessage')
+$null = $Script:MSGraphAPIClassHash.Add('localizedNotificationMessage', 'MSGraphAPI_v1_localizedNotificationMessage')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.localizedNotificationMessage', 'MSGraphAPI_v1_localizedNotificationMessage')
 
 
 class MSGraphAPI_v1_localizedNotificationMessage : MSGraphAPI_v1_entity {
@@ -9315,23 +9352,23 @@ class MSGraphAPI_v1_localizedNotificationMessage : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('rolePermission', 'MSGraphAPI_v1_rolePermission')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.rolePermission', 'MSGraphAPI_v1_rolePermission')
+$null = $Script:MSGraphAPIClassHash.Add('rolePermission', 'MSGraphAPI_v1_rolePermission')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.rolePermission', 'MSGraphAPI_v1_rolePermission')
 
 
 class MSGraphAPI_v1_rolePermission : MSGraphAPI_Base {
     [MSGraphAPI_v1_resourceAction[]] $resourceActions
 }
-$Script:MSGraphAPIClassHash.Add('resourceAction', 'MSGraphAPI_v1_resourceAction')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.resourceAction', 'MSGraphAPI_v1_resourceAction')
+$null = $Script:MSGraphAPIClassHash.Add('resourceAction', 'MSGraphAPI_v1_resourceAction')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.resourceAction', 'MSGraphAPI_v1_resourceAction')
 
 
 class MSGraphAPI_v1_resourceAction : MSGraphAPI_Base {
     [string[]] $allowedResourceActions
     [string[]] $notAllowedResourceActions
 }
-$Script:MSGraphAPIClassHash.Add('deviceAndAppManagementRoleDefinition', 'MSGraphAPI_v1_deviceAndAppManagementRoleDefinition')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceAndAppManagementRoleDefinition', 'MSGraphAPI_v1_deviceAndAppManagementRoleDefinition')
+$null = $Script:MSGraphAPIClassHash.Add('deviceAndAppManagementRoleDefinition', 'MSGraphAPI_v1_deviceAndAppManagementRoleDefinition')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceAndAppManagementRoleDefinition', 'MSGraphAPI_v1_deviceAndAppManagementRoleDefinition')
 
 
 class MSGraphAPI_v1_deviceAndAppManagementRoleDefinition : MSGraphAPI_v1_roleDefinition {
@@ -9340,8 +9377,8 @@ class MSGraphAPI_v1_deviceAndAppManagementRoleDefinition : MSGraphAPI_v1_roleDef
 
 
 }
-$Script:MSGraphAPIClassHash.Add('managedEBookAssignment', 'MSGraphAPI_v1_managedEBookAssignment')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.managedEBookAssignment', 'MSGraphAPI_v1_managedEBookAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('managedEBookAssignment', 'MSGraphAPI_v1_managedEBookAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.managedEBookAssignment', 'MSGraphAPI_v1_managedEBookAssignment')
 
 
 class MSGraphAPI_v1_managedEBookAssignment : MSGraphAPI_v1_entity {
@@ -9351,8 +9388,8 @@ class MSGraphAPI_v1_managedEBookAssignment : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('eBookInstallSummary', 'MSGraphAPI_v1_eBookInstallSummary')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.eBookInstallSummary', 'MSGraphAPI_v1_eBookInstallSummary')
+$null = $Script:MSGraphAPIClassHash.Add('eBookInstallSummary', 'MSGraphAPI_v1_eBookInstallSummary')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.eBookInstallSummary', 'MSGraphAPI_v1_eBookInstallSummary')
 
 
 class MSGraphAPI_v1_eBookInstallSummary : MSGraphAPI_v1_entity {
@@ -9366,8 +9403,8 @@ class MSGraphAPI_v1_eBookInstallSummary : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('deviceInstallState', 'MSGraphAPI_v1_deviceInstallState')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceInstallState', 'MSGraphAPI_v1_deviceInstallState')
+$null = $Script:MSGraphAPIClassHash.Add('deviceInstallState', 'MSGraphAPI_v1_deviceInstallState')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.deviceInstallState', 'MSGraphAPI_v1_deviceInstallState')
 
 
 class MSGraphAPI_v1_deviceInstallState : MSGraphAPI_v1_entity {
@@ -9383,8 +9420,8 @@ class MSGraphAPI_v1_deviceInstallState : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('userInstallStateSummary', 'MSGraphAPI_v1_userInstallStateSummary')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.userInstallStateSummary', 'MSGraphAPI_v1_userInstallStateSummary')
+$null = $Script:MSGraphAPIClassHash.Add('userInstallStateSummary', 'MSGraphAPI_v1_userInstallStateSummary')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.userInstallStateSummary', 'MSGraphAPI_v1_userInstallStateSummary')
 
 
 class MSGraphAPI_v1_userInstallStateSummary : MSGraphAPI_v1_entity {
@@ -9398,8 +9435,8 @@ class MSGraphAPI_v1_userInstallStateSummary : MSGraphAPI_v1_entity {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('iosVppEBookAssignment', 'MSGraphAPI_v1_iosVppEBookAssignment')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosVppEBookAssignment', 'MSGraphAPI_v1_iosVppEBookAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('iosVppEBookAssignment', 'MSGraphAPI_v1_iosVppEBookAssignment')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosVppEBookAssignment', 'MSGraphAPI_v1_iosVppEBookAssignment')
 
 
 class MSGraphAPI_v1_iosVppEBookAssignment : MSGraphAPI_v1_managedEBookAssignment {
@@ -9408,8 +9445,8 @@ class MSGraphAPI_v1_iosVppEBookAssignment : MSGraphAPI_v1_managedEBookAssignment
 
 
 }
-$Script:MSGraphAPIClassHash.Add('iosVppEBook', 'MSGraphAPI_v1_iosVppEBook')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.iosVppEBook', 'MSGraphAPI_v1_iosVppEBook')
+$null = $Script:MSGraphAPIClassHash.Add('iosVppEBook', 'MSGraphAPI_v1_iosVppEBook')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.iosVppEBook', 'MSGraphAPI_v1_iosVppEBook')
 
 
 class MSGraphAPI_v1_iosVppEBook : MSGraphAPI_v1_managedEBook {
@@ -9425,8 +9462,8 @@ class MSGraphAPI_v1_iosVppEBook : MSGraphAPI_v1_managedEBook {
 
 
 }
-$Script:MSGraphAPIClassHash.Add('enrollmentTroubleshootingEvent', 'MSGraphAPI_v1_enrollmentTroubleshootingEvent')
-$Script:MSGraphAPIClassHash.Add('microsoft.graph.enrollmentTroubleshootingEvent', 'MSGraphAPI_v1_enrollmentTroubleshootingEvent')
+$null = $Script:MSGraphAPIClassHash.Add('enrollmentTroubleshootingEvent', 'MSGraphAPI_v1_enrollmentTroubleshootingEvent')
+$null = $Script:MSGraphAPIClassHash.Add('microsoft.graph.enrollmentTroubleshootingEvent', 'MSGraphAPI_v1_enrollmentTroubleshootingEvent')
 
 
 class MSGraphAPI_v1_enrollmentTroubleshootingEvent : MSGraphAPI_v1_deviceManagementTroubleshootingEvent {
