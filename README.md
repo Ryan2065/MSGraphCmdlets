@@ -12,7 +12,3 @@ Install the module from the PowerShell gallery with the command:
 2. Use Invoke-MSGraphAPIMethod to call Graph
 3. Returns custom classes that are based on the Graph metadata
 
-## To Do
-Just switched this project over to using the [MSGraph SDK](https://github.com/microsoftgraph/msgraph-sdk-dotnet) made by Microsoft. Because of this, there 
-will be a new way to authenticate and the functions will need to be re-created. Will publish to 
-the PowerShell Gallery once we can reliably authenticate and browse Graph
