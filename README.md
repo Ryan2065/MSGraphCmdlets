@@ -9,7 +9,8 @@ Install the module from the PowerShell gallery with the command:
 
 ### Current Functions
 1. Authenticate to Microsot Graph with Connect-MSGraphAPI
-
+2. Use Invoke-MSGraphAPIMethod to call Graph
+3. Returns custom classes that are based on the Graph metadata
 
 ## To Do
 Just switched this project over to using the [MSGraph SDK](https://github.com/microsoftgraph/msgraph-sdk-dotnet) made by Microsoft. Because of this, there 
