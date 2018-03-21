@@ -9,6 +9,12 @@ Function New-MSGraphClassMember {
     if(-not [string]::IsNullOrEmpty($Context)) {
         try {
             $type = ($Context.Split('#'))[1]
+            $SplitType = $Type.Split('/')
+            foreach($instance in $SplitType){
+                if($instance -ne '$entity' ) {
+                    $type = $instance
+                }
+            }
             $EntityContainer = $Script:MSGraphAPIClassHash[$type]
             if([string]::IsNullOrEmpty($EntityContainer)){
                 $type = $type.TrimEnd('s')
